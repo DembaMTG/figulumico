@@ -1,0 +1,51 @@
+# .gitignore — Godot 4 (PSD/PSB werden NICHT hochgeladen)
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor/IDE
+.vscode/
+.idea/
+.vs/
+*.code-workspace
+*.suo
+*.user
+
+# Temp/Backups/Logs
+*.tmp
+*.temp
+*.bak
+*.orig
+*.log
+
+# Python (falls Skripte)
+__pycache__/
+*.pyc
+
+# Godot 4 — Caches/Editor-State (nicht versionieren)
+.godot/
+.import/
+
+# Builds/Exports
+
+exports/
+build/
+bin/
+dist/
+release/
+PSD/
+Shell/
+Autosave/
+allePhasen/
+
+
+# Optional: Godot C# (falls genutzt)
+.mono/
+**/obj/
+**/bin/
+.nuget/
+packages/
+
+*.psd *.PSD *.psb *.PSB
