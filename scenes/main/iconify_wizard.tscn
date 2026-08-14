@@ -1,3 +1,203 @@
 [gd_scene format=3 uid="uid://qpqwpp52mmpo"]
 
-[node name="Node2D" type="Node2D" unique_id=466266393]
+[ext_resource type="Texture2D" uid="uid://clnf4xah60fn3" path="res://assets/ui/bg.png" id="1_vhx2o"]
+[ext_resource type="FontFile" uid="uid://366buogjmhc6" path="res://assets/fonts/static/Inter_28pt-Regular.ttf" id="2_0cgjr"]
+[ext_resource type="FontFile" uid="uid://3xg81cwm7inm" path="res://assets/fonts/static/Inter_28pt-BoldItalic.ttf" id="3_t2imr"]
+[ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2imr"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 0.9254902)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 10
+shadow_color = Color(0.4724152, 0.4724152, 0.4724151, 0.6)
+shadow_size = 5
+anti_aliasing_size = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alem5"]
+content_margin_left = 5.0
+content_margin_top = 2.0
+content_margin_right = 5.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0.5568628)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="IconifyWizard" type="Control" unique_id=1010076493]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="TextureRect" parent="." unique_id=280730661]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_vhx2o")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OuterMargin" type="MarginContainer" parent="." unique_id=1777959781]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 6
+
+[node name="MainLayout" type="VBoxContainer" parent="OuterMargin" unique_id=1475126679]
+layout_mode = 2
+
+[node name="Header" type="RichTextLabel" parent="OuterMargin/MainLayout" unique_id=107137211]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_0cgjr")
+theme_override_fonts/bold_font = ExtResource("3_t2imr")
+theme_override_fonts/bold_italics_font = ExtResource("3_t2imr")
+theme_override_font_sizes/normal_font_size = 38
+theme_override_font_sizes/bold_font_size = 40
+bbcode_enabled = true
+text = "[b][u]Image-to-ICO Converter[/u][/b]
+"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="ContentArea" type="VBoxContainer" parent="OuterMargin/MainLayout" unique_id=461889511]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PresetRow" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=597963513]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=266157247]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_t2imr")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer" unique_id=2131107528]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="SectionTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer" unique_id=1563202899]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Select Icon Size: "
+
+[node name="SizesGrid" type="GridContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer" unique_id=1727185759]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Size16" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1440793597]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_t2imr")
+theme_override_font_sizes/font_size = 32
+text = "16x16"
+
+[node name="Size24" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1300096305]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_t2imr")
+theme_override_font_sizes/font_size = 32
+text = "24x24"
+
+[node name="Size32" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1698814531]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_t2imr")
+theme_override_font_sizes/font_size = 32
+text = "32x32"
+
+[node name="Size48" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=333296819]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_t2imr")
+theme_override_font_sizes/font_size = 32
+text = "48x48	"
+
+[node name="Size64" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1464500187]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_t2imr")
+theme_override_font_sizes/font_size = 32
+text = "64x64"
+
+[node name="Size128" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=2031341571]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_t2imr")
+theme_override_font_sizes/font_size = 32
+text = "128x128"
+
+[node name="Size256" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=955402812]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_t2imr")
+theme_override_font_sizes/font_size = 32
+text = "256x256"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=1594810011]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout" unique_id=470963079]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_styles/panel = SubResource("StyleBoxFlat_alem5")
+
+[node name="StatusBar" type="RichTextLabel" parent="OuterMargin/MainLayout/PanelContainer" unique_id=1368867629]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/default_color = Color(0.9841679, 5.8719515e-06, 1.1551381e-06, 1)
+text = "Status:"
+fit_content = true

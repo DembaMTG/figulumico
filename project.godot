@@ -17,7 +17,8 @@ config/icon="uid://c3aytt0jgos1x"
 
 [display]
 
-window/size/viewport_width=1440
+window/size/viewport_width=1498
+window/size/viewport_height=842
 
 [physics]
 
