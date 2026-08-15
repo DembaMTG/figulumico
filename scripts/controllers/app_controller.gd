@@ -42,12 +42,60 @@ var selected_file_id := ""
 
 func import_files(paths: PackedStringArray) -> void:
 	for path in paths:
-		_import_single_file(path)
+		var clean_path := path.strip_edges()
 
+		if clean_path.is_empty():
+			continue
+
+		# Ein gedroppter Ordner wird als Batch-Import behandelt.
+		if DirAccess.dir_exists_absolute(clean_path):
+			_import_folder_contents(clean_path)
+		else:
+			_import_single_file(clean_path)
+
+	_select_first_file_if_needed()
+	queue_changed.emit(queue_files.duplicate(true))
+	
+func import_folder(folder_path: String) -> void:
+	var clean_folder_path := folder_path.strip_edges()
+
+	if clean_folder_path.is_empty():
+		return
+
+	_import_folder_contents(clean_folder_path)
+
+	_select_first_file_if_needed()
+	queue_changed.emit(queue_files.duplicate(true))
+	
+func _import_folder_contents(folder_path: String) -> void:
+	var directory := DirAccess.open(folder_path)
+
+	if directory == null:
+		import_error.emit(
+			"Could not open folder: " + folder_path
+		)
+		return
+
+	var found_supported_image := false
+
+	for file_name in directory.get_files():
+		var extension := file_name.get_extension().to_lower()
+
+		if SUPPORTED_EXTENSIONS.has(extension):
+			found_supported_image = true
+
+			var image_path := folder_path.path_join(file_name)
+			_import_single_file(image_path)
+
+	if not found_supported_image:
+		import_warning.emit(
+			"No supported images were found in: " + folder_path
+		)
+
+
+func _select_first_file_if_needed() -> void:
 	if selected_file_id.is_empty() and not queue_files.is_empty():
 		select_file(str(queue_files[0]["id"]))
-
-	queue_changed.emit(queue_files.duplicate(true))
 
 
 func select_file(file_id: String) -> void:

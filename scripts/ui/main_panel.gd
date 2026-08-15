@@ -45,10 +45,6 @@ func _ready() -> void:
 	_reset_preview()
 	_update_queue_count(0)
 
-	# Der Ordnerimport kommt nach dem ersten erfolgreichen
-	# Dateiimport- und Preview-Test.
-	add_folder_button.disabled = true
-
 
 # ==============================================================
 # Setup
@@ -69,8 +65,12 @@ func _configure_file_dialog() -> void:
 func _connect_ui_signals() -> void:
 	add_files_button.pressed.connect(_on_add_files_button_pressed)
 	alternative_button.pressed.connect(_on_add_files_button_pressed)
+	add_folder_button.pressed.connect(_on_add_folder_button_pressed)
 	clear_queue_button.pressed.connect(_on_clear_queue_button_pressed)
+	
 	image_file_dialog.files_selected.connect(_on_image_files_selected)
+	image_file_dialog.dir_selected.connect(_on_image_folder_selected)
+	
 	get_viewport().files_dropped.connect(_on_files_dropped)
 
 
@@ -86,11 +86,29 @@ func _connect_controller_signals() -> void:
 # ==============================================================
 
 func _on_add_files_button_pressed() -> void:
+	image_file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILES
+
+	image_file_dialog.filters = PackedStringArray([
+		"*.png, *.jpg, *.jpeg, *.bmp ; Supported Images",
+		"*.png ; PNG Images",
+		"*.jpg, *.jpeg ; JPEG Images",
+		"*.bmp ; BMP Images"
+	])
+
+	image_file_dialog.popup_centered_ratio(0.75)
+	
+func _on_add_folder_button_pressed() -> void:
+	image_file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
+	image_file_dialog.filters = PackedStringArray()
+
 	image_file_dialog.popup_centered_ratio(0.75)
 
 
 func _on_image_files_selected(paths: PackedStringArray) -> void:
 	app_controller.import_files(paths)
+	
+func _on_image_folder_selected(folder_path: String) -> void:
+	app_controller.import_folder(folder_path)
 	
 func _on_files_dropped(paths: PackedStringArray) -> void:
 	app_controller.import_files(paths)
