@@ -8,6 +8,7 @@
 [ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
 [ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass.png" id="6_26ohl"]
+[ext_resource type="Texture2D" uid="uid://ce6elh7lu3tma" path="res://assets/ui/new_file.png" id="8_gcv30"]
 [ext_resource type="FontFile" uid="uid://dhefo87ea2c74" path="res://assets/fonts/static/Inter_28pt-Italic.ttf" id="8_t0hq7"]
 [ext_resource type="FontFile" uid="uid://cutbidxorl416" path="res://assets/fonts/static/Inter_24pt-SemiBold.ttf" id="10_1os4j"]
 [ext_resource type="Texture2D" uid="uid://b2wbht4iikcho" path="res://assets/ui/b_batch.png" id="10_xd8sn"]
@@ -35,6 +36,14 @@ corner_detail = 10
 shadow_color = Color(0.4724152, 0.4724152, 0.4724151, 0.6)
 shadow_size = 5
 anti_aliasing_size = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g70uq"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_right = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kexh3"]
 bg_color = Color(1, 1, 1, 0.23137255)
@@ -178,6 +187,7 @@ size_flags_horizontal = 3
 columns = 2
 
 [node name="Size16" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1440793597]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -188,6 +198,7 @@ theme_override_font_sizes/font_size = 32
 text = "16x16"
 
 [node name="Size24" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1300096305]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -198,6 +209,7 @@ theme_override_font_sizes/font_size = 32
 text = "24x24"
 
 [node name="Size32" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1698814531]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -208,6 +220,7 @@ theme_override_font_sizes/font_size = 32
 text = "32x32"
 
 [node name="Size48" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=333296819]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -218,6 +231,7 @@ theme_override_font_sizes/font_size = 32
 text = "48x48	"
 
 [node name="Size64" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1464500187]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -228,6 +242,7 @@ theme_override_font_sizes/font_size = 32
 text = "64x64"
 
 [node name="Size128" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=2031341571]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -238,6 +253,7 @@ theme_override_font_sizes/font_size = 32
 text = "128x128"
 
 [node name="Size256" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=955402812]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -246,6 +262,33 @@ theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "256x256"
+
+[node name="PanelContainer2" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=1681642716]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_g70uq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2" unique_id=530492105]
+layout_mode = 2
+alignment = 1
+
+[node name="ConvertButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/HBoxContainer" unique_id=2070697974]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(57, 54)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("8_gcv30")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/HBoxContainer" unique_id=1984199978]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Convert"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Settings" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=2013390274]
 layout_mode = 2
