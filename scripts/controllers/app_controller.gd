@@ -140,6 +140,16 @@ func clear_queue() -> void:
 func get_queue_count() -> int:
 	return queue_files.size()
 	
+func has_selected_file() -> bool:
+	if selected_file_id.is_empty():
+		return false
+
+	var selected_file_index: int = _get_file_index(
+		selected_file_id
+	)
+
+	return selected_file_index >= 0
+	
 func convert_selected(
 	options: ConversionOptions
 ) -> void:

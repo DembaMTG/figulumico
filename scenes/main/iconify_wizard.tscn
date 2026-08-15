@@ -38,11 +38,23 @@ anti_aliasing_size = 5.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g70uq"]
 bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+border_blend = true
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 expand_margin_right = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mt207"]
+bg_color = Color(0.2509804, 0.8784314, 0.8156863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hc8f0"]
+bg_color = Color(0, 0.63565814, 0.9725757, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kexh3"]
 bg_color = Color(1, 1, 1, 0.23137255)
@@ -268,17 +280,35 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_g70uq")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2" unique_id=530492105]
+[node name="ConvertActions" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2" unique_id=530492105]
 layout_mode = 2
 alignment = 1
 
-[node name="ConvertButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/HBoxContainer" unique_id=835941088]
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/ConvertActions" unique_id=1671010834]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mt207")
+
+[node name="ConvertButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/ConvertActions/PanelContainer" unique_id=835941088]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(57, 54)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 30
-text = "Convert"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Convert Selected File"
+
+[node name="PanelContainer2" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/ConvertActions" unique_id=312864421]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hc8f0")
+
+[node name="BatchConvertButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/ConvertActions/PanelContainer2" unique_id=1297743407]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(57, 54)
+layout_mode = 2
+size_flags_horizontal = 4
+tooltip_text = "Convert every file currently in the queue"
+theme_override_font_sizes/font_size = 20
+text = "Batch Convert All"
 
 [node name="Settings" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=2013390274]
 layout_mode = 2

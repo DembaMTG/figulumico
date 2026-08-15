@@ -283,22 +283,19 @@ func _get_selected_icon_sizes() -> Array[int]:
 
 
 func _update_convert_button_state() -> void:
-	var has_files: bool = app_controller.get_queue_count() > 0
+	var has_selected_file: bool = (
+		app_controller.has_selected_file()
+	)
 
 	var has_selected_sizes: bool = (
 		not _get_selected_icon_sizes().is_empty()
 	)
 
 	convert_button.disabled = not (
-		has_files and has_selected_sizes
+		has_selected_file and has_selected_sizes
 	)
 
-	var queue_count: int = app_controller.get_queue_count()
-
-	if queue_count == 1:
-		convert_button.text = "Convert 1 File"
-	else:
-		convert_button.text = "Convert %d Files" % queue_count
+	convert_button.text = "Convert Selected File"
 		
 func _on_conversion_completed(
 	result: ConversionResult
