@@ -1,3 +1,64 @@
 [gd_scene format=3 uid="uid://cvkwol4wxbmm7"]
 
-[node name="FileQueueItem" type="Node2D" unique_id=1263872534]
+[ext_resource type="Script" uid="uid://bfmbsksjjr642" path="res://scripts/ui/file_queue_item.gd" id="1_orsf4"]
+
+[node name="FileQueueItem" type="PanelContainer" unique_id=1372783983]
+custom_minimum_size = Vector2(0, 70)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_orsf4")
+
+[node name="ItemMargin" type="MarginContainer" parent="." unique_id=1688107666]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ItemRow" type="HBoxContainer" parent="ItemMargin" unique_id=885960176]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Thumbnail" type="TextureRect" parent="ItemMargin/ItemRow" unique_id=354370120]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FileDetails" type="VBoxContainer" parent="ItemMargin/ItemRow" unique_id=1095648413]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="FileNameLabel" type="Label" parent="ItemMargin/ItemRow/FileDetails" unique_id=1016566541]
+unique_name_in_owner = true
+layout_mode = 2
+text = "No file selected"
+
+[node name="FileMetaLabel" type="Label" parent="ItemMargin/ItemRow/FileDetails" unique_id=1851471155]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6627451, 0.7137255, 0.76862746, 1)
+text = "PNG · 1024 × 1024"
+
+[node name="ItemActions" type="VBoxContainer" parent="ItemMargin/ItemRow" unique_id=990151752]
+custom_minimum_size = Vector2(68, 0)
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="ItemMargin/ItemRow/ItemActions" unique_id=533297226]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ready"
+
+[node name="RemoveButton" type="Button" parent="ItemMargin/ItemRow/ItemActions" unique_id=1623089389]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 28)
+layout_mode = 2
+tooltip_text = "Remove File"
+text = "X"
