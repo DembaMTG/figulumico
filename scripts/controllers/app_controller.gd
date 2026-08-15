@@ -23,6 +23,7 @@ signal queue_changed(files: Array[Dictionary])
 signal selection_changed(file_data: Dictionary)
 signal import_warning(message: String)
 signal import_error(message: String)
+signal conversion_completed(result: ConversionResult)
 
 const SUPPORTED_EXTENSIONS: Array[String] = [
 	"png",
@@ -34,6 +35,7 @@ const SUPPORTED_EXTENSIONS: Array[String] = [
 
 var queue_files: Array[Dictionary] = []
 var selected_file_id := ""
+var conversion_service: ConversionService = ConversionService.new()
 
 
 # ==============================================================
@@ -137,6 +139,132 @@ func clear_queue() -> void:
 
 func get_queue_count() -> int:
 	return queue_files.size()
+	
+func convert_selected(
+	options: ConversionOptions
+) -> void:
+	var result: ConversionResult = ConversionResult.new()
+
+	if options == null:
+		result.mark_failed("Conversion options are missing.")
+		conversion_completed.emit(result)
+		return
+
+	if selected_file_id.is_empty():
+		result.mark_failed("No image file is selected.")
+		conversion_completed.emit(result)
+		return
+
+	var selected_file_index: int = _get_file_index(
+		selected_file_id
+	)
+
+	if selected_file_index < 0:
+		result.mark_failed("The selected image file could not be found.")
+		conversion_completed.emit(result)
+		return
+
+	var selected_file_data: Dictionary = (
+		queue_files[selected_file_index]
+	)
+
+	var source_path: String = str(
+		selected_file_data.get("source_path", "")
+	)
+
+	if source_path.is_empty():
+		result.mark_failed("The selected image has no source path.")
+		conversion_completed.emit(result)
+		return
+
+	# Der Controller setzt den tatsächlichen Quellpfad.
+	options.source_path = source_path
+
+	# Für den ersten UI-Workflow verwenden wir automatisch
+	# einen Unterordner namens "converted" neben dem Quellbild.
+	if options.output_directory.strip_edges().is_empty():
+		var source_directory: String = source_path.get_base_dir()
+
+		options.output_directory = source_directory.path_join(
+			"converted"
+		)
+
+	# Falls kein Name gesetzt wurde, leiten wir ihn aus dem
+	# Quellbildnamen ab.
+	if options.output_filename.strip_edges().is_empty():
+		var source_filename: String = source_path.get_file()
+
+		options.output_filename = (
+			source_filename.get_basename() + ".ico"
+		)
+
+	_set_file_status(
+		selected_file_id,
+		ConversionResult.STATUS_PROCESSING
+	)
+
+	queue_changed.emit(queue_files.duplicate(true))
+
+	var conversion_result: ConversionResult = (
+		conversion_service.convert(options)
+	)
+
+	_apply_conversion_result_to_file(
+		selected_file_id,
+		conversion_result
+	)
+
+	queue_changed.emit(queue_files.duplicate(true))
+	conversion_completed.emit(conversion_result)
+	
+func _get_file_index(
+	file_id: String
+) -> int:
+	for index: int in range(queue_files.size()):
+		var file_data: Dictionary = queue_files[index]
+
+		var current_file_id: String = str(
+			file_data.get("id", "")
+		)
+
+		if current_file_id == file_id:
+			return index
+
+	return -1
+
+
+func _set_file_status(
+	file_id: String,
+	new_status: String
+) -> void:
+	var file_index: int = _get_file_index(file_id)
+
+	if file_index < 0:
+		return
+
+	var file_data: Dictionary = queue_files[file_index]
+
+	file_data["status"] = new_status
+
+	queue_files[file_index] = file_data
+
+
+func _apply_conversion_result_to_file(
+	file_id: String,
+	result: ConversionResult
+) -> void:
+	var file_index: int = _get_file_index(file_id)
+
+	if file_index < 0:
+		return
+
+	var file_data: Dictionary = queue_files[file_index]
+
+	file_data["status"] = result.status
+	file_data["output_path"] = result.output_path
+	file_data["error_message"] = result.error_message
+
+	queue_files[file_index] = file_data
 
 
 # ==============================================================

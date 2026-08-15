@@ -52,7 +52,7 @@ func _ready() -> void:
 func setup(file_data: Dictionary) -> void:
 	file_id = str(file_data.get("id", ""))
 
-	var filename := str(file_data.get("filename", "Unknown file"))
+	var filename: String = str(file_data.get("filename", "Unknown file"))
 	var extension := str(file_data.get("extension", "")).to_upper()
 	var width := int(file_data.get("width", 0))
 	var height := int(file_data.get("height", 0))
@@ -67,14 +67,52 @@ func setup(file_data: Dictionary) -> void:
 	]
 
 	var warnings: Array = file_data.get("warnings", [])
+	var current_status: String = str(
+		file_data.get("status", "ready")
+	)
 
-	if warnings.is_empty():
-		status_label.text = "Ready"
-		status_label.modulate = Color("#56C271")
-	else:
-		status_label.text = "Warning"
-		status_label.modulate = Color("#F2C14E")
-		status_label.tooltip_text = "\n".join(warnings)
+	var error_message: String = str(
+		file_data.get("error_message", "")
+	)
+
+	status_label.tooltip_text = ""
+
+	match current_status:
+		"ready":
+			if warnings.is_empty():
+				status_label.text = "Ready"
+				status_label.modulate = Color("#56C271")
+			else:
+				status_label.text = "Warning"
+				status_label.modulate = Color("#F2C14E")
+				status_label.tooltip_text = "\n".join(warnings)
+
+		"processing":
+			status_label.text = "Processing"
+			status_label.modulate = Color("#33D6C5")
+
+		"converted":
+			status_label.text = "Converted"
+			status_label.modulate = Color("#56C271")
+
+		"warning":
+			status_label.text = "Converted"
+			status_label.modulate = Color("#F2C14E")
+			status_label.tooltip_text = "\n".join(warnings)
+
+		"failed":
+			status_label.text = "Failed"
+			status_label.modulate = Color("#E56B6F")
+			status_label.tooltip_text = error_message
+
+		"skipped":
+			status_label.text = "Skipped"
+			status_label.modulate = Color("#F2C14E")
+			status_label.tooltip_text = error_message
+
+		_:
+			status_label.text = "Ready"
+			status_label.modulate = Color("#56C271")
 
 	_load_thumbnail(str(file_data.get("source_path", "")))
 

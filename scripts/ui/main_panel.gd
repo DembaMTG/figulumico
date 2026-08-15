@@ -41,6 +41,16 @@ const FILE_QUEUE_ITEM_SCENE := preload(
 @onready var image_meta_label: Label = %ImageMetaLabel
 @onready var zoom_button: Button = %ZoomButton
 
+@onready var convert_button: Button = %ConvertButton
+
+@onready var size_16: CheckButton = %Size16
+@onready var size_24: CheckButton = %Size24
+@onready var size_32: CheckButton = %Size32
+@onready var size_48: CheckButton = %Size48
+@onready var size_64: CheckButton = %Size64
+@onready var size_128: CheckButton = %Size128
+@onready var size_256: CheckButton = %Size256
+
 var queue_items_by_id: Dictionary = {}
 var selected_queue_file_id := ""
 
@@ -51,6 +61,7 @@ func _ready() -> void:
 	_connect_controller_signals()
 	_reset_preview()
 	_update_queue_count(0)
+	_update_convert_button_state()
 
 
 # ==============================================================
@@ -78,6 +89,16 @@ func _connect_ui_signals() -> void:
 	image_file_dialog.files_selected.connect(_on_image_files_selected)
 	image_file_dialog.dir_selected.connect(_on_image_folder_selected)
 	
+	convert_button.pressed.connect(_on_convert_button_pressed)
+
+	size_16.toggled.connect(_on_icon_size_toggled)
+	size_24.toggled.connect(_on_icon_size_toggled)
+	size_32.toggled.connect(_on_icon_size_toggled)
+	size_48.toggled.connect(_on_icon_size_toggled)
+	size_64.toggled.connect(_on_icon_size_toggled)
+	size_128.toggled.connect(_on_icon_size_toggled)
+	size_256.toggled.connect(_on_icon_size_toggled)
+	
 	get_viewport().files_dropped.connect(_on_files_dropped)
 
 
@@ -86,6 +107,7 @@ func _connect_controller_signals() -> void:
 	app_controller.selection_changed.connect(_on_selection_changed)
 	app_controller.import_warning.connect(_on_import_warning)
 	app_controller.import_error.connect(_on_import_error)
+	app_controller.conversion_completed.connect(_on_conversion_completed)
 
 
 # ==============================================================
@@ -134,6 +156,8 @@ func _on_queue_changed(files: Array[Dictionary]) -> void:
 	_update_queue_count(files.size())
 
 	clear_queue_button.disabled = files.is_empty()
+	
+	_update_convert_button_state()
 
 
 func _on_selection_changed(file_data: Dictionary) -> void:
@@ -202,6 +226,108 @@ func _on_queue_item_selected(file_id: String) -> void:
 
 func _on_queue_item_remove_requested(file_id: String) -> void:
 	app_controller.remove_file(file_id)
+	
+func _on_convert_button_pressed() -> void:
+	var selected_sizes: Array[int] = _get_selected_icon_sizes()
+
+	if selected_sizes.is_empty():
+		preview_info_label.text = "Conversion issue"
+		image_meta_label.text = "✕ Select at least one icon size."
+		return
+
+	var options: ConversionOptions = ConversionOptions.new()
+
+	options.icon_sizes = selected_sizes
+	options.fit_mode = ConversionOptions.FIT_CONTAIN
+	options.scaling_mode = ConversionOptions.SCALING_SMOOTH
+	options.background_mode = ConversionOptions.BACKGROUND_TRANSPARENT
+	options.collision_policy = ConversionOptions.COLLISION_AUTO_NUMBER
+
+	convert_button.disabled = true
+	convert_button.text = "Converting..."
+
+	app_controller.convert_selected(options)
+
+
+func _on_icon_size_toggled(
+	_pressed: bool
+) -> void:
+	_update_convert_button_state()
+
+
+func _get_selected_icon_sizes() -> Array[int]:
+	var selected_sizes: Array[int] = []
+
+	if size_16.button_pressed:
+		selected_sizes.append(16)
+
+	if size_24.button_pressed:
+		selected_sizes.append(24)
+
+	if size_32.button_pressed:
+		selected_sizes.append(32)
+
+	if size_48.button_pressed:
+		selected_sizes.append(48)
+
+	if size_64.button_pressed:
+		selected_sizes.append(64)
+
+	if size_128.button_pressed:
+		selected_sizes.append(128)
+
+	if size_256.button_pressed:
+		selected_sizes.append(256)
+
+	return selected_sizes
+
+
+func _update_convert_button_state() -> void:
+	var has_files: bool = app_controller.get_queue_count() > 0
+
+	var has_selected_sizes: bool = (
+		not _get_selected_icon_sizes().is_empty()
+	)
+
+	convert_button.disabled = not (
+		has_files and has_selected_sizes
+	)
+
+	var queue_count: int = app_controller.get_queue_count()
+
+	if queue_count == 1:
+		convert_button.text = "Convert 1 File"
+	else:
+		convert_button.text = "Convert %d Files" % queue_count
+		
+func _on_conversion_completed(
+	result: ConversionResult
+) -> void:
+	_update_convert_button_state()
+
+	if result.success:
+		preview_info_label.text = "Conversion complete"
+
+		var output_filename: String = result.output_path.get_file()
+
+		image_meta_label.text = (
+			"✓ Created: " + output_filename
+		)
+
+		if result.has_warnings():
+			image_meta_label.text += (
+				" · ⚠ " + result.warnings[0]
+			)
+
+		return
+
+	if result.is_skipped():
+		preview_info_label.text = "Conversion skipped"
+		image_meta_label.text = "⚠ " + result.error_message
+		return
+
+	preview_info_label.text = "Conversion failed"
+	image_meta_label.text = "✕ " + result.error_message
 
 
 func _update_queue_selection() -> void:

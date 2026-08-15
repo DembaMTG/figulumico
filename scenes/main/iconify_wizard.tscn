@@ -8,7 +8,6 @@
 [ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
 [ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass.png" id="6_26ohl"]
-[ext_resource type="Texture2D" uid="uid://ce6elh7lu3tma" path="res://assets/ui/new_file.png" id="8_gcv30"]
 [ext_resource type="FontFile" uid="uid://dhefo87ea2c74" path="res://assets/fonts/static/Inter_28pt-Italic.ttf" id="8_t0hq7"]
 [ext_resource type="FontFile" uid="uid://cutbidxorl416" path="res://assets/fonts/static/Inter_24pt-SemiBold.ttf" id="10_1os4j"]
 [ext_resource type="Texture2D" uid="uid://b2wbht4iikcho" path="res://assets/ui/b_batch.png" id="10_xd8sn"]
@@ -273,22 +272,13 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_g70uq")
 layout_mode = 2
 alignment = 1
 
-[node name="ConvertButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/HBoxContainer" unique_id=2070697974]
+[node name="ConvertButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/HBoxContainer" unique_id=835941088]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(57, 54)
 layout_mode = 2
 size_flags_horizontal = 4
-texture_normal = ExtResource("8_gcv30")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer2/HBoxContainer" unique_id=1984199978]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 30
 text = "Convert"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Settings" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=2013390274]
 layout_mode = 2
