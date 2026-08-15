@@ -42,6 +42,7 @@ const FILE_QUEUE_ITEM_SCENE := preload(
 @onready var zoom_button: Button = %ZoomButton
 
 @onready var convert_button: Button = %ConvertButton
+@onready var batch_convert_button: Button = %BatchConvertButton
 
 @onready var size_16: CheckButton = %Size16
 @onready var size_24: CheckButton = %Size24
@@ -50,6 +51,7 @@ const FILE_QUEUE_ITEM_SCENE := preload(
 @onready var size_64: CheckButton = %Size64
 @onready var size_128: CheckButton = %Size128
 @onready var size_256: CheckButton = %Size256
+
 
 var queue_items_by_id: Dictionary = {}
 var selected_queue_file_id := ""
@@ -90,6 +92,7 @@ func _connect_ui_signals() -> void:
 	image_file_dialog.dir_selected.connect(_on_image_folder_selected)
 	
 	convert_button.pressed.connect(_on_convert_button_pressed)
+	batch_convert_button.pressed.connect(_on_batch_convert_button_pressed)
 
 	size_16.toggled.connect(_on_icon_size_toggled)
 	size_24.toggled.connect(_on_icon_size_toggled)
@@ -108,6 +111,10 @@ func _connect_controller_signals() -> void:
 	app_controller.import_warning.connect(_on_import_warning)
 	app_controller.import_error.connect(_on_import_error)
 	app_controller.conversion_completed.connect(_on_conversion_completed)
+	
+	app_controller.batch_started.connect(_on_batch_started)
+	app_controller.batch_progress.connect(_on_batch_progress)
+	app_controller.batch_completed.connect(_on_batch_completed)
 
 
 # ==============================================================
@@ -235,19 +242,56 @@ func _on_convert_button_pressed() -> void:
 		image_meta_label.text = "✕ Select at least one icon size."
 		return
 
-	var options: ConversionOptions = ConversionOptions.new()
-
-	options.icon_sizes = selected_sizes
-	options.fit_mode = ConversionOptions.FIT_CONTAIN
-	options.scaling_mode = ConversionOptions.SCALING_SMOOTH
-	options.background_mode = ConversionOptions.BACKGROUND_TRANSPARENT
-	options.collision_policy = ConversionOptions.COLLISION_AUTO_NUMBER
+	var options: ConversionOptions = _create_base_conversion_options(
+		selected_sizes
+	)
 
 	convert_button.disabled = true
 	convert_button.text = "Converting..."
 
 	app_controller.convert_selected(options)
+	
+func _on_batch_convert_button_pressed() -> void:
+	var selected_sizes: Array[int] = _get_selected_icon_sizes()
 
+	if selected_sizes.is_empty():
+		preview_info_label.text = "Batch conversion issue"
+		image_meta_label.text = "✕ Select at least one icon size."
+		return
+
+	var queue_count: int = app_controller.get_queue_count()
+
+	if queue_count < 2:
+		preview_info_label.text = "Batch conversion issue"
+		image_meta_label.text = (
+			"✕ Add at least two files to start a batch conversion."
+		)
+		return
+
+	var options: ConversionOptions = _create_base_conversion_options(
+		selected_sizes
+	)
+
+	# Kein Bestätigungsdialog.
+	# Batch startet sofort.
+	await app_controller.convert_all(options)
+
+func _create_base_conversion_options(
+	selected_sizes: Array[int]
+) -> ConversionOptions:
+	var options: ConversionOptions = ConversionOptions.new()
+
+	for icon_size: int in selected_sizes:
+		options.icon_sizes.append(icon_size)
+
+	options.fit_mode = ConversionOptions.FIT_CONTAIN
+	options.scaling_mode = ConversionOptions.SCALING_SMOOTH
+	options.background_mode = ConversionOptions.BACKGROUND_TRANSPARENT
+	options.collision_policy = (
+		ConversionOptions.COLLISION_AUTO_NUMBER
+	)
+
+	return options
 
 func _on_icon_size_toggled(
 	_pressed: bool
@@ -291,11 +335,93 @@ func _update_convert_button_state() -> void:
 		not _get_selected_icon_sizes().is_empty()
 	)
 
+	var queue_count: int = app_controller.get_queue_count()
+
+	var is_batch_running: bool = (
+		app_controller.is_batch_running()
+	)
+
+	# Einzelkonvertierung:
+	# Nur aktiv, wenn eine Datei ausgewählt ist.
 	convert_button.disabled = not (
-		has_selected_file and has_selected_sizes
+		has_selected_file
+		and has_selected_sizes
+		and not is_batch_running
 	)
 
 	convert_button.text = "Convert Selected File"
+
+	# Batch:
+	# Erst sinnvoll ab zwei Dateien.
+	batch_convert_button.disabled = not (
+		queue_count >= 2
+		and has_selected_sizes
+		and not is_batch_running
+	)
+
+	batch_convert_button.text = (
+		"Batch Convert All (%d)" % queue_count
+	)
+	
+func _on_batch_started(total_count: int) -> void:
+	_update_convert_button_state()
+
+	preview_info_label.text = "Batch conversion started"
+
+	image_meta_label.text = (
+		"Preparing %d file(s)..." % total_count
+	)
+	
+func _on_batch_progress(
+	processed_count: int,
+	total_count: int,
+	result: ConversionResult
+) -> void:
+	var source_filename: String = result.source_path.get_file()
+
+	preview_info_label.text = (
+		"Batch progress: %d / %d" % [
+			processed_count,
+			total_count
+		]
+	)
+
+	if result.success:
+		image_meta_label.text = (
+			"✓ %s → %s" % [
+				source_filename,
+				result.output_path.get_file()
+			]
+		)
+
+		if result.has_warnings():
+			image_meta_label.text += (
+				" · ⚠ " + result.warnings[0]
+			)
+
+		return
+
+	if result.is_skipped():
+		image_meta_label.text = (
+			"⚠ Skipped: " + source_filename
+		)
+		return
+
+	image_meta_label.text = (
+		"✕ Failed: %s · %s" % [
+			source_filename,
+			result.error_message
+		]
+	)
+	
+func _on_batch_completed(
+	batch_result: BatchResult
+) -> void:
+	_update_convert_button_state()
+
+	preview_info_label.text = "Batch conversion complete"
+
+	image_meta_label.text = batch_result.get_summary()
 		
 func _on_conversion_completed(
 	result: ConversionResult

@@ -25,6 +25,18 @@ signal import_warning(message: String)
 signal import_error(message: String)
 signal conversion_completed(result: ConversionResult)
 
+signal batch_started(total_count: int)
+
+signal batch_progress(
+	processed_count: int,
+	total_count: int,
+	result: ConversionResult
+)
+
+signal batch_completed(
+	batch_result: BatchResult
+)
+
 const SUPPORTED_EXTENSIONS: Array[String] = [
 	"png",
 	"jpg",
@@ -36,7 +48,7 @@ const SUPPORTED_EXTENSIONS: Array[String] = [
 var queue_files: Array[Dictionary] = []
 var selected_file_id := ""
 var conversion_service: ConversionService = ConversionService.new()
-
+var batch_in_progress: bool = false
 
 # ==============================================================
 # Public API
@@ -149,6 +161,9 @@ func has_selected_file() -> bool:
 	)
 
 	return selected_file_index >= 0
+
+func is_batch_running() -> bool:
+	return batch_in_progress
 	
 func convert_selected(
 	options: ConversionOptions
@@ -226,6 +241,145 @@ func convert_selected(
 
 	queue_changed.emit(queue_files.duplicate(true))
 	conversion_completed.emit(conversion_result)
+
+func convert_all(
+	base_options: ConversionOptions
+) -> BatchResult:
+	var batch_result: BatchResult = BatchResult.new()
+
+	if base_options == null:
+		batch_completed.emit(batch_result)
+		return batch_result
+
+	if queue_files.is_empty():
+		batch_completed.emit(batch_result)
+		return batch_result
+
+	var file_ids: Array[String] = []
+
+	for file_data: Dictionary in queue_files:
+		var file_id: String = str(
+			file_data.get("id", "")
+		)
+
+		if not file_id.is_empty():
+			file_ids.append(file_id)
+
+	if file_ids.is_empty():
+		batch_completed.emit(batch_result)
+		return batch_result
+
+	batch_in_progress = true
+	batch_started.emit(file_ids.size())
+
+	for index: int in range(file_ids.size()):
+		var file_id: String = file_ids[index]
+
+		var file_index: int = _get_file_index(file_id)
+
+		if file_index < 0:
+			continue
+
+		var file_data: Dictionary = queue_files[file_index]
+
+		_set_file_status(
+			file_id,
+			ConversionResult.STATUS_PROCESSING
+		)
+
+		queue_changed.emit(queue_files.duplicate(true))
+
+		# UI darf den neuen Queue-Status anzeigen,
+		# bevor die eigentliche Konvertierung startet.
+		await get_tree().process_frame
+
+		var file_options: ConversionOptions = (
+			_create_batch_options_for_file(
+				base_options,
+				file_data
+			)
+		)
+
+		var conversion_result: ConversionResult = (
+			conversion_service.convert(file_options)
+		)
+
+		_apply_conversion_result_to_file(
+			file_id,
+			conversion_result
+		)
+
+		batch_result.add_result(conversion_result)
+
+		queue_changed.emit(queue_files.duplicate(true))
+
+		var processed_count: int = index + 1
+
+		batch_progress.emit(
+			processed_count,
+			file_ids.size(),
+			conversion_result
+		)
+
+		# Zwischen zwei Dateien wieder einen Frame freigeben.
+		await get_tree().process_frame
+
+	batch_in_progress = false
+
+	batch_completed.emit(batch_result)
+
+	return batch_result
+	
+func _create_batch_options_for_file(
+	base_options: ConversionOptions,
+	file_data: Dictionary
+) -> ConversionOptions:
+	var file_options: ConversionOptions = ConversionOptions.new()
+
+	var source_path: String = str(
+		file_data.get("source_path", "")
+	)
+
+	file_options.source_path = source_path
+
+	# Wenn später in den Settings ein globaler Ausgabeordner
+	# gesetzt wurde, wird dieser für alle Batch-Dateien genutzt.
+	file_options.output_directory = (
+		base_options.output_directory
+	)
+
+	# Ohne eigene Settings wird ein "converted"-Ordner
+	# direkt neben jeder Quelldatei verwendet.
+	if file_options.output_directory.strip_edges().is_empty():
+		var source_directory: String = source_path.get_base_dir()
+
+		file_options.output_directory = source_directory.path_join(
+			"converted"
+		)
+
+	# Batch-Dateien erhalten immer ihren eigenen Namen,
+	# abgeleitet vom jeweiligen Quellbild.
+	var source_filename: String = source_path.get_file()
+
+	file_options.output_filename = (
+		source_filename.get_basename() + ".ico"
+	)
+
+	# Standardgrößen des neuen Options-Objekts entfernen.
+	file_options.icon_sizes.clear()
+
+	# Gewählte Größen sauber kopieren.
+	for icon_size: int in base_options.icon_sizes:
+		file_options.icon_sizes.append(icon_size)
+
+	# Globale Exportoptionen kopieren.
+	file_options.fit_mode = base_options.fit_mode
+	file_options.scaling_mode = base_options.scaling_mode
+	file_options.background_mode = base_options.background_mode
+	file_options.background_color = base_options.background_color
+	file_options.collision_policy = base_options.collision_policy
+
+	return file_options
 	
 func _get_file_index(
 	file_id: String
