@@ -19,6 +19,10 @@ class_name IconifyMainPanel
 #
 # ==============================================================
 
+const FILE_QUEUE_ITEM_SCENE := preload(
+	"res://scenes/components/file_queue_item.tscn"
+)
+
 
 @onready var app_controller: AppController = %AppController
 @onready var image_file_dialog: FileDialog = %ImageFileDialog
@@ -36,6 +40,9 @@ class_name IconifyMainPanel
 @onready var preview_info_label: Label = %PreviewInfoLabel
 @onready var image_meta_label: Label = %ImageMetaLabel
 @onready var zoom_button: Button = %ZoomButton
+
+var queue_items_by_id: Dictionary = {}
+var selected_queue_file_id := ""
 
 
 func _ready() -> void:
@@ -131,8 +138,13 @@ func _on_queue_changed(files: Array[Dictionary]) -> void:
 
 func _on_selection_changed(file_data: Dictionary) -> void:
 	if file_data.is_empty():
+		selected_queue_file_id = ""
+		_update_queue_selection()
 		_reset_preview()
 		return
+
+	selected_queue_file_id = str(file_data["id"])
+	_update_queue_selection()
 
 	_show_file_preview(file_data)
 
@@ -157,30 +169,51 @@ func _on_import_error(message: String) -> void:
 # ==============================================================
 
 func _rebuild_queue(files: Array[Dictionary]) -> void:
+	# Alte Queue-Cards entfernen.
 	for child in file_queue_list.get_children():
 		child.queue_free()
 
+	queue_items_by_id.clear()
+
+	# Für jede importierte Datei eine neue Queue-Card erzeugen.
 	for file_data in files:
-		var queue_button := Button.new()
-		var warnings: Array = file_data.get("warnings", [])
-		var warning_prefix := ""
+		var queue_item := FILE_QUEUE_ITEM_SCENE.instantiate() as FileQueueItem
 
-		if not warnings.is_empty():
-			warning_prefix = "⚠ "
+		# Erst in den Scene Tree einfügen.
+		# Danach sind die @onready-Nodes innerhalb der Component verfügbar.
+		file_queue_list.add_child(queue_item)
 
-		queue_button.text = warning_prefix + str(file_data["filename"])
-		queue_button.tooltip_text = str(file_data["source_path"])
-		queue_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		# Dateidaten an die Card übergeben.
+		queue_item.setup(file_data)
 
-		queue_button.pressed.connect(
-			_on_queue_file_pressed.bind(str(file_data["id"]))
-		)
+		# Signale der Queue-Card mit MainPanel verbinden.
+		queue_item.item_selected.connect(_on_queue_item_selected)
+		queue_item.remove_requested.connect(_on_queue_item_remove_requested)
 
-		file_queue_list.add_child(queue_button)
+		# Referenz für spätere Auswahl-Hervorhebung speichern.
+		var file_id := str(file_data["id"])
+		queue_items_by_id[file_id] = queue_item
 
+	_update_queue_selection()
 
-func _on_queue_file_pressed(file_id: String) -> void:
+func _on_queue_item_selected(file_id: String) -> void:
 	app_controller.select_file(file_id)
+
+
+func _on_queue_item_remove_requested(file_id: String) -> void:
+	app_controller.remove_file(file_id)
+
+
+func _update_queue_selection() -> void:
+	for file_id in queue_items_by_id.keys():
+		var queue_item := queue_items_by_id[file_id] as FileQueueItem
+
+		if queue_item == null:
+			continue
+
+		queue_item.set_selected(
+			str(file_id) == selected_queue_file_id
+		)
 
 
 func _update_queue_count(count: int) -> void:
