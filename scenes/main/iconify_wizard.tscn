@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://qpqwpp52mmpo"]
 
-[ext_resource type="Script" uid="uid://dmd2ouruh0n7c" path="res://scripts/controllers/app_controller.gd" id="1_1os4j"]
+[ext_resource type="Script" uid="uid://hkpypxhhjpwu" path="res://scripts/ui/main_panel.gd" id="1_kexh3"]
 [ext_resource type="Texture2D" uid="uid://clnf4xah60fn3" path="res://assets/ui/bg.png" id="1_vhx2o"]
 [ext_resource type="FontFile" uid="uid://366buogjmhc6" path="res://assets/fonts/static/Inter_28pt-Regular.ttf" id="2_0cgjr"]
+[ext_resource type="Script" uid="uid://djjfjwdeq32lx" path="res://scenes/main/app_controller.gd" id="2_ul617"]
 [ext_resource type="FontFile" uid="uid://3xg81cwm7inm" path="res://assets/fonts/static/Inter_28pt-BoldItalic.ttf" id="3_t2imr"]
 [ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
@@ -12,6 +13,7 @@
 [ext_resource type="FontFile" uid="uid://cup0s63i174ld" path="res://assets/fonts/static/Inter_28pt-Bold.ttf" id="8_t0hq7"]
 [ext_resource type="Texture2D" uid="uid://b2wbht4iikcho" path="res://assets/ui/b_batch.png" id="10_xd8sn"]
 [ext_resource type="Texture2D" uid="uid://dgvad2kw7ywoo" path="res://assets/ui/b_settings.png" id="11_t0hq7"]
+[ext_resource type="Texture2D" uid="uid://bk2gtmmo5klyt" path="res://assets/ui/b_zoom.png" id="13_ul617"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2imr"]
 content_margin_left = 8.0
@@ -70,7 +72,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_1os4j")
+script = ExtResource("1_kexh3")
+
+[node name="AppController" type="Node" parent="." unique_id=1817418275]
+unique_name_in_owner = true
+script = ExtResource("2_ul617")
 
 [node name="BG" type="TextureRect" parent="." unique_id=280730661]
 layout_mode = 1
@@ -236,52 +242,51 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 200
 
-[node name="ImagePanel" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow" unique_id=125121811]
+[node name="ImagePreviewPanel" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow" unique_id=125121811]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_s1bs8")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel" unique_id=1407170741]
+[node name="VBoxContainer" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel" unique_id=1407170741]
 layout_mode = 2
 
-[node name="DropTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer" unique_id=147617047]
+[node name="DropTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer" unique_id=147617047]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
-text = "Drag and Drop your image..."
+text = "Drag and Drop your images here..."
 horizontal_alignment = 1
 
-[node name="DropIcon" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer" unique_id=1894578649]
+[node name="DropIcon" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer" unique_id=1894578649]
 layout_mode = 2
 texture = ExtResource("5_msgum")
 stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer" unique_id=713610706]
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer" unique_id=713610706]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer" unique_id=179880026]
+[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer/HBoxContainer" unique_id=179880026]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("6_xd8sn")
 theme_override_font_sizes/font_size = 20
 text = "or pick a file "
 
-[node name="MarginContainer" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer" unique_id=692516598]
+[node name="MarginContainer" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer/HBoxContainer" unique_id=692516598]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer" unique_id=340741979]
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer/HBoxContainer/MarginContainer" unique_id=340741979]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1os4j")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer" unique_id=1690716001]
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer" unique_id=1690716001]
 layout_mode = 2
 
-[node name="AddFilesButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer" unique_id=2080682894]
-unique_name_in_owner = true
+[node name="AddFilesButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer" unique_id=2080682894]
 clip_contents = true
 custom_minimum_size = Vector2(57, 45)
 layout_mode = 2
@@ -290,13 +295,90 @@ texture_hover = ExtResource("7_xd8sn")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer" unique_id=856637918]
+[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer" unique_id=856637918]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("8_t0hq7")
 theme_override_font_sizes/font_size = 20
 text = "   Select Files      "
 horizontal_alignment = 1
+
+[node name="PreviewMargin" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel" unique_id=2056606776]
+layout_mode = 2
+
+[node name="PreviewLayout" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin" unique_id=1889391750]
+layout_mode = 2
+
+[node name="PreviewHeader" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout" unique_id=647218311]
+layout_mode = 2
+
+[node name="PreviewTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewHeader" unique_id=368503373]
+layout_mode = 2
+
+[node name="PreviewInfoLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewHeader" unique_id=163000530]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "No image selected"
+
+[node name="PreviewArea" type="Control" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout" unique_id=1839495155]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CheckerboardBackground" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea" unique_id=1167801087]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PreviewImage" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea" unique_id=1967229149]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="EmptyStateCenter" type="CenterContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea" unique_id=77553635]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EmptyState" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyStateCenter" unique_id=2051077153]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DropIcon" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyStateCenter/EmptyState" unique_id=1749133124]
+layout_mode = 2
+
+[node name="DropTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyStateCenter/EmptyState" unique_id=895566813]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Drop Icon"
+
+[node name="DropHint" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyStateCenter/EmptyState" unique_id=2144322565]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Drop here"
+
+[node name="ZoomButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea" unique_id=1007193032]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+tooltip_text = "Open zoom preview"
+theme_override_font_sizes/font_size = 16
+disabled = true
+icon = ExtResource("13_ul617")
+
+[node name="ImageMetaLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout" unique_id=947814638]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "No image selected"
 
 [node name="BatchPanel" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow" unique_id=352775202]
 layout_mode = 2
@@ -338,6 +420,7 @@ theme_override_font_sizes/font_size = 30
 text = "Files"
 
 [node name="QueueCountLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueHeader" unique_id=1552808057]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_colors/font_color = Color(0.6627451, 0.7137255, 0.76862746, 1)
@@ -349,6 +432,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="FileQueueList" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/FileQueueScroll" unique_id=1840360914]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -357,17 +441,19 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 20
 
-[node name="AddFilesButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=712171457]
+[node name="AddFilesButton_2" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=712171457]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Add Files"
 
 [node name="AddFolderButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=672601685]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Add Folder"
 
 [node name="ClearQueueButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=1984558549]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Clear Queue"
@@ -384,7 +470,8 @@ theme_override_colors/default_color = Color(0.9841679, 5.8719515e-06, 1.1551381e
 text = "Status:"
 fit_content = true
 
-[node name="FileDialog" type="FileDialog" parent="." unique_id=993675370]
+[node name="ImageFileDialog" type="FileDialog" parent="." unique_id=993675370]
+unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open File(s)"
 file_mode = 1
