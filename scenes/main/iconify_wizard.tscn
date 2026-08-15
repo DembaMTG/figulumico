@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://qpqwpp52mmpo"]
 
+[ext_resource type="Script" uid="uid://dmd2ouruh0n7c" path="res://scripts/controllers/app_controller.gd" id="1_1os4j"]
 [ext_resource type="Texture2D" uid="uid://clnf4xah60fn3" path="res://assets/ui/bg.png" id="1_vhx2o"]
 [ext_resource type="FontFile" uid="uid://366buogjmhc6" path="res://assets/fonts/static/Inter_28pt-Regular.ttf" id="2_0cgjr"]
 [ext_resource type="FontFile" uid="uid://3xg81cwm7inm" path="res://assets/fonts/static/Inter_28pt-BoldItalic.ttf" id="3_t2imr"]
@@ -33,6 +34,9 @@ shadow_color = Color(0.4724152, 0.4724152, 0.4724151, 0.6)
 shadow_size = 5
 anti_aliasing_size = 5.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kexh3"]
+bg_color = Color(1, 1, 1, 0.23137255)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1bs8"]
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 50
@@ -46,9 +50,6 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kexh3"]
-bg_color = Color(1, 1, 1, 0.23137255)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alem5"]
 content_margin_left = 5.0
@@ -69,6 +70,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_1os4j")
 
 [node name="BG" type="TextureRect" parent="." unique_id=280730661]
 layout_mode = 1
@@ -120,7 +122,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 50
 
-[node name="PresetRow" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=597963513]
+[node name="PresetRow" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=1886534549]
 layout_mode = 2
 size_flags_horizontal = 0
 
@@ -216,6 +218,19 @@ theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "256x256"
 
+[node name="Settings" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=2013390274]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/Settings" unique_id=184683638]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kexh3")
+
+[node name="TextureRect" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/PresetRow/Settings/PanelContainer" unique_id=1495067806]
+layout_mode = 2
+texture = ExtResource("11_t0hq7")
+stretch_mode = 5
+
 [node name="ImageRow" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=1217529872]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -265,7 +280,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_1os4j")
 [node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer" unique_id=1690716001]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer" unique_id=2080682894]
+[node name="AddFilesButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer" unique_id=2080682894]
+unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(57, 45)
 layout_mode = 2
@@ -279,7 +295,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("8_t0hq7")
 theme_override_font_sizes/font_size = 20
-text = "   Select File   "
+text = "   Select Files      "
 horizontal_alignment = 1
 
 [node name="BatchPanel" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow" unique_id=352775202]
@@ -298,17 +314,63 @@ size_flags_horizontal = 3
 layout_mode = 2
 texture_normal = ExtResource("10_xd8sn")
 
-[node name="Settings" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=2013390274]
+[node name="FileRow" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=1756887178]
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/Settings" unique_id=184683638]
+[node name="FileQueuePanel" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow" unique_id=186250484]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_kexh3")
+size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/Settings/PanelContainer" unique_id=1495067806]
+[node name="QueueMargin" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel" unique_id=799690430]
 layout_mode = 2
-texture = ExtResource("11_t0hq7")
+
+[node name="QueueLayout" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin" unique_id=655567030]
+layout_mode = 2
+
+[node name="QueueHeader" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout" unique_id=1719021973]
+layout_mode = 2
+
+[node name="QueueTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueHeader" unique_id=779265072]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Files"
+
+[node name="QueueCountLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueHeader" unique_id=1552808057]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.6627451, 0.7137255, 0.76862746, 1)
+theme_override_font_sizes/font_size = 20
+text = "0 Files"
+
+[node name="FileQueueScroll" type="ScrollContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout" unique_id=717180207]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FileQueueList" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/FileQueueScroll" unique_id=1840360914]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="QueueButton" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout" unique_id=700418674]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="AddFilesButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=712171457]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Add Files"
+
+[node name="AddFolderButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=672601685]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Add Folder"
+
+[node name="ClearQueueButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=1984558549]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Clear Queue"
 
 [node name="StatusArea" type="PanelContainer" parent="OuterMargin/MainLayout" unique_id=470963079]
 layout_mode = 2
@@ -321,3 +383,11 @@ size_flags_vertical = 8
 theme_override_colors/default_color = Color(0.9841679, 5.8719515e-06, 1.1551381e-06, 1)
 text = "Status:"
 fit_content = true
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=993675370]
+oversampling_override = 1.0
+title = "Open File(s)"
+file_mode = 1
+access = 2
+filters = PackedStringArray("*.png ; PNG Images", "*.jpg, *.jpeg ; JPEG Images", "*.bmp ; Bitmap Images")
+use_native_dialog = true
