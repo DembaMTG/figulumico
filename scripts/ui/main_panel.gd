@@ -71,6 +71,7 @@ func _connect_ui_signals() -> void:
 	alternative_button.pressed.connect(_on_add_files_button_pressed)
 	clear_queue_button.pressed.connect(_on_clear_queue_button_pressed)
 	image_file_dialog.files_selected.connect(_on_image_files_selected)
+	get_viewport().files_dropped.connect(_on_files_dropped)
 
 
 func _connect_controller_signals() -> void:
@@ -89,6 +90,9 @@ func _on_add_files_button_pressed() -> void:
 
 
 func _on_image_files_selected(paths: PackedStringArray) -> void:
+	app_controller.import_files(paths)
+	
+func _on_files_dropped(paths: PackedStringArray) -> void:
 	app_controller.import_files(paths)
 
 

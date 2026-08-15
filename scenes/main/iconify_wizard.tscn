@@ -8,7 +8,6 @@
 [ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
 [ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass.png" id="6_26ohl"]
-[ext_resource type="Texture2D" uid="uid://clpr6mrlhcah2" path="res://assets/ui/magnifying_glass_hover.png" id="7_xd8sn"]
 [ext_resource type="FontFile" uid="uid://dhefo87ea2c74" path="res://assets/fonts/static/Inter_28pt-Italic.ttf" id="8_t0hq7"]
 [ext_resource type="FontFile" uid="uid://cutbidxorl416" path="res://assets/fonts/static/Inter_24pt-SemiBold.ttf" id="10_1os4j"]
 [ext_resource type="Texture2D" uid="uid://b2wbht4iikcho" path="res://assets/ui/b_batch.png" id="10_xd8sn"]
@@ -51,6 +50,11 @@ corner_radius_bottom_left = 50
 bg_color = Color(0.5803922, 0.5803922, 0.5803922, 0.5372549)
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gcv30"]
+bg_color = Color(0.6, 0.6, 0.6, 0.5254902)
+expand_margin_left = 50.0
+expand_margin_right = 50.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ul617"]
 bg_color = Color(0, 0, 0, 1)
@@ -325,8 +329,8 @@ stretch_mode = 5
 [node name="ZoomButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea" unique_id=1007193032]
 unique_name_in_owner = true
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 86.0
+offset_bottom = 80.0
 tooltip_text = "Open zoom preview"
 theme_override_font_sizes/font_size = 16
 disabled = true
@@ -347,7 +351,12 @@ theme_override_font_sizes/font_size = 24
 text = "Drag and Drop your images..."
 horizontal_alignment = 1
 
-[node name="DropIcon" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyState" unique_id=1749133124]
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyState" unique_id=704835801]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_gcv30")
+
+[node name="DropIcon" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyState/PanelContainer" unique_id=1749133124]
 layout_mode = 2
 texture = ExtResource("5_msgum")
 stretch_mode = 5
@@ -384,7 +393,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(58, 45)
 layout_mode = 2
 texture_normal = ExtResource("6_26ohl")
-texture_hover = ExtResource("7_xd8sn")
 ignore_texture_size = true
 stretch_mode = 5
 
