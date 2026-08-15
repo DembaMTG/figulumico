@@ -4,6 +4,13 @@
 [ext_resource type="FontFile" uid="uid://366buogjmhc6" path="res://assets/fonts/static/Inter_28pt-Regular.ttf" id="2_0cgjr"]
 [ext_resource type="FontFile" uid="uid://3xg81cwm7inm" path="res://assets/fonts/static/Inter_28pt-BoldItalic.ttf" id="3_t2imr"]
 [ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
+[ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
+[ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass.png" id="6_26ohl"]
+[ext_resource type="FontFile" uid="uid://c6bxj4tiaxa30" path="res://assets/fonts/static/Inter_28pt-Medium.ttf" id="6_xd8sn"]
+[ext_resource type="Texture2D" uid="uid://clpr6mrlhcah2" path="res://assets/ui/magnifying_glass_hover.png" id="7_xd8sn"]
+[ext_resource type="FontFile" uid="uid://cup0s63i174ld" path="res://assets/fonts/static/Inter_28pt-Bold.ttf" id="8_t0hq7"]
+[ext_resource type="Texture2D" uid="uid://b2wbht4iikcho" path="res://assets/ui/b_batch.png" id="10_xd8sn"]
+[ext_resource type="Texture2D" uid="uid://dgvad2kw7ywoo" path="res://assets/ui/b_settings.png" id="11_t0hq7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2imr"]
 content_margin_left = 8.0
@@ -25,6 +32,23 @@ corner_detail = 10
 shadow_color = Color(0.4724152, 0.4724152, 0.4724151, 0.6)
 shadow_size = 5
 anti_aliasing_size = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1bs8"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1os4j"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kexh3"]
+bg_color = Color(1, 1, 1, 0.23137255)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alem5"]
 content_margin_left = 5.0
@@ -67,12 +91,17 @@ grow_vertical = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_bottom = 2
 
 [node name="MainLayout" type="VBoxContainer" parent="OuterMargin" unique_id=1475126679]
 layout_mode = 2
+theme_override_constants/separation = 4
 
-[node name="Header" type="RichTextLabel" parent="OuterMargin/MainLayout" unique_id=107137211]
+[node name="MarginContainer" type="MarginContainer" parent="OuterMargin/MainLayout" unique_id=255727736]
+layout_mode = 2
+theme_override_constants/margin_bottom = 45
+
+[node name="Header" type="RichTextLabel" parent="OuterMargin/MainLayout/MarginContainer" unique_id=107137211]
 layout_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("2_0cgjr")
@@ -86,9 +115,10 @@ text = "[b][u]Image-to-ICO Converter[/u][/b]
 fit_content = true
 horizontal_alignment = 1
 
-[node name="ContentArea" type="VBoxContainer" parent="OuterMargin/MainLayout" unique_id=461889511]
+[node name="ContentArea" type="HBoxContainer" parent="OuterMargin/MainLayout" unique_id=2060697650]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 50
 
 [node name="PresetRow" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=597963513]
 layout_mode = 2
@@ -186,16 +216,106 @@ theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "256x256"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=1594810011]
+[node name="ImageRow" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=1217529872]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 200
+
+[node name="ImagePanel" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow" unique_id=125121811]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s1bs8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel" unique_id=1407170741]
+layout_mode = 2
+
+[node name="DropTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer" unique_id=147617047]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Drag and Drop your image..."
+horizontal_alignment = 1
+
+[node name="DropIcon" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer" unique_id=1894578649]
+layout_mode = 2
+texture = ExtResource("5_msgum")
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer" unique_id=713610706]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer" unique_id=179880026]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_xd8sn")
+theme_override_font_sizes/font_size = 20
+text = "or pick a file "
+
+[node name="MarginContainer" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer" unique_id=692516598]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer" unique_id=340741979]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1os4j")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer" unique_id=1690716001]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer" unique_id=2080682894]
+clip_contents = true
+custom_minimum_size = Vector2(57, 45)
+layout_mode = 2
+texture_normal = ExtResource("6_26ohl")
+texture_hover = ExtResource("7_xd8sn")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePanel/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer" unique_id=856637918]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("8_t0hq7")
+theme_override_font_sizes/font_size = 20
+text = "   Select File   "
+horizontal_alignment = 1
+
+[node name="BatchPanel" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow" unique_id=352775202]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/BatchPanel" unique_id=321232250]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/BatchPanel/HBoxContainer" unique_id=581034464]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout" unique_id=470963079]
+[node name="TextureButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/ImageRow/BatchPanel/HBoxContainer/PanelContainer" unique_id=13718334]
 layout_mode = 2
-size_flags_vertical = 10
+texture_normal = ExtResource("10_xd8sn")
+
+[node name="Settings" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=2013390274]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/Settings" unique_id=184683638]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kexh3")
+
+[node name="TextureRect" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/Settings/PanelContainer" unique_id=1495067806]
+layout_mode = 2
+texture = ExtResource("11_t0hq7")
+
+[node name="StatusArea" type="PanelContainer" parent="OuterMargin/MainLayout" unique_id=470963079]
+layout_mode = 2
+size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_alem5")
 
-[node name="StatusBar" type="RichTextLabel" parent="OuterMargin/MainLayout/PanelContainer" unique_id=1368867629]
+[node name="StatusBar" type="RichTextLabel" parent="OuterMargin/MainLayout/StatusArea" unique_id=1368867629]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_colors/default_color = Color(0.9841679, 5.8719515e-06, 1.1551381e-06, 1)
