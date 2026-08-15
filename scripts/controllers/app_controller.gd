@@ -83,7 +83,7 @@ func clear_queue() -> void:
 	queue_files.clear()
 	selected_file_id = ""
 
-	queue_changed.emit([])
+	queue_changed.emit(queue_files)
 	selection_changed.emit({})
 
 
