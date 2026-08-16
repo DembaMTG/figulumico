@@ -182,24 +182,24 @@ layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_t2imr")
 
-[node name="HBoxContainer" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer" unique_id=2131107528]
+[node name="ExportOptionsLayout" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer" unique_id=2131107528]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="SectionTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer" unique_id=1563202899]
+[node name="SectionTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1563202899]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "Select Icon Size: "
 
-[node name="SizesGrid" type="GridContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer" unique_id=1727185759]
+[node name="SizesGrid" type="GridContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1727185759]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
 
-[node name="Size16" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1440793597]
+[node name="Size16" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/SizesGrid" unique_id=1440793597]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -210,7 +210,7 @@ theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "16x16"
 
-[node name="Size24" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1300096305]
+[node name="Size24" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/SizesGrid" unique_id=1300096305]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -221,7 +221,7 @@ theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "24x24"
 
-[node name="Size32" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1698814531]
+[node name="Size32" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/SizesGrid" unique_id=1698814531]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -232,7 +232,7 @@ theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "32x32"
 
-[node name="Size48" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=333296819]
+[node name="Size48" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/SizesGrid" unique_id=333296819]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -243,7 +243,7 @@ theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "48x48	"
 
-[node name="Size64" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=1464500187]
+[node name="Size64" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/SizesGrid" unique_id=1464500187]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -254,7 +254,7 @@ theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "64x64"
 
-[node name="Size128" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=2031341571]
+[node name="Size128" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/SizesGrid" unique_id=2031341571]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -265,7 +265,7 @@ theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "128x128"
 
-[node name="Size256" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/HBoxContainer/SizesGrid" unique_id=955402812]
+[node name="Size256" type="CheckButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/SizesGrid" unique_id=955402812]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -275,6 +275,54 @@ theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_t2imr")
 theme_override_font_sizes/font_size = 32
 text = "256x256"
+
+[node name="OptionsSeparator" type="HSeparator" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1041914866]
+layout_mode = 2
+
+[node name="ExportOptionsTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1077369043]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Export Option"
+
+[node name="SizePresetLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1539761796]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Size Preset"
+
+[node name="SizePresetOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=455449591]
+layout_mode = 2
+
+[node name="FitModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=172185016]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Fit Mode"
+
+[node name="FitModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1929916740]
+layout_mode = 2
+
+[node name="ScalingModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1296492243]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Scaling Mode"
+
+[node name="ScalingModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1128875072]
+layout_mode = 2
+
+[node name="BackgroundModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=2107933949]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Background Mode"
+
+[node name="BackgroundModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1179806072]
+layout_mode = 2
+
+[node name="BackgroundColorLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1571021264]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Background Color"
+
+[node name="BackgroundColorPicker" type="ColorPickerButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=822218198]
+layout_mode = 2
 
 [node name="PanelContainer2" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=1681642716]
 custom_minimum_size = Vector2(150, 0)
