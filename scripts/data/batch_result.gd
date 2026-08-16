@@ -131,7 +131,7 @@ func get_detailed_summary() -> String:
 
 	var lines: Array[String] = []
 
-	lines.append("[b]Batch conversion complete[/b]")
+	lines.append("Batch conversion complete")
 	lines.append("")
 	lines.append("Total: %d" % total_count)
 	lines.append("Successful: %d" % success_count)
