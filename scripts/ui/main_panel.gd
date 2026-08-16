@@ -281,6 +281,11 @@ func _create_base_conversion_options(
 ) -> ConversionOptions:
 	var options: ConversionOptions = ConversionOptions.new()
 
+	# ConversionOptions enthält Default-Größen.
+	# Für eine UI-gesteuerte Konvertierung dürfen ausschließlich
+	# die aktuell ausgewählten Größen übernommen werden.
+	options.icon_sizes.clear()
+
 	for icon_size: int in selected_sizes:
 		options.icon_sizes.append(icon_size)
 
@@ -292,7 +297,6 @@ func _create_base_conversion_options(
 	)
 
 	return options
-
 func _on_icon_size_toggled(
 	_pressed: bool
 ) -> void:

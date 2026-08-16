@@ -97,13 +97,25 @@ func get_validation_errors() -> Array[String]:
 	if icon_sizes.is_empty():
 		errors.append("Select at least one icon size.")
 
-	for icon_size in icon_sizes:
+	var seen_sizes: Dictionary = {}
+
+	for icon_size: int in icon_sizes:
+		if seen_sizes.has(icon_size):
+			errors.append(
+				"Duplicate icon size detected: %d px." % icon_size
+			)
+			break
+
+		seen_sizes[icon_size] = true
+
 		if icon_size <= 0:
 			errors.append("Icon sizes must be greater than zero.")
 			break
 
 		if icon_size > 256:
-			errors.append("Icon sizes above 256 pixels are not supported in v0.1.0.")
+			errors.append(
+				"Icon sizes above 256 pixels are not supported in v0.1.0."
+			)
 			break
 
 	if not _is_valid_fit_mode(fit_mode):
