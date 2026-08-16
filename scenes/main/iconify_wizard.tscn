@@ -459,9 +459,12 @@ size_flags_vertical = 0
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kexh3")
 
-[node name="TextureRect" type="TextureRect" parent="OuterMargin/MainLayout/ContentArea/PresetRow/Settings/PanelContainer" unique_id=1495067806]
+[node name="SettingsButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/Settings/PanelContainer" unique_id=143952206]
+unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("11_t0hq7")
+tooltip_text = "Open application settings"
+texture_normal = ExtResource("11_t0hq7")
+ignore_texture_size = true
 stretch_mode = 5
 
 [node name="ImageRow" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=1217529872]
@@ -787,6 +790,124 @@ layout_mode = 2
 text = "Copy Error Report"
 
 [node name="OutputDirectoryDialog" type="FileDialog" parent="." unique_id=577690545]
+unique_name_in_owner = true
+title = "Open a Directory"
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="SettingsDialog" type="ConfirmationDialog" parent="." unique_id=1975309041]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Iconify Wizard Settings"
+initial_position = 1
+size = Vector2i(800, 1115)
+visible = true
+ok_button_text = "Save Settings"
+
+[node name="SettingsMargin" type="MarginContainer" parent="SettingsDialog" unique_id=447560113]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 792.0
+offset_bottom = 1066.0
+
+[node name="SettingsContent" type="VBoxContainer" parent="SettingsDialog/SettingsMargin" unique_id=1052384656]
+layout_mode = 2
+
+[node name="SettingsTitle" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1545852104]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Application Settings"
+
+[node name="SettingsOutputTitle" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=2036825034]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Default Output Folder"
+
+[node name="SettingsOutputDirectoryLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1200363818]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Source folder / converted"
+
+[node name="SettingsOutputButtons" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=843779578]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SettingsChooseOutputButton" type="Button" parent="SettingsDialog/SettingsMargin/SettingsContent/SettingsOutputButtons" unique_id=1003730567]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choose Folder"
+
+[node name="SettingsUseSourceOutputButton" type="Button" parent="SettingsDialog/SettingsMargin/SettingsContent/SettingsOutputButtons" unique_id=1565979304]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use Source Defaults"
+
+[node name="SettingsAskOutputCheckBox" type="CheckButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=580575700]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ask for output folder before converting"
+
+[node name="SettingsSeparator" type="HSeparator" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=874161093]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SettingsPresetLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1819313054]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Default Size Preset"
+
+[node name="SettingsSizePresetOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=352307801]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 30)
+layout_mode = 2
+
+[node name="SettingsFitLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1730628820]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Default Fit Mode"
+
+[node name="SettingsFitModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1459759194]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SettingsScalingLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=521750269]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Default Scaling Mode"
+
+[node name="SettingsScalingModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=2045461235]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SettingsBackgroundLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1014068949]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Default Background"
+
+[node name="SettingsBackgroundModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=670184540]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SettingsBackgroundColorLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=181705134]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Default Background Color"
+
+[node name="SettingsBackgroundColorPicker" type="ColorPicker" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=98174693]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SettingsCollisionLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1589377324]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Existing File Handling"
+
+[node name="SettingsCollisionPolicyOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1829651244]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SettingsOutputDirectoryDialog" type="FileDialog" parent="." unique_id=1338129014]
 unique_name_in_owner = true
 title = "Open a Directory"
 file_mode = 2
