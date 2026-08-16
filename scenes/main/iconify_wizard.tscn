@@ -562,23 +562,91 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Clear Queue"
 
-[node name="StatusArea" type="PanelContainer" parent="OuterMargin/MainLayout" unique_id=470963079]
+[node name="StatusBar" type="PanelContainer" parent="OuterMargin/MainLayout" unique_id=470963079]
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_alem5")
 
-[node name="StatusBar" type="RichTextLabel" parent="OuterMargin/MainLayout/StatusArea" unique_id=1368867629]
+[node name="StatusContent" type="HBoxContainer" parent="OuterMargin/MainLayout/StatusBar" unique_id=1214604787]
 layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="StatusLabel" type="Label" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=705258776]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 8
-theme_override_colors/default_color = Color(0.9841679, 5.8719515e-06, 1.1551381e-06, 1)
 text = "Status:"
-fit_content = true
+
+[node name="BatchProgressContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=234901052]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="BatchProgressLabel" type="Label" parent="OuterMargin/MainLayout/StatusBar/StatusContent/BatchProgressContainer" unique_id=1309920991]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Preparing batch..."
+
+[node name="BatchProgressBar" type="ProgressBar" parent="OuterMargin/MainLayout/StatusBar/StatusContent/BatchProgressContainer" unique_id=432511129]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 15)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+show_percentage = false
+
+[node name="StatusSpacer" type="Control" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=278133461]
+layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="ImageFileDialog" type="FileDialog" parent="." unique_id=993675370]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open File(s)"
+position = Vector2i(0, 36)
 file_mode = 1
 access = 2
 filters = PackedStringArray("*.png ; PNG Images", "*.jpg, *.jpeg ; JPEG Images", "*.bmp ; Bitmap Images")
 use_native_dialog = true
+
+[node name="BatchResultsDialog" type="AcceptDialog" parent="." unique_id=2141507059]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Batch conversion complete"
+position = Vector2i(0, 36)
+size = Vector2i(346, 108)
+
+[node name="DialogMargin" type="MarginContainer" parent="BatchResultsDialog" unique_id=494651840]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 338.0
+offset_bottom = 59.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="DialogContent" type="VBoxContainer" parent="BatchResultsDialog/DialogMargin" unique_id=1571041881]
+layout_mode = 2
+
+[node name="BatchResultsSummary" type="RichTextLabel" parent="BatchResultsDialog/DialogMargin/DialogContent" unique_id=2141390251]
+unique_name_in_owner = true
+layout_mode = 2
+fit_content = true
+
+[node name="BatchResultsActions" type="HBoxContainer" parent="BatchResultsDialog/DialogMargin/DialogContent" unique_id=216983441]
+layout_mode = 2
+
+[node name="OpenOutputFolderButton" type="Button" parent="BatchResultsDialog/DialogMargin/DialogContent/BatchResultsActions" unique_id=1583673108]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open Output Folder"
+
+[node name="CopyErrorReportButton" type="Button" parent="BatchResultsDialog/DialogMargin/DialogContent/BatchResultsActions" unique_id=1372243958]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Copy Error Report"

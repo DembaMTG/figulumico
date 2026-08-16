@@ -52,9 +52,24 @@ const FILE_QUEUE_ITEM_SCENE := preload(
 @onready var size_128: CheckButton = %Size128
 @onready var size_256: CheckButton = %Size256
 
+@onready var batch_progress_container: HBoxContainer = (%BatchProgressContainer)
+
+@onready var batch_progress_label: Label = (%BatchProgressLabel)
+
+@onready var batch_progress_bar: ProgressBar = (%BatchProgressBar)
+
+@onready var batch_results_dialog: AcceptDialog = (%BatchResultsDialog)
+
+@onready var batch_results_summary: RichTextLabel = (%BatchResultsSummary)
+
+@onready var open_output_folder_button: Button = (%OpenOutputFolderButton)
+
+@onready var copy_error_report_button: Button = (%CopyErrorReportButton)
+
 
 var queue_items_by_id: Dictionary = {}
 var selected_queue_file_id := ""
+var last_batch_result: BatchResult = null
 
 
 func _ready() -> void:
@@ -63,6 +78,7 @@ func _ready() -> void:
 	_connect_controller_signals()
 	_reset_preview()
 	_update_queue_count(0)
+	_reset_batch_progress()
 	_update_convert_button_state()
 
 
@@ -93,6 +109,9 @@ func _connect_ui_signals() -> void:
 	
 	convert_button.pressed.connect(_on_convert_button_pressed)
 	batch_convert_button.pressed.connect(_on_batch_convert_button_pressed)
+	
+	open_output_folder_button.pressed.connect(_on_open_output_folder_button_pressed)
+	copy_error_report_button.pressed.connect(_on_copy_error_report_button_pressed)
 
 	size_16.toggled.connect(_on_icon_size_toggled)
 	size_24.toggled.connect(_on_icon_size_toggled)
@@ -368,6 +387,17 @@ func _update_convert_button_state() -> void:
 	)
 	
 func _on_batch_started(total_count: int) -> void:
+	last_batch_result = null
+
+	batch_progress_container.visible = true
+	batch_progress_bar.min_value = 0.0
+	batch_progress_bar.max_value = 100.0
+	batch_progress_bar.value = 0.0
+
+	batch_progress_label.text = (
+		"Converting 0 / %d files" % total_count
+	)
+
 	_update_convert_button_state()
 
 	preview_info_label.text = "Batch conversion started"
@@ -382,6 +412,24 @@ func _on_batch_progress(
 	result: ConversionResult
 ) -> void:
 	var source_filename: String = result.source_path.get_file()
+
+	var progress_percent: float = 0.0
+
+	if total_count > 0:
+		progress_percent = (
+			float(processed_count)
+			/ float(total_count)
+			* 100.0
+		)
+
+	batch_progress_bar.value = progress_percent
+
+	batch_progress_label.text = (
+		"Converting %d / %d files" % [
+			processed_count,
+			total_count
+		]
+	)
 
 	preview_info_label.text = (
 		"Batch progress: %d / %d" % [
@@ -421,11 +469,24 @@ func _on_batch_progress(
 func _on_batch_completed(
 	batch_result: BatchResult
 ) -> void:
+	last_batch_result = batch_result
+
+	batch_progress_container.visible = true
+	batch_progress_bar.value = 100.0
+
+	batch_progress_label.text = (
+		"Batch complete · %d / %d files processed" % [
+			batch_result.get_processed_count(),
+			batch_result.total_count
+		]
+	)
+
 	_update_convert_button_state()
 
 	preview_info_label.text = "Batch conversion complete"
-
 	image_meta_label.text = batch_result.get_summary()
+
+	_show_batch_results_dialog(batch_result)
 		
 func _on_conversion_completed(
 	result: ConversionResult
@@ -523,3 +584,81 @@ func _reset_preview() -> void:
 
 	preview_info_label.text = "No image selected"
 	image_meta_label.text = ""
+	
+func _reset_batch_progress() -> void:
+	batch_progress_container.visible = false
+
+	batch_progress_bar.min_value = 0.0
+	batch_progress_bar.max_value = 100.0
+	batch_progress_bar.value = 0.0
+
+	batch_progress_label.text = ""
+	
+func _show_batch_results_dialog(
+	batch_result: BatchResult
+) -> void:
+	batch_results_summary.text = (
+		batch_result.get_detailed_summary()
+	)
+
+	open_output_folder_button.disabled = (
+		_get_first_batch_output_directory(batch_result).is_empty()
+	)
+
+	copy_error_report_button.disabled = not (
+		batch_result.has_failures()
+		or batch_result.has_warnings()
+		or batch_result.has_skipped_files()
+	)
+
+	batch_results_dialog.popup_centered()
+	
+func _get_first_batch_output_directory(
+	batch_result: BatchResult
+) -> String:
+	for result: ConversionResult in batch_result.results:
+		if result == null:
+			continue
+
+		if result.output_path.strip_edges().is_empty():
+			continue
+
+		return result.output_path.get_base_dir()
+
+	return ""
+	
+func _on_open_output_folder_button_pressed() -> void:
+	if last_batch_result == null:
+		return
+
+	var output_directory: String = (
+		_get_first_batch_output_directory(last_batch_result)
+	)
+
+	if output_directory.is_empty():
+		preview_info_label.text = "Output folder unavailable"
+		image_meta_label.text = (
+			"✕ No created output file was found for this batch."
+		)
+		return
+
+	var open_error: int = OS.shell_open(output_directory)
+
+	if open_error != OK:
+		preview_info_label.text = "Could not open output folder"
+		image_meta_label.text = (
+			"✕ " + output_directory
+		)
+		
+func _on_copy_error_report_button_pressed() -> void:
+	if last_batch_result == null:
+		return
+
+	var report: String = last_batch_result.get_error_report()
+
+	DisplayServer.clipboard_set(report)
+
+	preview_info_label.text = "Batch report copied"
+	image_meta_label.text = (
+		"✓ Warnings, skipped files, and failures were copied to the clipboard."
+	)

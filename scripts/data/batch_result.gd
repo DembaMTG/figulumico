@@ -124,3 +124,77 @@ func get_skipped_results() -> Array[ConversionResult]:
 			skipped_results.append(result)
 
 	return skipped_results
+	
+func get_detailed_summary() -> String:
+	if total_count <= 0:
+		return "[b]No files were processed.[/b]"
+
+	var lines: Array[String] = []
+
+	lines.append("[b]Batch conversion complete[/b]")
+	lines.append("")
+	lines.append("Total: %d" % total_count)
+	lines.append("Successful: %d" % success_count)
+	lines.append("Warnings: %d" % warning_count)
+	lines.append("Skipped: %d" % skipped_count)
+	lines.append("Failed: %d" % failed_count)
+
+	return "\n".join(lines)
+
+
+func get_error_report() -> String:
+	var lines: Array[String] = []
+
+	lines.append("Iconify Wizard — Batch Report")
+	lines.append("")
+	lines.append(get_summary())
+	lines.append("")
+
+	var has_report_entries: bool = false
+
+	for result: ConversionResult in results:
+		if result == null:
+			continue
+
+		var source_filename: String = result.source_path.get_file()
+
+		if result.status == ConversionResult.STATUS_FAILED:
+			has_report_entries = true
+
+			lines.append("[FAILED] " + source_filename)
+
+			if result.error_message.strip_edges().is_empty():
+				lines.append("  No detailed error message was provided.")
+			else:
+				lines.append("  " + result.error_message)
+
+			lines.append("")
+			continue
+
+		if result.status == ConversionResult.STATUS_SKIPPED:
+			has_report_entries = true
+
+			lines.append("[SKIPPED] " + source_filename)
+
+			if result.error_message.strip_edges().is_empty():
+				lines.append("  Output was skipped.")
+			else:
+				lines.append("  " + result.error_message)
+
+			lines.append("")
+			continue
+
+		if result.has_warnings():
+			has_report_entries = true
+
+			lines.append("[WARNING] " + source_filename)
+
+			for warning: String in result.warnings:
+				lines.append("  " + warning)
+
+			lines.append("")
+
+	if not has_report_entries:
+		lines.append("No warnings, skipped files, or failures were reported.")
+
+	return "\n".join(lines)
