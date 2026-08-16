@@ -74,6 +74,11 @@ const BACKGROUND_MODE_SOLID_COLOR_INDEX: int = 1
 @onready var background_mode_option: OptionButton = (%BackgroundModeOption)
 @onready var background_color_picker: ColorPickerButton = (%BackgroundColorPicker)
 
+@onready var output_directory_label: Label = (%OutputDirectoryLabel)
+@onready var choose_output_directory_button: Button = (%ChooseOutputDirectoryButton)
+@onready var use_source_output_button: Button = (%UseSourceOutputButton)
+@onready var output_directory_dialog: FileDialog = (%OutputDirectoryDialog)
+
 @onready var batch_progress_container: HBoxContainer = (%BatchProgressContainer)
 @onready var batch_progress_label: Label = (%BatchProgressLabel)
 @onready var batch_progress_bar: ProgressBar = (%BatchProgressBar)
@@ -87,16 +92,19 @@ var queue_items_by_id: Dictionary = {}
 var selected_queue_file_id := ""
 var last_batch_result: BatchResult = null
 var is_applying_size_preset: bool = false
+var custom_output_directory: String = ""
 
 
 func _ready() -> void:
 	_configure_file_dialog()
+	_configure_output_directory_dialog()
 	_configure_export_option_controls()
 	_connect_ui_signals()
 	_connect_controller_signals()
 	_reset_preview()
 	_update_queue_count(0)
 	_reset_batch_progress()
+	_update_output_directory_display()
 	_update_convert_button_state()
 
 
@@ -114,6 +122,11 @@ func _configure_file_dialog() -> void:
 		"*.jpg, *.jpeg ; JPEG Images",
 		"*.bmp ; BMP Images"
 	])
+
+func _configure_output_directory_dialog() -> void:
+	output_directory_dialog.access = FileDialog.ACCESS_FILESYSTEM
+	output_directory_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
+	output_directory_dialog.filters = PackedStringArray()
 
 func _configure_export_option_controls() -> void:
 	size_preset_option.clear()
@@ -141,21 +154,10 @@ func _configure_export_option_controls() -> void:
 
 	background_color_picker.color = Color.WHITE
 
-	size_preset_option.select(
-		SIZE_PRESET_WINDOWS_STANDARD
-	)
-
-	fit_mode_option.select(
-		FIT_MODE_CONTAIN_INDEX
-	)
-
-	scaling_mode_option.select(
-		SCALING_MODE_SMOOTH_INDEX
-	)
-
-	background_mode_option.select(
-		BACKGROUND_MODE_TRANSPARENT_INDEX
-	)
+	size_preset_option.select(SIZE_PRESET_WINDOWS_STANDARD)
+	fit_mode_option.select(FIT_MODE_CONTAIN_INDEX)
+	scaling_mode_option.select(SCALING_MODE_SMOOTH_INDEX)
+	background_mode_option.select(BACKGROUND_MODE_TRANSPARENT_INDEX)
 
 	_update_background_color_picker_state()
 
@@ -190,6 +192,10 @@ func _connect_ui_signals() -> void:
 	fit_mode_option.item_selected.connect(_on_fit_mode_selected)
 	scaling_mode_option.item_selected.connect(_on_scaling_mode_selected)
 	background_mode_option.item_selected.connect(_on_background_mode_selected)
+	
+	choose_output_directory_button.pressed.connect(_on_choose_output_directory_button_pressed)
+	use_source_output_button.pressed.connect(_on_use_source_output_button_pressed)
+	output_directory_dialog.dir_selected.connect(_on_output_directory_selected)
 	
 	get_viewport().files_dropped.connect(_on_files_dropped)
 
@@ -382,10 +388,9 @@ func _create_base_conversion_options(
 	options.scaling_mode = _get_selected_scaling_mode()
 	options.background_mode = _get_selected_background_mode()
 	options.background_color = _get_selected_background_color()
+	options.output_directory = custom_output_directory
 
-	options.collision_policy = (
-		ConversionOptions.COLLISION_AUTO_NUMBER
-	)
+	options.collision_policy = (ConversionOptions.COLLISION_AUTO_NUMBER)
 
 	return options
 	
@@ -517,6 +522,99 @@ func _get_selected_background_color() -> Color:
 
 	return selected_color
 
+func _on_choose_output_directory_button_pressed() -> void:
+	if app_controller.is_batch_running():
+		return
+
+	if not custom_output_directory.is_empty():
+		output_directory_dialog.current_dir = (
+			custom_output_directory
+		)
+
+	output_directory_dialog.popup_centered_ratio(0.75)
+	
+func _on_use_source_output_button_pressed() -> void:
+	if app_controller.is_batch_running():
+		return
+
+	custom_output_directory = ""
+
+	_update_output_directory_display()
+	
+func _on_output_directory_selected(
+	directory_path: String
+) -> void:
+	var clean_directory_path: String = (
+		directory_path.strip_edges()
+	)
+
+	if clean_directory_path.is_empty():
+		return
+
+	if not DirAccess.dir_exists_absolute(clean_directory_path):
+		preview_info_label.text = "Output folder issue"
+		image_meta_label.text = (
+			"✕ The selected output folder could not be found."
+		)
+		return
+
+	custom_output_directory = clean_directory_path
+
+	_update_output_directory_display()
+
+	preview_info_label.text = "Output folder selected"
+	image_meta_label.text = (
+		"✓ ICO files will be exported to: "
+		+ custom_output_directory
+	)
+	
+func _update_output_directory_display() -> void:
+	if custom_output_directory.is_empty():
+		output_directory_label.text = (
+			"Source folder / converted"
+		)
+
+		output_directory_label.tooltip_text = (
+			"Each ICO is exported into a converted folder "
+			+ "next to its source image."
+		)
+
+		use_source_output_button.disabled = true
+		return
+
+	output_directory_label.text = custom_output_directory
+	output_directory_label.tooltip_text = custom_output_directory
+
+	use_source_output_button.disabled = false
+
+func _set_export_option_controls_disabled(
+	disabled: bool
+) -> void:
+	size_16.disabled = disabled
+	size_24.disabled = disabled
+	size_32.disabled = disabled
+	size_48.disabled = disabled
+	size_64.disabled = disabled
+	size_128.disabled = disabled
+	size_256.disabled = disabled
+
+	size_preset_option.disabled = disabled
+	fit_mode_option.disabled = disabled
+	scaling_mode_option.disabled = disabled
+	background_mode_option.disabled = disabled
+
+	background_color_picker.disabled = (
+		disabled
+		or background_mode_option.selected
+		!= BACKGROUND_MODE_SOLID_COLOR_INDEX
+	)
+
+	choose_output_directory_button.disabled = disabled
+
+	if custom_output_directory.is_empty():
+		use_source_output_button.disabled = true
+	else:
+		use_source_output_button.disabled = disabled
 
 func _get_selected_icon_sizes() -> Array[int]:
 	var selected_sizes: Array[int] = []
@@ -580,6 +678,10 @@ func _update_convert_button_state() -> void:
 
 	batch_convert_button.text = (
 		"Batch Convert All (%d)" % queue_count
+	)
+	
+	_set_export_option_controls_disabled(
+		is_batch_running
 	)
 	
 func _on_batch_started(total_count: int) -> void:
