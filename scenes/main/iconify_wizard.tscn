@@ -8,6 +8,8 @@
 [ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
 [ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass.png" id="6_26ohl"]
+[ext_resource type="FontFile" uid="uid://b7nh0retvgnqv" path="res://assets/fonts/static/Inter_24pt-SemiBoldItalic.ttf" id="7_g70uq"]
+[ext_resource type="FontFile" uid="uid://cat34iv5un88k" path="res://assets/fonts/static/Inter_18pt-SemiBold.ttf" id="8_g70uq"]
 [ext_resource type="FontFile" uid="uid://dhefo87ea2c74" path="res://assets/fonts/static/Inter_28pt-Italic.ttf" id="8_t0hq7"]
 [ext_resource type="FontFile" uid="uid://cutbidxorl416" path="res://assets/fonts/static/Inter_24pt-SemiBold.ttf" id="10_1os4j"]
 [ext_resource type="Texture2D" uid="uid://b2wbht4iikcho" path="res://assets/ui/b_batch.png" id="10_xd8sn"]
@@ -282,58 +284,100 @@ layout_mode = 2
 [node name="ExportOptionsTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1077369043]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_t2imr")
+theme_override_fonts/font = ExtResource("7_g70uq")
 theme_override_font_sizes/font_size = 22
 text = "Export Options"
 horizontal_alignment = 1
 
-[node name="SizePresetLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1539761796]
+[node name="GridContainer" type="GridContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=211751557]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=2077003559]
+layout_mode = 2
+
+[node name="SizePresetLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer" unique_id=1539761796]
+custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Size Preset"
+theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 18
+text = "Size Preset:"
 
-[node name="SizePresetOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=455449591]
+[node name="SizePresetOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer" unique_id=455449591]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 tooltip_text = "Choose a predefined icon-size profile."
+theme_override_fonts/font = ExtResource("8_g70uq")
 
-[node name="FitModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=172185016]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=354948208]
+layout_mode = 2
+
+[node name="FitModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer2" unique_id=172185016]
+custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Fit Mode"
+theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 18
+text = "Fit Mode:"
 
-[node name="FitModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1929916740]
+[node name="FitModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer2" unique_id=1929916740]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 tooltip_text = "Choose how non-square images are placed into a square icon."
+theme_override_fonts/font = ExtResource("8_g70uq")
 
-[node name="ScalingModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1296492243]
+[node name="HBoxContainer4" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=127591140]
+layout_mode = 2
+
+[node name="BackgroundModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer4" unique_id=2107933949]
+custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Scaling Mode"
+theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 18
+text = "Background Mode:"
 
-[node name="ScalingModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1128875072]
+[node name="BackgroundModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer4" unique_id=1179806072]
 unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Use Smooth for photos and illustrations, Pixel Perfect for pixel art."
-
-[node name="BackgroundModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=2107933949]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Background Mode"
-
-[node name="BackgroundModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1179806072]
-unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 tooltip_text = "The background is relevant for unused canvas areas in Contain mode."
+theme_override_fonts/font = ExtResource("8_g70uq")
 
-[node name="BackgroundColorLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1571021264]
+[node name="HBoxContainer3" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=1631731421]
+layout_mode = 2
+
+[node name="ScalingModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer3" unique_id=1296492243]
+custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Background Color"
+theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 18
+text = "Scaling Mode:"
 
-[node name="BackgroundColorPicker" type="ColorPickerButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=822218198]
+[node name="ScalingModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer3" unique_id=1128875072]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+tooltip_text = "Use Smooth for photos and illustrations, Pixel Perfect for pixel art."
+theme_override_fonts/font = ExtResource("8_g70uq")
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=1842416800]
+layout_mode = 2
+
+[node name="BackgroundColorLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer5" unique_id=1571021264]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 18
+text = "Background Color:"
+
+[node name="BackgroundColorPicker" type="ColorPickerButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer5" unique_id=822218198]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 tooltip_text = "Used only when Solid Color is selected."
 
