@@ -23,6 +23,20 @@ const FILE_QUEUE_ITEM_SCENE := preload(
 	"res://scenes/components/file_queue_item.tscn"
 )
 
+const SIZE_PRESET_WINDOWS_STANDARD: int = 0
+const SIZE_PRESET_SMALL: int = 1
+const SIZE_PRESET_HIGH_RESOLUTION: int = 2
+const SIZE_PRESET_CUSTOM: int = 3
+
+const FIT_MODE_CONTAIN_INDEX: int = 0
+const FIT_MODE_CENTER_CROP_INDEX: int = 1
+const FIT_MODE_STRETCH_INDEX: int = 2
+
+const SCALING_MODE_SMOOTH_INDEX: int = 0
+const SCALING_MODE_PIXEL_PERFECT_INDEX: int = 1
+
+const BACKGROUND_MODE_TRANSPARENT_INDEX: int = 0
+const BACKGROUND_MODE_SOLID_COLOR_INDEX: int = 1
 
 @onready var app_controller: AppController = %AppController
 @onready var image_file_dialog: FileDialog = %ImageFileDialog
@@ -52,28 +66,32 @@ const FILE_QUEUE_ITEM_SCENE := preload(
 @onready var size_128: CheckButton = %Size128
 @onready var size_256: CheckButton = %Size256
 
+@onready var size_preset_option: OptionButton = (%SizePresetOption
+)
+
+@onready var fit_mode_option: OptionButton = (%FitModeOption)
+@onready var scaling_mode_option: OptionButton = (%ScalingModeOption)
+@onready var background_mode_option: OptionButton = (%BackgroundModeOption)
+@onready var background_color_picker: ColorPickerButton = (%BackgroundColorPicker)
+
 @onready var batch_progress_container: HBoxContainer = (%BatchProgressContainer)
-
 @onready var batch_progress_label: Label = (%BatchProgressLabel)
-
 @onready var batch_progress_bar: ProgressBar = (%BatchProgressBar)
-
 @onready var batch_results_dialog: AcceptDialog = (%BatchResultsDialog)
-
 @onready var batch_results_summary: RichTextLabel = (%BatchResultsSummary)
-
 @onready var open_output_folder_button: Button = (%OpenOutputFolderButton)
-
 @onready var copy_error_report_button: Button = (%CopyErrorReportButton)
 
 
 var queue_items_by_id: Dictionary = {}
 var selected_queue_file_id := ""
 var last_batch_result: BatchResult = null
+var is_applying_size_preset: bool = false
 
 
 func _ready() -> void:
 	_configure_file_dialog()
+	_configure_export_option_controls()
 	_connect_ui_signals()
 	_connect_controller_signals()
 	_reset_preview()
@@ -97,6 +115,53 @@ func _configure_file_dialog() -> void:
 		"*.bmp ; BMP Images"
 	])
 
+func _configure_export_option_controls() -> void:
+	size_preset_option.clear()
+
+	size_preset_option.add_item("Windows Standard")
+	size_preset_option.add_item("Small")
+	size_preset_option.add_item("High Resolution")
+	size_preset_option.add_item("Custom")
+
+	fit_mode_option.clear()
+
+	fit_mode_option.add_item("Contain")
+	fit_mode_option.add_item("Center Crop")
+	fit_mode_option.add_item("Stretch")
+
+	scaling_mode_option.clear()
+
+	scaling_mode_option.add_item("Smooth")
+	scaling_mode_option.add_item("Pixel Perfect")
+
+	background_mode_option.clear()
+
+	background_mode_option.add_item("Transparent")
+	background_mode_option.add_item("Solid Color")
+
+	background_color_picker.color = Color.WHITE
+
+	size_preset_option.select(
+		SIZE_PRESET_WINDOWS_STANDARD
+	)
+
+	fit_mode_option.select(
+		FIT_MODE_CONTAIN_INDEX
+	)
+
+	scaling_mode_option.select(
+		SCALING_MODE_SMOOTH_INDEX
+	)
+
+	background_mode_option.select(
+		BACKGROUND_MODE_TRANSPARENT_INDEX
+	)
+
+	_update_background_color_picker_state()
+
+	_apply_size_preset(
+		SIZE_PRESET_WINDOWS_STANDARD
+	)
 
 func _connect_ui_signals() -> void:
 	add_files_button.pressed.connect(_on_add_files_button_pressed)
@@ -120,6 +185,11 @@ func _connect_ui_signals() -> void:
 	size_64.toggled.connect(_on_icon_size_toggled)
 	size_128.toggled.connect(_on_icon_size_toggled)
 	size_256.toggled.connect(_on_icon_size_toggled)
+	
+	size_preset_option.item_selected.connect(_on_size_preset_selected)
+	fit_mode_option.item_selected.connect(_on_fit_mode_selected)
+	scaling_mode_option.item_selected.connect(_on_scaling_mode_selected)
+	background_mode_option.item_selected.connect(_on_background_mode_selected)
 	
 	get_viewport().files_dropped.connect(_on_files_dropped)
 
@@ -308,18 +378,144 @@ func _create_base_conversion_options(
 	for icon_size: int in selected_sizes:
 		options.icon_sizes.append(icon_size)
 
-	options.fit_mode = ConversionOptions.FIT_CONTAIN
-	options.scaling_mode = ConversionOptions.SCALING_SMOOTH
-	options.background_mode = ConversionOptions.BACKGROUND_TRANSPARENT
+	options.fit_mode = _get_selected_fit_mode()
+	options.scaling_mode = _get_selected_scaling_mode()
+	options.background_mode = _get_selected_background_mode()
+	options.background_color = _get_selected_background_color()
+
 	options.collision_policy = (
 		ConversionOptions.COLLISION_AUTO_NUMBER
 	)
 
 	return options
+	
+	
 func _on_icon_size_toggled(
 	_pressed: bool
 ) -> void:
+	if not is_applying_size_preset:
+		size_preset_option.select(
+			SIZE_PRESET_CUSTOM
+		)
+
 	_update_convert_button_state()
+	
+func _on_size_preset_selected(
+	preset_index: int
+) -> void:
+	if preset_index == SIZE_PRESET_CUSTOM:
+		return
+
+	_apply_size_preset(preset_index)
+	
+func _apply_size_preset(
+	preset_index: int
+) -> void:
+	var preset_sizes: Array[int] = []
+
+	match preset_index:
+		SIZE_PRESET_WINDOWS_STANDARD:
+			preset_sizes = [16, 32, 48, 256]
+
+		SIZE_PRESET_SMALL:
+			preset_sizes = [16, 24, 32, 48]
+
+		SIZE_PRESET_HIGH_RESOLUTION:
+			preset_sizes = [64, 128, 256]
+
+		_:
+			return
+
+	is_applying_size_preset = true
+
+	size_16.set_pressed_no_signal(
+		preset_sizes.has(16)
+	)
+
+	size_24.set_pressed_no_signal(
+		preset_sizes.has(24)
+	)
+
+	size_32.set_pressed_no_signal(
+		preset_sizes.has(32)
+	)
+	size_48.set_pressed_no_signal(
+			preset_sizes.has(48)
+		)
+
+	size_64.set_pressed_no_signal(
+		preset_sizes.has(64)
+	)
+
+	size_128.set_pressed_no_signal(
+		preset_sizes.has(128)
+	)
+
+	size_256.set_pressed_no_signal(
+		preset_sizes.has(256)
+	)
+
+	is_applying_size_preset = false
+
+	_update_convert_button_state()
+	
+func _on_fit_mode_selected(
+	_selected_index: int
+) -> void:
+	pass
+	
+func _on_scaling_mode_selected(
+	_selected_index: int
+) -> void:
+	pass
+	
+func _on_background_mode_selected(
+	_selected_index: int
+) -> void:
+	_update_background_color_picker_state()
+	
+func _update_background_color_picker_state() -> void:
+	var uses_solid_color: bool = (
+		background_mode_option.selected
+		== BACKGROUND_MODE_SOLID_COLOR_INDEX
+	)
+
+	background_color_picker.disabled = not uses_solid_color
+	
+func _get_selected_fit_mode() -> String:
+	match fit_mode_option.selected:
+		FIT_MODE_CENTER_CROP_INDEX:
+			return ConversionOptions.FIT_CENTER_CROP
+
+		FIT_MODE_STRETCH_INDEX:
+			return ConversionOptions.FIT_STRETCH
+
+		_:
+			return ConversionOptions.FIT_CONTAIN
+			
+func _get_selected_scaling_mode() -> String:
+	if scaling_mode_option.selected == (
+		SCALING_MODE_PIXEL_PERFECT_INDEX
+	):
+		return ConversionOptions.SCALING_PIXEL_PERFECT
+
+	return ConversionOptions.SCALING_SMOOTH
+	
+func _get_selected_background_mode() -> String:
+	if background_mode_option.selected == (
+		BACKGROUND_MODE_SOLID_COLOR_INDEX
+	):
+		return ConversionOptions.BACKGROUND_SOLID_COLOR
+
+	return ConversionOptions.BACKGROUND_TRANSPARENT
+	
+func _get_selected_background_color() -> Color:
+	var selected_color: Color = background_color_picker.color
+
+	# Solid Color bedeutet für Iconify Wizard deckende Auffüllfarbe.
+	selected_color.a = 1.0
+
+	return selected_color
 
 
 func _get_selected_icon_sizes() -> Array[int]:
