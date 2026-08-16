@@ -93,6 +93,8 @@ var selected_queue_file_id := ""
 var last_batch_result: BatchResult = null
 var is_applying_size_preset: bool = false
 var custom_output_directory: String = ""
+var last_output_directory: String = ""
+var settings_service: SettingsService = (SettingsService.new())
 
 
 func _ready() -> void:
@@ -106,6 +108,8 @@ func _ready() -> void:
 	_reset_batch_progress()
 	_update_output_directory_display()
 	_update_convert_button_state()
+
+	_load_application_settings()
 
 
 # ==============================================================
@@ -161,9 +165,109 @@ func _configure_export_option_controls() -> void:
 
 	_update_background_color_picker_state()
 
-	_apply_size_preset(
-		SIZE_PRESET_WINDOWS_STANDARD
+	_apply_size_preset(SIZE_PRESET_WINDOWS_STANDARD)
+
+func _load_application_settings() -> void:
+	var settings: Dictionary = settings_service.load_settings()
+
+	_apply_settings_to_controls(settings)
+
+	if settings_service.last_warning.strip_edges().is_empty():
+		return
+
+	preview_info_label.text = "Settings warning"
+	image_meta_label.text = (
+		"⚠ " + settings_service.last_warning
 	)
+
+func _apply_settings_to_controls(
+	settings: Dictionary
+) -> void:
+	var preset_id: String = str(
+		settings.get(
+			"size_preset",
+			SettingsService.PRESET_WINDOWS_STANDARD
+		)
+	)
+
+	var icon_sizes_value: Variant = settings.get(
+		"icon_sizes",
+		[16, 32, 48, 256]
+	)
+
+	var icon_sizes: Array[int] = []
+
+	if icon_sizes_value is Array:
+		for raw_size: Variant in icon_sizes_value:
+			if raw_size is int or raw_size is float:
+				icon_sizes.append(int(raw_size))
+
+	var preset_index: int = _get_preset_index_from_id(
+		preset_id
+	)
+
+	size_preset_option.select(preset_index)
+
+	if preset_index == SIZE_PRESET_CUSTOM:
+		_apply_custom_icon_sizes(icon_sizes)
+	else:
+		_apply_size_preset(preset_index)
+
+	var fit_mode: String = str(
+		settings.get(
+			"fit_mode",
+			ConversionOptions.FIT_CONTAIN
+		)
+	)
+
+	fit_mode_option.select(
+		_get_fit_mode_index_from_id(fit_mode)
+	)
+
+	var scaling_mode: String = str(
+		settings.get(
+			"scaling_mode",
+			ConversionOptions.SCALING_SMOOTH
+		)
+	)
+
+	scaling_mode_option.select(
+		_get_scaling_mode_index_from_id(scaling_mode)
+	)
+
+	var background_mode: String = str(
+		settings.get(
+			"background_mode",
+			ConversionOptions.BACKGROUND_TRANSPARENT
+		)
+	)
+
+	background_mode_option.select(
+		_get_background_mode_index_from_id(background_mode)
+	)
+
+	background_color_picker.color = (
+		settings_service.get_background_color(settings)
+	)
+
+	_update_background_color_picker_state()
+
+	custom_output_directory = str(
+		settings.get(
+			"default_output_directory",
+			""
+		)
+	).strip_edges()
+
+	last_output_directory = str(
+		settings.get(
+			"last_output_directory",
+			""
+		)
+	).strip_edges()
+
+	_update_output_directory_display()
+	_update_convert_button_state()
 
 func _connect_ui_signals() -> void:
 	add_files_button.pressed.connect(_on_add_files_button_pressed)
@@ -393,7 +497,88 @@ func _create_base_conversion_options(
 	options.collision_policy = (ConversionOptions.COLLISION_AUTO_NUMBER)
 
 	return options
+
+func _get_preset_index_from_id(
+	preset_id: String
+) -> int:
+	match preset_id:
+		SettingsService.PRESET_SMALL:
+			return SIZE_PRESET_SMALL
+
+		SettingsService.PRESET_HIGH_RESOLUTION:
+			return SIZE_PRESET_HIGH_RESOLUTION
+
+		SettingsService.PRESET_CUSTOM:
+			return SIZE_PRESET_CUSTOM
+
+		_:
+			return SIZE_PRESET_WINDOWS_STANDARD
+			
+func _get_fit_mode_index_from_id(
+	fit_mode: String
+) -> int:
+	match fit_mode:
+		ConversionOptions.FIT_CENTER_CROP:
+			return FIT_MODE_CENTER_CROP_INDEX
+
+		ConversionOptions.FIT_STRETCH:
+			return FIT_MODE_STRETCH_INDEX
+
+		_:
+			return FIT_MODE_CONTAIN_INDEX
+			
+func _get_scaling_mode_index_from_id(
+	scaling_mode: String
+) -> int:
+	if scaling_mode == ConversionOptions.SCALING_PIXEL_PERFECT:
+		return SCALING_MODE_PIXEL_PERFECT_INDEX
+
+	return SCALING_MODE_SMOOTH_INDEX
 	
+func _get_background_mode_index_from_id(
+	background_mode: String
+) -> int:
+	if background_mode == ConversionOptions.BACKGROUND_SOLID_COLOR:
+		return BACKGROUND_MODE_SOLID_COLOR_INDEX
+
+	return BACKGROUND_MODE_TRANSPARENT_INDEX
+	
+func _apply_custom_icon_sizes(
+	selected_sizes: Array[int]
+) -> void:
+	is_applying_size_preset = true
+
+	size_16.set_pressed_no_signal(
+		selected_sizes.has(16)
+	)
+
+	size_24.set_pressed_no_signal(
+		selected_sizes.has(24)
+	)
+
+	size_32.set_pressed_no_signal(
+		selected_sizes.has(32)
+	)
+
+	size_48.set_pressed_no_signal(
+		selected_sizes.has(48)
+	)
+
+	size_64.set_pressed_no_signal(
+		selected_sizes.has(64)
+	)
+
+	size_128.set_pressed_no_signal(
+		selected_sizes.has(128)
+	)
+
+	size_256.set_pressed_no_signal(
+		selected_sizes.has(256)
+	)
+
+	is_applying_size_preset = false
+
+	_update_convert_button_state()	
 	
 func _on_icon_size_toggled(
 	_pressed: bool
@@ -526,10 +711,16 @@ func _on_choose_output_directory_button_pressed() -> void:
 	if app_controller.is_batch_running():
 		return
 
-	if not custom_output_directory.is_empty():
-		output_directory_dialog.current_dir = (
-			custom_output_directory
-		)
+	var initial_directory: String = custom_output_directory
+
+	if initial_directory.is_empty():
+		initial_directory = last_output_directory
+
+	if not initial_directory.is_empty():
+		if DirAccess.dir_exists_absolute(initial_directory):
+			output_directory_dialog.current_dir = (
+				initial_directory
+			)
 
 	output_directory_dialog.popup_centered_ratio(0.75)
 	
@@ -559,6 +750,7 @@ func _on_output_directory_selected(
 		return
 
 	custom_output_directory = clean_directory_path
+	last_output_directory = clean_directory_path
 
 	_update_output_directory_display()
 

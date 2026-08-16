@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Iconify Wizard"
 run/main_scene="uid://qpqwpp52mmpo"
+config/use_custom_user_dir=true
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="uid://c3aytt0jgos1x"
 
