@@ -1585,6 +1585,47 @@ func _update_queue_count(count: int) -> void:
 		queue_count_label.text = str(count) + " files"
 
 
+func _unhandled_key_input(
+	event: InputEvent
+) -> void:
+	if not (event is InputEventKey):
+		return
+
+	var key_event: InputEventKey = event
+
+	if not key_event.pressed:
+		return
+
+	if key_event.echo:
+		return
+
+	if key_event.keycode != KEY_ESCAPE:
+		return
+
+	# Während einer Batch-Konvertierung darf die Anwendung
+	# nicht versehentlich geschlossen werden.
+	if app_controller.is_batch_running():
+		return
+
+	# Offene Dialoge sollen zuerst über ESC geschlossen
+	# oder abgebrochen werden.
+	if image_file_dialog.visible:
+		return
+
+	if output_directory_dialog.visible:
+		return
+
+	if settings_dialog.visible:
+		return
+
+	if settings_output_directory_dialog.visible:
+		return
+
+	if batch_results_dialog.visible:
+		return
+
+	get_tree().quit()
+
 # ==============================================================
 # Preview UI
 # ==============================================================
