@@ -279,7 +279,11 @@ func _normalize_settings(
 	if collision_policy_value is String:
 		var collision_policy: String = str(collision_policy_value)
 
-		if _is_valid_collision_policy(collision_policy):
+		if collision_policy == ConversionOptions.COLLISION_ASK:
+			settings["collision_policy"] = (
+				ConversionOptions.COLLISION_AUTO_NUMBER
+			)
+		elif _is_valid_collision_policy(collision_policy):
 			settings["collision_policy"] = collision_policy
 
 	return settings

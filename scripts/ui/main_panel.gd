@@ -209,7 +209,7 @@ func _configure_settings_dialog_controls() -> void:
 	settings_collision_policy_option.add_item("Auto Number")
 	settings_collision_policy_option.add_item("Overwrite")
 	settings_collision_policy_option.add_item("Skip")
-	settings_collision_policy_option.add_item("Ask")
+
 
 	settings_background_color_picker.color = Color.WHITE
 
@@ -365,6 +365,11 @@ func _apply_settings_to_controls(settings: Dictionary) -> void:
 			ConversionOptions.COLLISION_AUTO_NUMBER
 		)
 	)
+
+	if collision_policy == ConversionOptions.COLLISION_ASK:
+		collision_policy = (
+			ConversionOptions.COLLISION_AUTO_NUMBER
+		)
 
 	_update_output_directory_display()
 	_update_convert_button_state()
@@ -1308,9 +1313,6 @@ func _get_collision_policy_index(
 		ConversionOptions.COLLISION_SKIP:
 			return 2
 
-		ConversionOptions.COLLISION_ASK:
-			return 3
-
 		_:
 			return 0
 			
@@ -1324,11 +1326,8 @@ func _get_collision_policy_from_index(
 		2:
 			return ConversionOptions.COLLISION_SKIP
 
-		3:
-			return ConversionOptions.COLLISION_ASK
-
 		_:
-			return ConversionOptions.COLLISION_AUTO_NUMBER	
+			return ConversionOptions.COLLISION_AUTO_NUMBER
 
 func _set_export_option_controls_disabled(
 	disabled: bool
