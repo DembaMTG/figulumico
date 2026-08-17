@@ -38,6 +38,12 @@ const SCALING_MODE_PIXEL_PERFECT_INDEX: int = 1
 const BACKGROUND_MODE_TRANSPARENT_INDEX: int = 0
 const BACKGROUND_MODE_SOLID_COLOR_INDEX: int = 1
 
+enum PendingConversionKind {
+	NONE,
+	SINGLE,
+	BATCH
+}
+
 @onready var app_controller: AppController = %AppController
 @onready var image_file_dialog: FileDialog = %ImageFileDialog
 
@@ -120,6 +126,11 @@ var settings_dialog_icon_sizes: Array[int] = [
 	256
 ]
 
+var pending_conversion_kind: int = (
+	PendingConversionKind.NONE
+)
+
+var pending_conversion_sizes: Array[int] = []
 
 func _ready() -> void:
 	_configure_file_dialog()
@@ -389,6 +400,7 @@ func _connect_ui_signals() -> void:
 	choose_output_directory_button.pressed.connect(_on_choose_output_directory_button_pressed)
 	use_source_output_button.pressed.connect(_on_use_source_output_button_pressed)
 	output_directory_dialog.dir_selected.connect(_on_output_directory_selected)
+	output_directory_dialog.canceled.connect(_on_output_directory_dialog_canceled)
 	
 	settings_button.pressed.connect(_on_settings_button_pressed)
 	settings_dialog.confirmed.connect(_on_settings_dialog_confirmed)
@@ -538,14 +550,17 @@ func _on_convert_button_pressed() -> void:
 		image_meta_label.text = "✕ Select at least one icon size."
 		return
 
-	var options: ConversionOptions = _create_base_conversion_options(
-		selected_sizes
+	if ask_for_output_directory:
+		_request_output_directory_for_conversion(
+			PendingConversionKind.SINGLE,
+			selected_sizes
+		)
+		return
+
+	_start_selected_conversion(
+		selected_sizes,
+		custom_output_directory
 	)
-
-	convert_button.disabled = true
-	convert_button.text = "Converting..."
-
-	app_controller.convert_selected(options)
 	
 func _on_batch_convert_button_pressed() -> void:
 	var selected_sizes: Array[int] = _get_selected_icon_sizes()
@@ -564,13 +579,95 @@ func _on_batch_convert_button_pressed() -> void:
 		)
 		return
 
-	var options: ConversionOptions = _create_base_conversion_options(
-		selected_sizes
+	if ask_for_output_directory:
+		_request_output_directory_for_conversion(
+			PendingConversionKind.BATCH,
+			selected_sizes
+		)
+		return
+
+	await _start_batch_conversion(
+		selected_sizes,
+		custom_output_directory
+	)
+	
+func _start_selected_conversion(
+	selected_sizes: Array[int],
+	output_directory: String
+) -> void:
+	var options: ConversionOptions = (
+		_create_base_conversion_options(selected_sizes)
 	)
 
-	# Kein Bestätigungsdialog.
-	# Batch startet sofort.
+	options.output_directory = output_directory
+
+	convert_button.disabled = true
+	convert_button.text = "Converting..."
+
+	app_controller.convert_selected(options)
+	
+func _start_batch_conversion(
+	selected_sizes: Array[int],
+	output_directory: String
+) -> void:
+	var options: ConversionOptions = (
+		_create_base_conversion_options(selected_sizes)
+	)
+
+	options.output_directory = output_directory
+
 	await app_controller.convert_all(options)
+
+func _request_output_directory_for_conversion(
+	conversion_kind: int,
+	selected_sizes: Array[int]
+) -> void:
+	if conversion_kind == PendingConversionKind.NONE:
+		return
+
+	pending_conversion_kind = conversion_kind
+
+	pending_conversion_sizes = (
+		selected_sizes.duplicate()
+	)
+
+	var initial_directory: String = custom_output_directory
+
+	if initial_directory.is_empty():
+		initial_directory = last_output_directory
+
+	if not initial_directory.is_empty():
+		if DirAccess.dir_exists_absolute(initial_directory):
+			output_directory_dialog.current_dir = (
+				initial_directory
+			)
+
+	if conversion_kind == PendingConversionKind.SINGLE:
+		output_directory_dialog.title = (
+			"Choose Output Folder for Selected File"
+		)
+	else:
+		output_directory_dialog.title = (
+			"Choose Output Folder for Batch Conversion"
+		)
+
+	preview_info_label.text = "Choose output folder"
+	image_meta_label.text = (
+		"Select a folder to continue the conversion."
+	)
+
+	_update_convert_button_state()
+
+	output_directory_dialog.popup_centered_ratio(0.75)
+	
+func _clear_pending_output_directory_request() -> void:
+	pending_conversion_kind = PendingConversionKind.NONE
+	pending_conversion_sizes.clear()
+	
+func _is_waiting_for_output_directory() -> bool:
+	return pending_conversion_kind != (
+		PendingConversionKind.NONE
+	)
 
 func _create_base_conversion_options(selected_sizes: Array[int]) -> ConversionOptions:
 	var options: ConversionOptions = ConversionOptions.new()
@@ -806,6 +903,9 @@ func _on_choose_output_directory_button_pressed() -> void:
 	if app_controller.is_batch_running():
 		return
 
+	if _is_waiting_for_output_directory():
+		return
+
 	var initial_directory: String = custom_output_directory
 
 	if initial_directory.is_empty():
@@ -821,6 +921,9 @@ func _on_choose_output_directory_button_pressed() -> void:
 	
 func _on_use_source_output_button_pressed() -> void:
 	if app_controller.is_batch_running():
+		return
+
+	if _is_waiting_for_output_directory():
 		return
 
 	custom_output_directory = ""
@@ -842,8 +945,44 @@ func _on_output_directory_selected(
 		image_meta_label.text = (
 			"✕ The selected output folder could not be found."
 		)
+
+		_clear_pending_output_directory_request()
+		_update_convert_button_state()
 		return
 
+	# Ask-for-output-flow:
+	# Der gewählte Ordner gilt nur für den aktuell angeforderten Export.
+	if _is_waiting_for_output_directory():
+		var selected_sizes: Array[int] = (
+			pending_conversion_sizes.duplicate()
+		)
+
+		var conversion_kind: int = pending_conversion_kind
+
+		# Letzten verwendeten Ordner merken, aber den sichtbaren
+		# Standard-Ausgabeordner nicht verändern.
+		last_output_directory = clean_directory_path
+
+		_clear_pending_output_directory_request()
+
+		if conversion_kind == PendingConversionKind.SINGLE:
+			_start_selected_conversion(
+				selected_sizes,
+				clean_directory_path
+			)
+			return
+
+		if conversion_kind == PendingConversionKind.BATCH:
+			await _start_batch_conversion(
+				selected_sizes,
+				clean_directory_path
+			)
+			return
+
+		return
+
+	# Normale manuelle Auswahl über "Choose Folder":
+	# Der Ordner wird als aktiver UI-Ausgabeordner übernommen.
 	custom_output_directory = clean_directory_path
 	last_output_directory = clean_directory_path
 
@@ -854,6 +993,19 @@ func _on_output_directory_selected(
 		"✓ ICO files will be exported to: "
 		+ custom_output_directory
 	)
+
+func _on_output_directory_dialog_canceled() -> void:
+	if not _is_waiting_for_output_directory():
+		return
+
+	_clear_pending_output_directory_request()
+
+	preview_info_label.text = "Conversion canceled"
+	image_meta_label.text = (
+		"Output folder selection was canceled."
+	)
+
+	_update_convert_button_state()
 	
 func _update_output_directory_display() -> void:
 	if custom_output_directory.is_empty():
@@ -1250,6 +1402,9 @@ func _update_convert_button_state() -> void:
 	var is_batch_running: bool = (
 		app_controller.is_batch_running()
 	)
+	var is_waiting_for_output_directory: bool = (
+		_is_waiting_for_output_directory()
+	)
 
 	# Einzelkonvertierung:
 	# Nur aktiv, wenn eine Datei ausgewählt ist.
@@ -1257,6 +1412,7 @@ func _update_convert_button_state() -> void:
 		has_selected_file
 		and has_selected_sizes
 		and not is_batch_running
+		and not is_waiting_for_output_directory
 	)
 
 	convert_button.text = "Convert Selected File"
@@ -1267,6 +1423,7 @@ func _update_convert_button_state() -> void:
 		queue_count >= 2
 		and has_selected_sizes
 		and not is_batch_running
+		and not is_waiting_for_output_directory
 	)
 
 	batch_convert_button.text = (
@@ -1275,6 +1432,7 @@ func _update_convert_button_state() -> void:
 	
 	_set_export_option_controls_disabled(
 		is_batch_running
+		or is_waiting_for_output_directory
 	)
 	
 func _on_batch_started(total_count: int) -> void:
