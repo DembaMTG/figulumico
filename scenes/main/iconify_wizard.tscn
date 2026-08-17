@@ -452,15 +452,19 @@ theme_override_font_sizes/font_size = 20
 text = "Batch Convert All"
 
 [node name="Settings" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=2013390274]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 10
 
 [node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/Settings" unique_id=184683638]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kexh3")
 
 [node name="SettingsButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/Settings/PanelContainer" unique_id=143952206]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 tooltip_text = "Open application settings"
 texture_normal = ExtResource("11_t0hq7")
@@ -703,6 +707,12 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 50
 
+[node name="Label" type="Label" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=1494503200]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Status:"
+
 [node name="PanelContainer2" type="PanelContainer" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=560179882]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -801,15 +811,14 @@ unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Iconify Wizard Settings"
 initial_position = 1
-size = Vector2i(800, 1115)
-visible = true
+size = Vector2i(800, 516)
 ok_button_text = "Save Settings"
 
 [node name="SettingsMargin" type="MarginContainer" parent="SettingsDialog" unique_id=447560113]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 792.0
-offset_bottom = 1066.0
+offset_bottom = 467.0
 
 [node name="SettingsContent" type="VBoxContainer" parent="SettingsDialog/SettingsMargin" unique_id=1052384656]
 layout_mode = 2
@@ -894,7 +903,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Default Background Color"
 
-[node name="SettingsBackgroundColorPicker" type="ColorPicker" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=98174693]
+[node name="SettingsBackgroundColorPicker" type="ColorPickerButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=165076381]
 unique_name_in_owner = true
 layout_mode = 2
 

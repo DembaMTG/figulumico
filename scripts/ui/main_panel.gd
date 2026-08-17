@@ -87,6 +87,19 @@ const BACKGROUND_MODE_SOLID_COLOR_INDEX: int = 1
 @onready var open_output_folder_button: Button = (%OpenOutputFolderButton)
 @onready var copy_error_report_button: Button = (%CopyErrorReportButton)
 
+@onready var settings_button: TextureButton = (%SettingsButton)
+@onready var settings_dialog: ConfirmationDialog = (%SettingsDialog)
+@onready var settings_output_directory_label: Label = (%SettingsOutputDirectoryLabel)
+@onready var settings_choose_output_button: Button = (%SettingsChooseOutputButton)
+@onready var settings_use_source_output_button: Button = (%SettingsUseSourceOutputButton)
+@onready var settings_ask_output_checkbox: CheckButton = (%SettingsAskOutputCheckBox)
+@onready var settings_size_preset_option: OptionButton = (%SettingsSizePresetOption)
+@onready var settings_fit_mode_option: OptionButton = (%SettingsFitModeOption)
+@onready var settings_scaling_mode_option: OptionButton = (%SettingsScalingModeOption)
+@onready var settings_background_mode_option: OptionButton = (%SettingsBackgroundModeOption)
+@onready var settings_background_color_picker: ColorPickerButton = (%SettingsBackgroundColorPicker)
+@onready var settings_collision_policy_option: OptionButton = (%SettingsCollisionPolicyOption)
+@onready var settings_output_directory_dialog: FileDialog = (%SettingsOutputDirectoryDialog)
 
 var queue_items_by_id: Dictionary = {}
 var selected_queue_file_id := ""
@@ -95,12 +108,25 @@ var is_applying_size_preset: bool = false
 var custom_output_directory: String = ""
 var last_output_directory: String = ""
 var settings_service: SettingsService = (SettingsService.new())
+var ask_for_output_directory: bool = false
+var collision_policy: String = (ConversionOptions.COLLISION_AUTO_NUMBER)
+
+var settings_dialog_output_directory: String = ""
+
+var settings_dialog_icon_sizes: Array[int] = [
+	16,
+	32,
+	48,
+	256
+]
 
 
 func _ready() -> void:
 	_configure_file_dialog()
 	_configure_output_directory_dialog()
 	_configure_export_option_controls()
+	_configure_settings_dialog_controls()
+	_configure_settings_output_directory_dialog()
 	_connect_ui_signals()
 	_connect_controller_signals()
 	_reset_preview()
@@ -131,6 +157,57 @@ func _configure_output_directory_dialog() -> void:
 	output_directory_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	output_directory_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
 	output_directory_dialog.filters = PackedStringArray()
+	
+func _configure_settings_output_directory_dialog() -> void:
+	settings_output_directory_dialog.access = (
+		FileDialog.ACCESS_FILESYSTEM
+	)
+
+	settings_output_directory_dialog.file_mode = (
+		FileDialog.FILE_MODE_OPEN_DIR
+	)
+
+	settings_output_directory_dialog.filters = PackedStringArray()
+	
+func _configure_settings_dialog_controls() -> void:
+	settings_size_preset_option.clear()
+
+	settings_size_preset_option.add_item("Windows Standard")
+	settings_size_preset_option.add_item("Small")
+	settings_size_preset_option.add_item("High Resolution")
+	settings_size_preset_option.add_item("Custom")
+
+	settings_fit_mode_option.clear()
+
+	settings_fit_mode_option.add_item("Contain")
+	settings_fit_mode_option.add_item("Center Crop")
+	settings_fit_mode_option.add_item("Stretch")
+
+	settings_scaling_mode_option.clear()
+
+	settings_scaling_mode_option.add_item("Smooth")
+	settings_scaling_mode_option.add_item("Pixel Perfect")
+
+	settings_background_mode_option.clear()
+
+	settings_background_mode_option.add_item("Transparent")
+	settings_background_mode_option.add_item("Solid Color")
+
+	settings_collision_policy_option.clear()
+
+	settings_collision_policy_option.add_item("Auto Number")
+	settings_collision_policy_option.add_item("Overwrite")
+	settings_collision_policy_option.add_item("Skip")
+	settings_collision_policy_option.add_item("Ask")
+
+	settings_background_color_picker.color = Color.WHITE
+
+	settings_dialog.get_ok_button().text = "Save Settings"
+	settings_dialog.get_cancel_button().text = "Cancel"
+
+	_update_settings_background_color_picker_state()
+	
+	
 
 func _configure_export_option_controls() -> void:
 	size_preset_option.clear()
@@ -180,9 +257,7 @@ func _load_application_settings() -> void:
 		"⚠ " + settings_service.last_warning
 	)
 
-func _apply_settings_to_controls(
-	settings: Dictionary
-) -> void:
+func _apply_settings_to_controls(settings: Dictionary) -> void:
 	var preset_id: String = str(
 		settings.get(
 			"size_preset",
@@ -265,6 +340,20 @@ func _apply_settings_to_controls(
 			""
 		)
 	).strip_edges()
+	
+	ask_for_output_directory = bool(
+		settings.get(
+			"ask_for_output_directory",
+			false
+		)
+	)
+
+	collision_policy = str(
+		settings.get(
+			"collision_policy",
+			ConversionOptions.COLLISION_AUTO_NUMBER
+		)
+	)
 
 	_update_output_directory_display()
 	_update_convert_button_state()
@@ -300,6 +389,14 @@ func _connect_ui_signals() -> void:
 	choose_output_directory_button.pressed.connect(_on_choose_output_directory_button_pressed)
 	use_source_output_button.pressed.connect(_on_use_source_output_button_pressed)
 	output_directory_dialog.dir_selected.connect(_on_output_directory_selected)
+	
+	settings_button.pressed.connect(_on_settings_button_pressed)
+	settings_dialog.confirmed.connect(_on_settings_dialog_confirmed)
+	settings_choose_output_button.pressed.connect(_on_settings_choose_output_button_pressed)
+	settings_use_source_output_button.pressed.connect(_on_settings_use_source_output_button_pressed)
+	settings_output_directory_dialog.dir_selected.connect(_on_settings_output_directory_selected)
+	settings_size_preset_option.item_selected.connect(_on_settings_size_preset_selected)
+	settings_background_mode_option.item_selected.connect(_on_settings_background_mode_selected)
 	
 	get_viewport().files_dropped.connect(_on_files_dropped)
 
@@ -475,9 +572,7 @@ func _on_batch_convert_button_pressed() -> void:
 	# Batch startet sofort.
 	await app_controller.convert_all(options)
 
-func _create_base_conversion_options(
-	selected_sizes: Array[int]
-) -> ConversionOptions:
+func _create_base_conversion_options(selected_sizes: Array[int]) -> ConversionOptions:
 	var options: ConversionOptions = ConversionOptions.new()
 
 	# ConversionOptions enthält Default-Größen.
@@ -494,7 +589,7 @@ func _create_base_conversion_options(
 	options.background_color = _get_selected_background_color()
 	options.output_directory = custom_output_directory
 
-	options.collision_policy = (ConversionOptions.COLLISION_AUTO_NUMBER)
+	options.collision_policy = collision_policy
 
 	return options
 
@@ -779,6 +874,310 @@ func _update_output_directory_display() -> void:
 
 	use_source_output_button.disabled = false
 
+func _on_settings_button_pressed() -> void:
+	if app_controller.is_batch_running():
+		return
+
+	_copy_main_controls_to_settings_dialog()
+
+	settings_dialog.popup_centered()
+	
+func _copy_main_controls_to_settings_dialog() -> void:
+	settings_dialog_output_directory = custom_output_directory
+
+	settings_dialog_icon_sizes = (
+		_get_selected_icon_sizes()
+	)
+
+	settings_output_directory_label.text = (
+		_get_settings_output_directory_display_text()
+	)
+
+	settings_output_directory_label.tooltip_text = (
+		_get_settings_output_directory_tooltip()
+	)
+
+	settings_ask_output_checkbox.button_pressed = (
+		ask_for_output_directory
+	)
+
+	settings_size_preset_option.select(
+		size_preset_option.selected
+	)
+
+	settings_fit_mode_option.select(
+		fit_mode_option.selected
+	)
+
+	settings_scaling_mode_option.select(
+		scaling_mode_option.selected
+	)
+
+	settings_background_mode_option.select(
+		background_mode_option.selected
+	)
+
+	settings_background_color_picker.color = (
+		background_color_picker.color
+	)
+
+	settings_collision_policy_option.select(
+		_get_collision_policy_index(
+			collision_policy
+		)
+	)
+
+	_update_settings_background_color_picker_state()
+	
+func _on_settings_dialog_confirmed() -> void:
+	var settings: Dictionary = (
+		_build_settings_from_dialog()
+	)
+
+	if not settings_service.save_settings(settings):
+		preview_info_label.text = "Could not save settings"
+		image_meta_label.text = (
+			"✕ " + settings_service.last_error
+		)
+		return
+
+	_apply_settings_to_controls(settings)
+
+	settings_dialog.hide()
+
+	preview_info_label.text = "Settings saved"
+	image_meta_label.text = (
+		"✓ Settings will be used after the next application start."
+	)
+	
+func _build_settings_from_dialog() -> Dictionary:
+	var selected_color: Color = (
+		settings_background_color_picker.color
+	)
+
+	selected_color.a = 1.0
+
+	return {
+		"default_output_directory": (
+			settings_dialog_output_directory
+		),
+		"last_output_directory": (
+			last_output_directory
+		),
+		"ask_for_output_directory": (
+			settings_ask_output_checkbox.button_pressed
+		),
+		"size_preset": (
+			_get_preset_id_from_index(
+				settings_size_preset_option.selected
+			)
+		),
+		"icon_sizes": settings_dialog_icon_sizes,
+		"fit_mode": (
+			_get_fit_mode_from_index(
+				settings_fit_mode_option.selected
+			)
+		),
+		"scaling_mode": (
+			_get_scaling_mode_from_index(
+				settings_scaling_mode_option.selected
+			)
+		),
+		"background_mode": (
+			_get_background_mode_from_index(
+				settings_background_mode_option.selected
+			)
+		),
+		"background_color": {
+			"r": selected_color.r,
+			"g": selected_color.g,
+			"b": selected_color.b,
+			"a": selected_color.a
+		},
+		"collision_policy": (
+			_get_collision_policy_from_index(
+				settings_collision_policy_option.selected
+			)
+		)
+	}
+	
+func _on_settings_choose_output_button_pressed() -> void:
+	var initial_directory: String = (
+		settings_dialog_output_directory
+	)
+
+	if initial_directory.is_empty():
+		initial_directory = last_output_directory
+
+	if not initial_directory.is_empty():
+		if DirAccess.dir_exists_absolute(initial_directory):
+			settings_output_directory_dialog.current_dir = (
+				initial_directory
+			)
+
+	settings_output_directory_dialog.popup_centered_ratio(0.75)
+	
+func _on_settings_use_source_output_button_pressed() -> void:
+	settings_dialog_output_directory = ""
+
+	settings_output_directory_label.text = (
+		_get_settings_output_directory_display_text()
+	)
+
+	settings_output_directory_label.tooltip_text = (
+		_get_settings_output_directory_tooltip()
+	)
+	
+func _on_settings_output_directory_selected(
+	directory_path: String
+) -> void:
+	var clean_directory_path: String = (
+		directory_path.strip_edges()
+	)
+
+	if clean_directory_path.is_empty():
+		return
+
+	if not DirAccess.dir_exists_absolute(clean_directory_path):
+		return
+
+	settings_dialog_output_directory = clean_directory_path
+	last_output_directory = clean_directory_path
+
+	settings_output_directory_label.text = (
+		_get_settings_output_directory_display_text()
+	)
+
+	settings_output_directory_label.tooltip_text = (
+		_get_settings_output_directory_tooltip()
+	)
+	
+func _on_settings_size_preset_selected(
+	preset_index: int
+) -> void:
+	if preset_index == SIZE_PRESET_CUSTOM:
+		return
+
+	settings_dialog_icon_sizes = (
+		_get_icon_sizes_for_preset(preset_index)
+	)
+	
+func _on_settings_background_mode_selected(
+	_selected_index: int
+) -> void:
+	_update_settings_background_color_picker_state()
+	
+func _update_settings_background_color_picker_state() -> void:
+	settings_background_color_picker.disabled = (
+		settings_background_mode_option.selected
+		!= BACKGROUND_MODE_SOLID_COLOR_INDEX
+	)
+	
+func _get_settings_output_directory_display_text() -> String:
+	if settings_dialog_output_directory.is_empty():
+		return "Source folder / converted"
+
+	return settings_dialog_output_directory
+	
+func _get_settings_output_directory_tooltip() -> String:
+	if settings_dialog_output_directory.is_empty():
+		return (
+			"Each ICO will be exported to a converted folder "
+			+ "next to its source image."
+		)
+
+	return settings_dialog_output_directory
+	
+func _get_icon_sizes_for_preset(
+	preset_index: int
+) -> Array[int]:
+	match preset_index:
+		SIZE_PRESET_SMALL:
+			return [16, 24, 32, 48]
+
+		SIZE_PRESET_HIGH_RESOLUTION:
+			return [64, 128, 256]
+
+		_:
+			return [16, 32, 48, 256]
+			
+func _get_preset_id_from_index(
+	preset_index: int
+) -> String:
+	match preset_index:
+		SIZE_PRESET_SMALL:
+			return SettingsService.PRESET_SMALL
+
+		SIZE_PRESET_HIGH_RESOLUTION:
+			return SettingsService.PRESET_HIGH_RESOLUTION
+
+		SIZE_PRESET_CUSTOM:
+			return SettingsService.PRESET_CUSTOM
+
+		_:
+			return SettingsService.PRESET_WINDOWS_STANDARD
+			
+func _get_fit_mode_from_index(
+	selected_index: int
+) -> String:
+	match selected_index:
+		FIT_MODE_CENTER_CROP_INDEX:
+			return ConversionOptions.FIT_CENTER_CROP
+
+		FIT_MODE_STRETCH_INDEX:
+			return ConversionOptions.FIT_STRETCH
+
+		_:
+			return ConversionOptions.FIT_CONTAIN
+			
+func _get_scaling_mode_from_index(
+	selected_index: int
+) -> String:
+	if selected_index == SCALING_MODE_PIXEL_PERFECT_INDEX:
+		return ConversionOptions.SCALING_PIXEL_PERFECT
+
+	return ConversionOptions.SCALING_SMOOTH
+	
+func _get_background_mode_from_index(
+	selected_index: int
+) -> String:
+	if selected_index == BACKGROUND_MODE_SOLID_COLOR_INDEX:
+		return ConversionOptions.BACKGROUND_SOLID_COLOR
+
+	return ConversionOptions.BACKGROUND_TRANSPARENT
+	
+func _get_collision_policy_index(
+	policy: String
+) -> int:
+	match policy:
+		ConversionOptions.COLLISION_OVERWRITE:
+			return 1
+
+		ConversionOptions.COLLISION_SKIP:
+			return 2
+
+		ConversionOptions.COLLISION_ASK:
+			return 3
+
+		_:
+			return 0
+			
+func _get_collision_policy_from_index(
+	selected_index: int
+) -> String:
+	match selected_index:
+		1:
+			return ConversionOptions.COLLISION_OVERWRITE
+
+		2:
+			return ConversionOptions.COLLISION_SKIP
+
+		3:
+			return ConversionOptions.COLLISION_ASK
+
+		_:
+			return ConversionOptions.COLLISION_AUTO_NUMBER	
+
 func _set_export_option_controls_disabled(
 	disabled: bool
 ) -> void:
@@ -807,6 +1206,8 @@ func _set_export_option_controls_disabled(
 		use_source_output_button.disabled = true
 	else:
 		use_source_output_button.disabled = disabled
+		
+	settings_button.disabled = disabled
 
 func _get_selected_icon_sizes() -> Array[int]:
 	var selected_sizes: Array[int] = []
