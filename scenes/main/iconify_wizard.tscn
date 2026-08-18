@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
 [ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass.png" id="6_26ohl"]
 [ext_resource type="FontFile" uid="uid://b7nh0retvgnqv" path="res://assets/fonts/static/Inter_24pt-SemiBoldItalic.ttf" id="7_g70uq"]
+[ext_resource type="FontFile" uid="uid://bmu8sjwg7ggjm" path="res://assets/fonts/static/Inter_24pt-Bold.ttf" id="7_mt207"]
 [ext_resource type="FontFile" uid="uid://cat34iv5un88k" path="res://assets/fonts/static/Inter_18pt-SemiBold.ttf" id="8_g70uq"]
 [ext_resource type="FontFile" uid="uid://dhefo87ea2c74" path="res://assets/fonts/static/Inter_28pt-Italic.ttf" id="8_t0hq7"]
 [ext_resource type="FontFile" uid="uid://dqanpdusxdopm" path="res://assets/fonts/static/Inter_18pt-BoldItalic.ttf" id="9_g70uq"]
@@ -21,7 +22,7 @@
 content_margin_left = 12.0
 content_margin_top = 8.0
 content_margin_right = 12.0
-content_margin_bottom = 10.0
+content_margin_bottom = 15.0
 bg_color = Color(1, 1, 1, 0.9254902)
 border_width_left = 5
 border_width_top = 5
@@ -199,6 +200,7 @@ theme_override_constants/separation = 50
 [node name="PresetRow" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=1886534549]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_constants/separation = 8
 
 [node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=266157247]
 layout_mode = 2
@@ -210,12 +212,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="SectionTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1563202899]
+[node name="SectionTitle" type="RichTextLabel" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=866909469]
+custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-text = "Select Icon Size: "
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("10_mt207")
+theme_override_fonts/bold_font = ExtResource("7_mt207")
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+text = "[b][u]Select Icon Size:[/u][/b]"
+horizontal_alignment = 1
 
 [node name="SizesGrid" type="GridContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout" unique_id=1727185759]
 layout_mode = 2
@@ -324,11 +331,11 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SizePresetLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer" unique_id=1539761796]
-custom_minimum_size = Vector2(185, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 22
 text = "Size Preset:"
 
 [node name="SizePresetOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer" unique_id=455449591]
@@ -337,16 +344,17 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 tooltip_text = "Choose a predefined icon-size profile."
 theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 20
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=354948208]
 layout_mode = 2
 
 [node name="FitModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer2" unique_id=172185016]
-custom_minimum_size = Vector2(185, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 22
 text = "Fit Mode:"
 
 [node name="FitModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer2" unique_id=1929916740]
@@ -355,16 +363,17 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 tooltip_text = "Choose how non-square images are placed into a square icon."
 theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 20
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=127591140]
 layout_mode = 2
 
 [node name="BackgroundModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer4" unique_id=2107933949]
-custom_minimum_size = Vector2(185, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 22
 text = "Background Mode:"
 
 [node name="BackgroundModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer4" unique_id=1179806072]
@@ -373,16 +382,17 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 tooltip_text = "The background is relevant for unused canvas areas in Contain mode."
 theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 20
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=1631731421]
 layout_mode = 2
 
 [node name="ScalingModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer3" unique_id=1296492243]
-custom_minimum_size = Vector2(185, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 22
 text = "Scaling Mode:"
 
 [node name="ScalingModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer3" unique_id=1128875072]
@@ -391,21 +401,22 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 tooltip_text = "Use Smooth for photos and illustrations, Pixel Perfect for pixel art."
 theme_override_fonts/font = ExtResource("8_g70uq")
+theme_override_font_sizes/font_size = 20
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=1842416800]
 layout_mode = 2
 
 [node name="BackgroundColorLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer5" unique_id=1571021264]
-custom_minimum_size = Vector2(185, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 22
 text = "Background Color:"
 
 [node name="BackgroundColorPicker" type="ColorPickerButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer5" unique_id=822218198]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(25, 25)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 tooltip_text = "Used only when Solid Color is selected."
 
@@ -419,7 +430,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("9_g70uq")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 text = "Output Folder:"
 horizontal_alignment = 1
 
@@ -433,26 +444,28 @@ custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("10_mt207")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "Source folder / converted"
 horizontal_alignment = 1
 autowrap_mode = 1
 
 [node name="OutputDirectoryButtons" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=163584702]
 layout_mode = 2
-theme_override_constants/separation = 35
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="ChooseOutputDirectoryButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/OutputDirectoryButtons" unique_id=271162111]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Use one selected output folder for the next single or batch conversion."
+theme_override_font_sizes/font_size = 20
 text = "Choose Folder"
 
 [node name="UseSourceOutputButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/OutputDirectoryButtons" unique_id=556725536]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Export to a converted folder next to every source image."
+theme_override_font_sizes/font_size = 20
 text = "Use Source Default"
 
 [node name="PanelContainer2" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=1681642716]
