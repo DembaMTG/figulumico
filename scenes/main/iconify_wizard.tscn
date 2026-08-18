@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://bvy5pefd240nm" path="res://assets/ui/b_settings_pressed.png" id="13_thmtk"]
 [ext_resource type="Texture2D" uid="uid://dogi8fvko6xpc" path="res://assets/ui/magnifying_glass_pressed.png" id="20_3jddl"]
 [ext_resource type="Texture2D" uid="uid://cuufr5def830q" path="res://assets/ui/magnifying_glass_hover.png" id="20_sv15k"]
+[ext_resource type="FontFile" uid="uid://87xq4560yj8u" path="res://assets/fonts/static/Inter_24pt-BoldItalic.ttf" id="25_ubwk3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2imr"]
 content_margin_left = 12.0
@@ -136,6 +137,41 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6dvy1"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.34108606, 0.3410862, 0.3410861, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3vdg4"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.23248088, 0.23248094, 0.2324808, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0051989118, 0.005198905, 0.0051989057, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubwk3"]
+content_margin_left = 3.0
+content_margin_right = 3.0
+bg_color = Color(0, 0, 0, 1)
 
 [node name="IconifyWizard" type="Control" unique_id=1010076493]
 custom_minimum_size = Vector2(960, 540)
@@ -935,109 +971,180 @@ unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Iconify Wizard Settings"
 position = Vector2i(464, 228)
-size = Vector2i(800, 516)
+size = Vector2i(800, 536)
 ok_button_text = "Save Settings"
 
 [node name="SettingsMargin" type="MarginContainer" parent="SettingsDialog" unique_id=447560113]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 792.0
-offset_bottom = 467.0
+offset_bottom = 487.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="SettingsContent" type="VBoxContainer" parent="SettingsDialog/SettingsMargin" unique_id=1052384656]
+[node name="PanelContainer" type="PanelContainer" parent="SettingsDialog/SettingsMargin" unique_id=880660702]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6dvy1")
 
-[node name="SettingsTitle" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1545852104]
+[node name="SettingsContent" type="VBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer" unique_id=1052384656]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SettingsTitle" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent" unique_id=1545852104]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("25_ubwk3")
+theme_override_font_sizes/font_size = 20
 text = "Application Settings"
+horizontal_alignment = 1
 
-[node name="SettingsOutputTitle" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=2036825034]
+[node name="PanelContainer" type="PanelContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent" unique_id=1832446471]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3vdg4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/PanelContainer" unique_id=1826928856]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/PanelContainer/VBoxContainer" unique_id=731725055]
+layout_mode = 2
+
+[node name="SettingsOutputTitle" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/PanelContainer/VBoxContainer/HBoxContainer" unique_id=2036825034]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Default Output Folder"
+theme_override_font_sizes/font_size = 20
+text = "Default Output Folder: "
 
-[node name="SettingsOutputDirectoryLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1200363818]
+[node name="PanelContainer" type="PanelContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1860430261]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ubwk3")
+
+[node name="SettingsOutputDirectoryLabel" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/PanelContainer/VBoxContainer/HBoxContainer/PanelContainer" unique_id=1200363818]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Source folder / converted"
 
-[node name="SettingsOutputButtons" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=843779578]
+[node name="SettingsOutputButtons" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/PanelContainer/VBoxContainer" unique_id=843779578]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SettingsChooseOutputButton" type="Button" parent="SettingsDialog/SettingsMargin/SettingsContent/SettingsOutputButtons" unique_id=1003730567]
+[node name="SettingsChooseOutputButton" type="Button" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/PanelContainer/VBoxContainer/SettingsOutputButtons" unique_id=1003730567]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "Choose Folder"
 
-[node name="SettingsUseSourceOutputButton" type="Button" parent="SettingsDialog/SettingsMargin/SettingsContent/SettingsOutputButtons" unique_id=1565979304]
+[node name="SettingsUseSourceOutputButton" type="Button" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/PanelContainer/VBoxContainer/SettingsOutputButtons" unique_id=1565979304]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "Use Source Defaults"
 
-[node name="SettingsAskOutputCheckBox" type="CheckButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=580575700]
+[node name="SettingsAskOutputCheckBox" type="CheckButton" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent" unique_id=580575700]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Ask for output folder before converting"
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 18
+text = "Ask for output folder before converting?        "
 
-[node name="SettingsSeparator" type="HSeparator" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=874161093]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="SettingsPresetLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1819313054]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Default Size Preset"
-
-[node name="SettingsSizePresetOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=352307801]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 30)
-layout_mode = 2
-
-[node name="SettingsFitLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1730628820]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Default Fit Mode"
-
-[node name="SettingsFitModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1459759194]
+[node name="SettingsSeparator" type="HSeparator" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent" unique_id=874161093]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SettingsScalingLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=521750269]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent" unique_id=942970920]
 layout_mode = 2
-text = "Default Scaling Mode"
+theme_override_constants/separation = 1
 
-[node name="SettingsScalingModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=2045461235]
-unique_name_in_owner = true
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer" unique_id=1728500816]
 layout_mode = 2
 
-[node name="SettingsBackgroundLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1014068949]
+[node name="SettingsPresetLabel" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer" unique_id=1819313054]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
 layout_mode = 2
-text = "Default Background"
+theme_override_font_sizes/font_size = 18
+text = "Default Size Preset:"
 
-[node name="SettingsBackgroundModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=670184540]
+[node name="SettingsSizePresetOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer" unique_id=352307801]
 unique_name_in_owner = true
-layout_mode = 2
-
-[node name="SettingsBackgroundColorLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=181705134]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Default Background Color"
-
-[node name="SettingsBackgroundColorPicker" type="ColorPickerButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=165076381]
-unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 
-[node name="SettingsCollisionLabel" type="Label" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1589377324]
-unique_name_in_owner = true
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer" unique_id=1922140065]
 layout_mode = 2
-text = "Existing File Handling"
 
-[node name="SettingsCollisionPolicyOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/SettingsContent" unique_id=1829651244]
+[node name="SettingsFitLabel" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer2" unique_id=1730628820]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Default Fit Mode:"
+
+[node name="SettingsFitModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer2" unique_id=1459759194]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer" unique_id=1795711631]
+layout_mode = 2
+
+[node name="SettingsScalingLabel" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer3" unique_id=521750269]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Default Scaling Mode:"
+
+[node name="SettingsScalingModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer3" unique_id=2045461235]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer" unique_id=905415218]
+layout_mode = 2
+
+[node name="SettingsBackgroundLabel" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer4" unique_id=1014068949]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Default Background:"
+
+[node name="SettingsBackgroundModeOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer4" unique_id=670184540]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer" unique_id=1814726295]
+layout_mode = 2
+
+[node name="SettingsBackgroundColorLabel" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer5" unique_id=181705134]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Default Background Color:"
+
+[node name="SettingsBackgroundColorPicker" type="ColorPickerButton" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer5" unique_id=165076381]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer" unique_id=1205631717]
+layout_mode = 2
+
+[node name="SettingsCollisionLabel" type="Label" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer6" unique_id=1589377324]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Existing File Handling:"
+
+[node name="SettingsCollisionPolicyOption" type="OptionButton" parent="SettingsDialog/SettingsMargin/PanelContainer/SettingsContent/VBoxContainer/HBoxContainer6" unique_id=1829651244]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 
 [node name="SettingsOutputDirectoryDialog" type="FileDialog" parent="." unique_id=1338129014]
@@ -1070,6 +1177,7 @@ theme_override_constants/margin_bottom = 16
 
 [node name="AboutText" type="RichTextLabel" parent="AboutDialog/AboutMargin" unique_id=1291198813]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 460)
 layout_mode = 2
 bbcode_enabled = true
 text = "[b]Iconify Wizard v1.0.0[/b]
@@ -1078,10 +1186,27 @@ Created by Sven Knaak
 
 A local PNG, JPG and BMP to ICO converter.
 
-Images are processed entirely on your device.
-No uploads. No telemetry.
+Images are processed entirely on your device. No uploads. No telemetry.
 
-Tooltips exist for all important functions.
+[b]Quick Guide[/b]
 
+For best results use square images.
+
+1. Add image files or a folder to the queue.
+2. Select one or more icon sizes.
+3. Choose your export options:
+
+• [b]Contain[/b] keeps the complete image visible.
+• [b]Center Crop[/b] fills the icon and crops excess edges.
+• [b]Stretch[/b] fills the icon but may distort proportions.
+
+• [b]Smooth[/b] is best for photos and illustrations.
+• [b]Pixel Perfect[/b] keeps pixel art sharp.
+
+• [b]Transparent[/b] keeps unused Contain areas transparent.
+• [b]Solid Color[/b] fills unused Contain areas with a chosen color.
+
+4. Convert the selected image or start a batch conversion.
+
+[b]Tip:[/b] Auto Number prevents existing ICO files from being overwritten.
 "
-fit_content = true
