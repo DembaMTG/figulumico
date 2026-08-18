@@ -258,4 +258,4 @@ Iconify Wizard is created and maintained by Sven Knaak.
 
 ## License
 
-Iconify Wizard is released under the [MIT License] 
+Iconify Wizard is released under the [MIT License](LICENSE.md).
