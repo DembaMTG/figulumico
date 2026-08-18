@@ -16,7 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://b2wbht4iikcho" path="res://assets/ui/b_batch.png" id="10_xd8sn"]
 [ext_resource type="Texture2D" uid="uid://dgvad2kw7ywoo" path="res://assets/ui/b_settings.png" id="11_t0hq7"]
 [ext_resource type="FontFile" uid="uid://djj4ngndw7kvf" path="res://assets/fonts/static/Inter_18pt-Regular.ttf" id="13_gcv30"]
-[ext_resource type="Texture2D" uid="uid://bk2gtmmo5klyt" path="res://assets/ui/b_zoom.png" id="13_ul617"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2imr"]
 content_margin_left = 8.0
@@ -537,16 +536,6 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 stretch_mode = 5
-
-[node name="ZoomButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea" unique_id=1007193032]
-unique_name_in_owner = true
-layout_mode = 0
-offset_right = 86.0
-offset_bottom = 80.0
-tooltip_text = "Open zoom preview"
-theme_override_font_sizes/font_size = 16
-disabled = true
-icon = ExtResource("13_ul617")
 
 [node name="EmptyState" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea" unique_id=2051077153]
 unique_name_in_owner = true

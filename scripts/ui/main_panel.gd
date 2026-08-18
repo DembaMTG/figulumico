@@ -59,7 +59,7 @@ enum PendingConversionKind {
 @onready var empty_state: Control = %EmptyState
 @onready var preview_info_label: Label = %PreviewInfoLabel
 @onready var image_meta_label: Label = %ImageMetaLabel
-@onready var zoom_button: Button = %ZoomButton
+
 
 @onready var convert_button: Button = %ConvertButton
 @onready var batch_convert_button: Button = %BatchConvertButton
@@ -1644,7 +1644,7 @@ func _show_file_preview(file_data: Dictionary) -> void:
 
 	preview_image.texture = texture
 	empty_state.visible = false
-	zoom_button.disabled = false
+
 
 	var filename := str(file_data["filename"])
 	var extension := str(file_data["extension"]).to_upper()
@@ -1669,7 +1669,7 @@ func _show_file_preview(file_data: Dictionary) -> void:
 func _reset_preview() -> void:
 	preview_image.texture = null
 	empty_state.visible = true
-	zoom_button.disabled = true
+
 
 	preview_info_label.text = "No image selected"
 	image_meta_label.text = ""
