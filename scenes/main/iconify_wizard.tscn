@@ -223,7 +223,7 @@ custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-tooltip_text = "Tooltip Text: About Iconify Wizard"
+tooltip_text = "About Iconify Wizard"
 texture_normal = ExtResource("6_f5uug")
 texture_pressed = ExtResource("7_6dvy1")
 texture_hover = ExtResource("8_ubwk3")
@@ -254,6 +254,7 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
 size_flags_horizontal = 4
+tooltip_text = "Select multiple sizes or use a size preset."
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("10_mt207")
 theme_override_fonts/bold_font = ExtResource("7_mt207")
@@ -371,6 +372,8 @@ layout_mode = 2
 [node name="SizePresetLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer" unique_id=1539761796]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+tooltip_text = "Choose a predefined icon-size profile."
+mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 22
@@ -380,7 +383,6 @@ text = "Size Preset:"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-tooltip_text = "Choose a predefined icon-size profile."
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 20
 
@@ -390,6 +392,8 @@ layout_mode = 2
 [node name="FitModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer2" unique_id=172185016]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+tooltip_text = "Choose how non-square images are placed into a square icon."
+mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 22
@@ -399,7 +403,6 @@ text = "Fit Mode:"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-tooltip_text = "Choose how non-square images are placed into a square icon."
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 20
 
@@ -409,6 +412,8 @@ layout_mode = 2
 [node name="BackgroundModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer4" unique_id=2107933949]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+tooltip_text = "The background is relevant for unused canvas areas in Contain mode."
+mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 22
@@ -418,7 +423,6 @@ text = "Background Mode:"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-tooltip_text = "The background is relevant for unused canvas areas in Contain mode."
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 20
 
@@ -428,6 +432,8 @@ layout_mode = 2
 [node name="ScalingModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer3" unique_id=1296492243]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+tooltip_text = "Use Smooth for photos and illustrations, Pixel Perfect for pixel art."
+mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 22
@@ -437,7 +443,6 @@ text = "Scaling Mode:"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-tooltip_text = "Use Smooth for photos and illustrations, Pixel Perfect for pixel art."
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 20
 
@@ -447,6 +452,8 @@ layout_mode = 2
 [node name="BackgroundColorLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer5" unique_id=1571021264]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+tooltip_text = "Used only when Solid Color is selected."
+mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
 theme_override_font_sizes/font_size = 22
@@ -456,7 +463,6 @@ text = "Background Color:"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-tooltip_text = "Used only when Solid Color is selected."
 
 [node name="OutputSeparator" type="HSeparator" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=2122411578]
 layout_mode = 2
@@ -502,7 +508,7 @@ text = "Choose Folder"
 [node name="UseSourceOutputButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/OutputDirectoryButtons" unique_id=556725536]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "Export to a converted folder next to every source image."
+tooltip_text = "Export each ICO into a converted folder next to its source image."
 theme_override_font_sizes/font_size = 20
 text = "Use Source Default"
 
@@ -525,7 +531,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(57, 54)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+tooltip_text = "Convert the currently selected image."
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
 theme_override_font_sizes/font_size = 20
 text = "Convert Selected File"
 
@@ -790,18 +797,21 @@ theme_override_constants/separation = 20
 [node name="AddFilesButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=712171457]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Add one or more PNG, JPG, JPEG or BMP images to the queue."
 theme_override_font_sizes/font_size = 24
 text = "Add Files"
 
 [node name="AddFolderButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=672601685]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Import supported image files from a folder. Subfolders are not included."
 theme_override_font_sizes/font_size = 24
 text = "Add Folder"
 
 [node name="ClearQueueButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin/QueueLayout/QueueButton" unique_id=1984558549]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Remove all files from the queue."
 theme_override_font_sizes/font_size = 24
 text = "Clear Queue"
 
@@ -866,7 +876,7 @@ size_flags_horizontal = 0
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open File(s)"
-position = Vector2i(0, 36)
+position = Vector2i(544, 306)
 file_mode = 1
 access = 2
 filters = PackedStringArray("*.png ; PNG Images", "*.jpg, *.jpeg ; JPEG Images", "*.bmp ; Bitmap Images")
@@ -909,10 +919,12 @@ text = "Open Output Folder"
 [node name="CopyErrorReportButton" type="Button" parent="BatchResultsDialog/DialogMargin/DialogContent/BatchResultsActions" unique_id=1372243958]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Copy warnings, skipped files and errors from this batch to the clipboard."
 text = "Copy Error Report"
 
 [node name="OutputDirectoryDialog" type="FileDialog" parent="." unique_id=577690545]
 unique_name_in_owner = true
+oversampling_override = 1.0
 title = "Open a Directory"
 file_mode = 2
 access = 2
@@ -922,7 +934,7 @@ use_native_dialog = true
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Iconify Wizard Settings"
-initial_position = 2
+position = Vector2i(464, 228)
 size = Vector2i(800, 516)
 ok_button_text = "Save Settings"
 
@@ -1030,6 +1042,7 @@ layout_mode = 2
 
 [node name="SettingsOutputDirectoryDialog" type="FileDialog" parent="." unique_id=1338129014]
 unique_name_in_owner = true
+oversampling_override = 1.0
 title = "Open a Directory"
 file_mode = 2
 access = 2
@@ -1039,7 +1052,7 @@ use_native_dialog = true
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "About Iconify Wizard"
-initial_position = 2
+position = Vector2i(649, 315)
 size = Vector2i(430, 342)
 ok_button_text = "Close"
 
