@@ -11,16 +11,17 @@
 [ext_resource type="FontFile" uid="uid://b7nh0retvgnqv" path="res://assets/fonts/static/Inter_24pt-SemiBoldItalic.ttf" id="7_g70uq"]
 [ext_resource type="FontFile" uid="uid://cat34iv5un88k" path="res://assets/fonts/static/Inter_18pt-SemiBold.ttf" id="8_g70uq"]
 [ext_resource type="FontFile" uid="uid://dhefo87ea2c74" path="res://assets/fonts/static/Inter_28pt-Italic.ttf" id="8_t0hq7"]
-[ext_resource type="FontFile" uid="uid://cf8v5re2rrlnj" path="res://assets/fonts/static/Inter_18pt-SemiBoldItalic.ttf" id="9_mt207"]
+[ext_resource type="FontFile" uid="uid://dqanpdusxdopm" path="res://assets/fonts/static/Inter_18pt-BoldItalic.ttf" id="9_g70uq"]
 [ext_resource type="FontFile" uid="uid://cutbidxorl416" path="res://assets/fonts/static/Inter_24pt-SemiBold.ttf" id="10_1os4j"]
+[ext_resource type="FontFile" uid="uid://du53gjjnrgwwq" path="res://assets/fonts/static/Inter_18pt-Light.ttf" id="10_mt207"]
 [ext_resource type="Texture2D" uid="uid://dgvad2kw7ywoo" path="res://assets/ui/b_settings.png" id="11_t0hq7"]
 [ext_resource type="FontFile" uid="uid://djj4ngndw7kvf" path="res://assets/fonts/static/Inter_18pt-Regular.ttf" id="13_gcv30"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2imr"]
-content_margin_left = 8.0
+content_margin_left = 12.0
 content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
 bg_color = Color(1, 1, 1, 0.9254902)
 border_width_left = 5
 border_width_top = 5
@@ -36,6 +37,18 @@ corner_detail = 10
 shadow_color = Color(0.4724152, 0.4724152, 0.4724151, 0.6)
 shadow_size = 5
 anti_aliasing_size = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thmtk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g70uq"]
 bg_color = Color(0, 0, 0, 1)
@@ -391,23 +404,36 @@ tooltip_text = "Used only when Solid Color is selected."
 [node name="OutputSeparator" type="HSeparator" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=2122411578]
 layout_mode = 2
 
-[node name="OutputDirectoryTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=907715209]
+[node name="HBoxContainer6" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=1877851326]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_mt207")
-theme_override_font_sizes/font_size = 22
-text = "Output Folder"
 
-[node name="OutputDirectoryLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=1476637242]
-unique_name_in_owner = true
+[node name="OutputDirectoryTitle" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer6" unique_id=907715209]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_mt207")
+theme_override_fonts/font = ExtResource("9_g70uq")
 theme_override_font_sizes/font_size = 22
+text = "Output Folder:"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer6" unique_id=2062060253]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_thmtk")
+
+[node name="OutputDirectoryLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer6/PanelContainer" unique_id=1476637242]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_mt207")
+theme_override_font_sizes/font_size = 18
 text = "Source folder / converted"
+horizontal_alignment = 1
+autowrap_mode = 1
 
 [node name="OutputDirectoryButtons" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer" unique_id=163584702]
 layout_mode = 2
+theme_override_constants/separation = 35
+alignment = 1
 
 [node name="ChooseOutputDirectoryButton" type="Button" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/OutputDirectoryButtons" unique_id=271162111]
 unique_name_in_owner = true
