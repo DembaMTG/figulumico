@@ -11,10 +11,12 @@ config_version=5
 [application]
 
 config/name="Iconify Wizard"
+config/description="A local PNG, JPG and BMP to ICO converter."
+config/version="1.0.0"
 run/main_scene="uid://qpqwpp52mmpo"
 config/use_custom_user_dir=true
 config/features=PackedStringArray("4.6", "Mobile")
-config/icon="uid://c3aytt0jgos1x"
+config/icon="uid://dr0nht6vfs1ti"
 
 [display]
 

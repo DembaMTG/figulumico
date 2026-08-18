@@ -49,3 +49,14 @@ allePhasen/
 packages/
 
 *.psd *.PSD *.psb *.PSB
+
+# Iconify Wizard — generated test output
+tests/output/*
+!tests/output/.gitkeep
+
+# Local release archives
+*.zip
+
+# Local Windows export artifacts outside export folders
+*.exe
+*.pck
