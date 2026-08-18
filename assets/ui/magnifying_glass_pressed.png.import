@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccdj243dsymhc"
-path="res://.godot/imported/settings_2.png-c134f1fb334e0151dd6a3b16bf08cefc.ctex"
+uid="uid://dogi8fvko6xpc"
+path="res://.godot/imported/magnifying_glass_pressed.png-e8d5a327403ab9d6d6962c3c868ff1cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/settings_2.png"
-dest_files=["res://.godot/imported/settings_2.png-c134f1fb334e0151dd6a3b16bf08cefc.ctex"]
+source_file="res://assets/ui/magnifying_glass_pressed.png"
+dest_files=["res://.godot/imported/magnifying_glass_pressed.png-e8d5a327403ab9d6d6962c3c868ff1cf.ctex"]
 
 [params]
 

@@ -7,7 +7,7 @@
 [ext_resource type="FontFile" uid="uid://3xg81cwm7inm" path="res://assets/fonts/static/Inter_28pt-BoldItalic.ttf" id="3_t2imr"]
 [ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
-[ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass.png" id="6_26ohl"]
+[ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass_normal.png" id="6_26ohl"]
 [ext_resource type="FontFile" uid="uid://b7nh0retvgnqv" path="res://assets/fonts/static/Inter_24pt-SemiBoldItalic.ttf" id="7_g70uq"]
 [ext_resource type="FontFile" uid="uid://bmu8sjwg7ggjm" path="res://assets/fonts/static/Inter_24pt-Bold.ttf" id="7_mt207"]
 [ext_resource type="FontFile" uid="uid://cat34iv5un88k" path="res://assets/fonts/static/Inter_18pt-SemiBold.ttf" id="8_g70uq"]
@@ -19,6 +19,8 @@
 [ext_resource type="FontFile" uid="uid://djj4ngndw7kvf" path="res://assets/fonts/static/Inter_18pt-Regular.ttf" id="13_gcv30"]
 [ext_resource type="Texture2D" uid="uid://4xsijpd3gtp2" path="res://assets/ui/b_settings_hover.png" id="13_hc8f0"]
 [ext_resource type="Texture2D" uid="uid://bvy5pefd240nm" path="res://assets/ui/b_settings_pressed.png" id="13_thmtk"]
+[ext_resource type="Texture2D" uid="uid://dogi8fvko6xpc" path="res://assets/ui/magnifying_glass_pressed.png" id="20_3jddl"]
+[ext_resource type="Texture2D" uid="uid://cuufr5def830q" path="res://assets/ui/magnifying_glass_hover.png" id="20_sv15k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2imr"]
 content_margin_left = 12.0
@@ -108,9 +110,9 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-expand_margin_left = 10.0
+expand_margin_left = 3.0
 expand_margin_top = 1.0
-expand_margin_right = 30.0
+expand_margin_right = 3.0
 expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alem5"]
@@ -635,13 +637,15 @@ stretch_mode = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyState" unique_id=895929225]
 layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyState/HBoxContainer" unique_id=1773545316]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
+theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 5
 
 [node name="AlternativeHint" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyState/HBoxContainer/MarginContainer" unique_id=2144322565]
@@ -665,10 +669,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(58, 45)
 layout_mode = 2
 texture_normal = ExtResource("6_26ohl")
+texture_pressed = ExtResource("20_3jddl")
+texture_hover = ExtResource("20_sv15k")
 ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/ImageRow/ImagePreviewPanel/PreviewMargin/PreviewLayout/PreviewArea/EmptyState/HBoxContainer/PanelContainer/HBoxContainer" unique_id=372320449]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("13_gcv30")
 theme_override_font_sizes/font_size = 18
