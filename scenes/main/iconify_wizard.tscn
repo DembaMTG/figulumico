@@ -706,6 +706,10 @@ mouse_filter = 2
 [node name="QueueMargin" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel" unique_id=799690430]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 3
 
 [node name="QueueLayout" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea/FileRow/FileQueuePanel/QueueMargin" unique_id=655567030]
 layout_mode = 2
@@ -768,22 +772,26 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_alem5")
 
 [node name="StatusContent" type="HBoxContainer" parent="OuterMargin/MainLayout/StatusBar" unique_id=1214604787]
 layout_mode = 2
-size_flags_horizontal = 0
 theme_override_constants/separation = 50
 
-[node name="Label" type="Label" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=1494503200]
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=511649999]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="OuterMargin/MainLayout/StatusBar/StatusContent/HBoxContainer" unique_id=1494503200]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "Status:"
 
-[node name="PanelContainer2" type="PanelContainer" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=560179882]
+[node name="PanelContainer2" type="PanelContainer" parent="OuterMargin/MainLayout/StatusBar/StatusContent/HBoxContainer" unique_id=560179882]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_t0hq7")
 
-[node name="ImageMetaLabel" type="Label" parent="OuterMargin/MainLayout/StatusBar/StatusContent/PanelContainer2" unique_id=947814638]
+[node name="ImageMetaLabel" type="Label" parent="OuterMargin/MainLayout/StatusBar/StatusContent/HBoxContainer/PanelContainer2" unique_id=947814638]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8352941, 0, 0, 1)
@@ -793,7 +801,7 @@ horizontal_alignment = 1
 [node name="BatchProgressContainer" type="HBoxContainer" parent="OuterMargin/MainLayout/StatusBar/StatusContent" unique_id=234901052]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 10
 size_flags_vertical = 4
 
 [node name="BatchProgressLabel" type="Label" parent="OuterMargin/MainLayout/StatusBar/StatusContent/BatchProgressContainer" unique_id=1309920991]
