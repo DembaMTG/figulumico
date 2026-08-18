@@ -66,9 +66,17 @@ expand_margin_right = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mt207"]
 bg_color = Color(0.2509804, 0.8784314, 0.8156863, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hc8f0"]
 bg_color = Color(0, 0.63565814, 0.9725757, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kexh3"]
 bg_color = Color(1, 1, 1, 0.23137255)
@@ -316,11 +324,11 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SizePresetLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer" unique_id=1539761796]
-custom_minimum_size = Vector2(165, 0)
+custom_minimum_size = Vector2(185, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "Size Preset:"
 
 [node name="SizePresetOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer" unique_id=455449591]
@@ -334,11 +342,11 @@ theme_override_fonts/font = ExtResource("8_g70uq")
 layout_mode = 2
 
 [node name="FitModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer2" unique_id=172185016]
-custom_minimum_size = Vector2(165, 0)
+custom_minimum_size = Vector2(185, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "Fit Mode:"
 
 [node name="FitModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer2" unique_id=1929916740]
@@ -352,11 +360,11 @@ theme_override_fonts/font = ExtResource("8_g70uq")
 layout_mode = 2
 
 [node name="BackgroundModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer4" unique_id=2107933949]
-custom_minimum_size = Vector2(165, 0)
+custom_minimum_size = Vector2(185, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "Background Mode:"
 
 [node name="BackgroundModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer4" unique_id=1179806072]
@@ -370,11 +378,11 @@ theme_override_fonts/font = ExtResource("8_g70uq")
 layout_mode = 2
 
 [node name="ScalingModeLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer3" unique_id=1296492243]
-custom_minimum_size = Vector2(165, 0)
+custom_minimum_size = Vector2(185, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "Scaling Mode:"
 
 [node name="ScalingModeOption" type="OptionButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer3" unique_id=1128875072]
@@ -388,11 +396,11 @@ theme_override_fonts/font = ExtResource("8_g70uq")
 layout_mode = 2
 
 [node name="BackgroundColorLabel" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer5" unique_id=1571021264]
-custom_minimum_size = Vector2(165, 0)
+custom_minimum_size = Vector2(185, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_g70uq")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "Background Color:"
 
 [node name="BackgroundColorPicker" type="ColorPickerButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/PanelContainer/ExportOptionsLayout/GridContainer/HBoxContainer5" unique_id=822218198]
