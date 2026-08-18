@@ -9,10 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
 [ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass_normal.png" id="6_26ohl"]
 [ext_resource type="Texture2D" uid="uid://dtcymu1pm8w14" path="res://assets/ui/question_mark_normal.png" id="6_f5uug"]
+[ext_resource type="Texture2D" uid="uid://dph76t4a7mbll" path="res://assets/ui/question_mark_pressed.png" id="7_6dvy1"]
 [ext_resource type="FontFile" uid="uid://b7nh0retvgnqv" path="res://assets/fonts/static/Inter_24pt-SemiBoldItalic.ttf" id="7_g70uq"]
 [ext_resource type="FontFile" uid="uid://bmu8sjwg7ggjm" path="res://assets/fonts/static/Inter_24pt-Bold.ttf" id="7_mt207"]
 [ext_resource type="FontFile" uid="uid://cat34iv5un88k" path="res://assets/fonts/static/Inter_18pt-SemiBold.ttf" id="8_g70uq"]
 [ext_resource type="FontFile" uid="uid://dhefo87ea2c74" path="res://assets/fonts/static/Inter_28pt-Italic.ttf" id="8_t0hq7"]
+[ext_resource type="Texture2D" uid="uid://ducvhtomkf2xw" path="res://assets/ui/question_mark_hover.png" id="8_ubwk3"]
 [ext_resource type="FontFile" uid="uid://dqanpdusxdopm" path="res://assets/fonts/static/Inter_18pt-BoldItalic.ttf" id="9_g70uq"]
 [ext_resource type="FontFile" uid="uid://cutbidxorl416" path="res://assets/fonts/static/Inter_24pt-SemiBold.ttf" id="10_1os4j"]
 [ext_resource type="FontFile" uid="uid://du53gjjnrgwwq" path="res://assets/fonts/static/Inter_18pt-Light.ttf" id="10_mt207"]
@@ -223,6 +225,8 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 tooltip_text = "Tooltip Text: About Iconify Wizard"
 texture_normal = ExtResource("6_f5uug")
+texture_pressed = ExtResource("7_6dvy1")
+texture_hover = ExtResource("8_ubwk3")
 ignore_texture_size = true
 stretch_mode = 5
 
