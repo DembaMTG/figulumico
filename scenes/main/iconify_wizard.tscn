@@ -13,7 +13,6 @@
 [ext_resource type="FontFile" uid="uid://dhefo87ea2c74" path="res://assets/fonts/static/Inter_28pt-Italic.ttf" id="8_t0hq7"]
 [ext_resource type="FontFile" uid="uid://cf8v5re2rrlnj" path="res://assets/fonts/static/Inter_18pt-SemiBoldItalic.ttf" id="9_mt207"]
 [ext_resource type="FontFile" uid="uid://cutbidxorl416" path="res://assets/fonts/static/Inter_24pt-SemiBold.ttf" id="10_1os4j"]
-[ext_resource type="Texture2D" uid="uid://b2wbht4iikcho" path="res://assets/ui/b_batch.png" id="10_xd8sn"]
 [ext_resource type="Texture2D" uid="uid://dgvad2kw7ywoo" path="res://assets/ui/b_settings.png" id="11_t0hq7"]
 [ext_resource type="FontFile" uid="uid://djj4ngndw7kvf" path="res://assets/fonts/static/Inter_18pt-Regular.ttf" id="13_gcv30"]
 
@@ -614,10 +613,6 @@ layout_mode = 2
 [node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/ImageRow/BatchPanel/HBoxContainer" unique_id=581034464]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="TextureButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/ImageRow/BatchPanel/HBoxContainer/PanelContainer" unique_id=13718334]
-layout_mode = 2
-texture_normal = ExtResource("10_xd8sn")
 
 [node name="FileRow" type="HBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=1756887178]
 layout_mode = 2
