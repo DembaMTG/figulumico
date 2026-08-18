@@ -159,7 +159,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("1_vhx2o")
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 6
 
 [node name="OuterMargin" type="MarginContainer" parent="." unique_id=1777959781]
 layout_mode = 1
