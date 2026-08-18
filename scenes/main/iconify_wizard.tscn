@@ -8,6 +8,7 @@
 [ext_resource type="FontFile" uid="uid://dkvg7ubqcjti" path="res://assets/fonts/static/Inter_28pt-SemiBoldItalic.ttf" id="4_t2imr"]
 [ext_resource type="Texture2D" uid="uid://c55m3mcfck77h" path="res://assets/ui/b_dragdrop.png" id="5_msgum"]
 [ext_resource type="Texture2D" uid="uid://bdvl2p8mn7440" path="res://assets/ui/magnifying_glass_normal.png" id="6_26ohl"]
+[ext_resource type="Texture2D" uid="uid://dtcymu1pm8w14" path="res://assets/ui/question_mark_normal.png" id="6_f5uug"]
 [ext_resource type="FontFile" uid="uid://b7nh0retvgnqv" path="res://assets/fonts/static/Inter_24pt-SemiBoldItalic.ttf" id="7_g70uq"]
 [ext_resource type="FontFile" uid="uid://bmu8sjwg7ggjm" path="res://assets/fonts/static/Inter_24pt-Bold.ttf" id="7_mt207"]
 [ext_resource type="FontFile" uid="uid://cat34iv5un88k" path="res://assets/fonts/static/Inter_18pt-SemiBold.ttf" id="8_g70uq"]
@@ -196,6 +197,34 @@ text = "[b][u]Image-to-ICO Converter[/u][/b]
 "
 fit_content = true
 horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="OuterMargin/MainLayout/MarginContainer/Header" unique_id=1171821308]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -15.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="AboutButton" type="TextureButton" parent="OuterMargin/MainLayout/MarginContainer/Header/MarginContainer" unique_id=114198537]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+tooltip_text = "Tooltip Text: About Iconify Wizard"
+texture_normal = ExtResource("6_f5uug")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="ContentArea" type="HBoxContainer" parent="OuterMargin/MainLayout" unique_id=2060697650]
 layout_mode = 2
@@ -889,7 +918,7 @@ use_native_dialog = true
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Iconify Wizard Settings"
-initial_position = 1
+initial_position = 2
 size = Vector2i(800, 516)
 ok_button_text = "Save Settings"
 
@@ -1001,3 +1030,41 @@ title = "Open a Directory"
 file_mode = 2
 access = 2
 use_native_dialog = true
+
+[node name="AboutDialog" type="AcceptDialog" parent="." unique_id=468215828]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "About Iconify Wizard"
+initial_position = 2
+size = Vector2i(430, 342)
+ok_button_text = "Close"
+
+[node name="AboutMargin" type="MarginContainer" parent="AboutDialog" unique_id=171345430]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 422.0
+offset_bottom = 293.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="AboutText" type="RichTextLabel" parent="AboutDialog/AboutMargin" unique_id=1291198813]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]Iconify Wizard v1.0.0[/b]
+
+Created by Sven Knaak
+
+A local PNG, JPG and BMP to ICO converter.
+
+Images are processed entirely on your device.
+No uploads. No telemetry.
+
+Tooltips exist for all important functions.
+
+"
+fit_content = true

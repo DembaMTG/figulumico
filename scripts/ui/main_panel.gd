@@ -107,6 +107,9 @@ enum PendingConversionKind {
 @onready var settings_collision_policy_option: OptionButton = (%SettingsCollisionPolicyOption)
 @onready var settings_output_directory_dialog: FileDialog = (%SettingsOutputDirectoryDialog)
 
+@onready var about_button: BaseButton = (%AboutButton)
+@onready var about_dialog: AcceptDialog = (%AboutDialog)
+
 var queue_items_by_id: Dictionary = {}
 var selected_queue_file_id := ""
 var last_batch_result: BatchResult = null
@@ -414,6 +417,8 @@ func _connect_ui_signals() -> void:
 	settings_output_directory_dialog.dir_selected.connect(_on_settings_output_directory_selected)
 	settings_size_preset_option.item_selected.connect(_on_settings_size_preset_selected)
 	settings_background_mode_option.item_selected.connect(_on_settings_background_mode_selected)
+	
+	about_button.pressed.connect(_on_about_button_pressed)
 	
 	get_viewport().files_dropped.connect(_on_files_dropped)
 
@@ -1038,6 +1043,12 @@ func _on_settings_button_pressed() -> void:
 	_copy_main_controls_to_settings_dialog()
 
 	settings_dialog.popup_centered()
+
+func _on_about_button_pressed() -> void:
+	if app_controller.is_batch_running():
+		return
+
+	about_dialog.popup_centered()
 	
 func _copy_main_controls_to_settings_dialog() -> void:
 	settings_dialog_output_directory = custom_output_directory
@@ -1622,6 +1633,9 @@ func _unhandled_key_input(
 		return
 
 	if batch_results_dialog.visible:
+		return
+		
+	if about_dialog.visible:
 		return
 
 	get_tree().quit()
