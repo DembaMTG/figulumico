@@ -15,8 +15,10 @@
 [ext_resource type="FontFile" uid="uid://dqanpdusxdopm" path="res://assets/fonts/static/Inter_18pt-BoldItalic.ttf" id="9_g70uq"]
 [ext_resource type="FontFile" uid="uid://cutbidxorl416" path="res://assets/fonts/static/Inter_24pt-SemiBold.ttf" id="10_1os4j"]
 [ext_resource type="FontFile" uid="uid://du53gjjnrgwwq" path="res://assets/fonts/static/Inter_18pt-Light.ttf" id="10_mt207"]
-[ext_resource type="Texture2D" uid="uid://dgvad2kw7ywoo" path="res://assets/ui/b_settings.png" id="11_t0hq7"]
+[ext_resource type="Texture2D" uid="uid://dgvad2kw7ywoo" path="res://assets/ui/b_settings_normal.png" id="11_t0hq7"]
 [ext_resource type="FontFile" uid="uid://djj4ngndw7kvf" path="res://assets/fonts/static/Inter_18pt-Regular.ttf" id="13_gcv30"]
+[ext_resource type="Texture2D" uid="uid://4xsijpd3gtp2" path="res://assets/ui/b_settings_hover.png" id="13_hc8f0"]
+[ext_resource type="Texture2D" uid="uid://bvy5pefd240nm" path="res://assets/ui/b_settings_pressed.png" id="13_thmtk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2imr"]
 content_margin_left = 12.0
@@ -78,9 +80,6 @@ corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kexh3"]
-bg_color = Color(1, 1, 1, 0.23137255)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1bs8"]
 bg_color = Color(1, 1, 1, 1)
@@ -504,25 +503,40 @@ tooltip_text = "Convert every file currently in the queue"
 theme_override_font_sizes/font_size = 20
 text = "Batch Convert All"
 
-[node name="Settings" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=2013390274]
-custom_minimum_size = Vector2(0, 50)
+[node name="MarginContainer" type="MarginContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow" unique_id=2014140011]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_bottom = 1
+
+[node name="SettingsButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/MarginContainer" unique_id=143952206]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 61)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 10
-
-[node name="PanelContainer" type="PanelContainer" parent="OuterMargin/MainLayout/ContentArea/PresetRow/Settings" unique_id=184683638]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_kexh3")
-
-[node name="SettingsButton" type="TextureButton" parent="OuterMargin/MainLayout/ContentArea/PresetRow/Settings/PanelContainer" unique_id=143952206]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
 tooltip_text = "Open application settings"
 texture_normal = ExtResource("11_t0hq7")
+texture_pressed = ExtResource("13_thmtk")
+texture_hover = ExtResource("13_hc8f0")
 ignore_texture_size = true
 stretch_mode = 5
+
+[node name="Label" type="Label" parent="OuterMargin/MainLayout/ContentArea/PresetRow/MarginContainer/SettingsButton" unique_id=1346519722]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = -11.5
+offset_right = 62.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("13_gcv30")
+theme_override_font_sizes/font_size = 18
+text = "             Settings"
 
 [node name="ImageRow" type="VBoxContainer" parent="OuterMargin/MainLayout/ContentArea" unique_id=1217529872]
 layout_mode = 2
