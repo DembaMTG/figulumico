@@ -5,16 +5,16 @@ class_name FileQueueItem
 # FileQueueItem
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Stellt genau eine importierte Datei in der Queue dar
-# ✅ Zeigt Thumbnail, Namen, Metadaten und Status
-# ✅ Meldet Auswahl an MainPanel
-# ✅ Meldet Remove-Wunsch an MainPanel
+# Responsibility:
+# ✅ Represents exactly one imported file in the queue
+# ✅ Displays the thumbnail, name, metadata, and status
+# ✅ Reports selection to MainPanel
+# ✅ Reports removal requests to MainPanel
 #
-# ❌ Verwaltet keine Queue-Daten
-# ❌ Löscht keine Dateien vom Datenträger
-# ❌ Validiert keine Bilder
-# ❌ Kennt keinen AppController direkt
+# ❌ Does not manage queue data
+# ❌ Does not delete files from disk
+# ❌ Does not validate images
+# ❌ Has no direct knowledge of AppController
 #
 # ==============================================================
 

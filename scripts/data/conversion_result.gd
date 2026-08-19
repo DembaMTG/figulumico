@@ -5,15 +5,15 @@ class_name ConversionResult
 # ConversionResult
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Beschreibt das Ergebnis einer einzelnen ICO-Konvertierung
-# ✅ Speichert Erfolg, Fehler, Warnings und Zielpfad
-# ✅ Enthält Statusinformationen für Queue und Batch-Auswertung
+# Responsibility:
+# ✅ Describes the result of a single ICO conversion
+# ✅ Stores success status, errors, warnings, and the target path
+# ✅ Contains status information for queue and batch evaluation
 #
-# ❌ Kennt keine UI-Nodes
-# ❌ Öffnet keine Dialoge
-# ❌ Schreibt keine Dateien
-# ❌ Lädt keine Bilder
+# ❌ Has no knowledge of UI nodes
+# ❌ Does not open dialogs
+# ❌ Does not write files
+# ❌ Does not load images
 #
 # ==============================================================
 

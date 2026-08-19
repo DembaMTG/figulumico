@@ -5,17 +5,17 @@ class_name IcoEncoder
 # IcoEncoder
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Erzeugt eine valide ICO-Datei
-# ✅ Schreibt ICONDIR-Header
-# ✅ Schreibt ICONDIRENTRY-Einträge
-# ✅ Bettet PNG-Byteblöcke in die ICO-Datei ein
+# Responsibility:
+# ✅ Creates a valid ICO file
+# ✅ Writes the ICONDIR header
+# ✅ Writes ICONDIRENTRY entries
+# ✅ Embeds PNG byte blocks into the ICO file
 #
-# ❌ Kennt keine UI-Nodes
-# ❌ Öffnet keine FileDialogs
-# ❌ Lädt keine Quellbilder
-# ❌ Skaliert keine Bilder
-# ❌ Verwaltet keine Queue
+# ❌ Has no knowledge of UI nodes
+# ❌ Does not open FileDialogs
+# ❌ Does not load source images
+# ❌ Does not scale images
+# ❌ Does not manage a queue
 #
 # ==============================================================
 
@@ -159,7 +159,7 @@ func _build_ico_data(
 
 	var ico_data: PackedByteArray = PackedByteArray()
 
-	# Header + alle Directory Entries reservieren.
+	# Reserve header + all directory entries.
 	ico_data.resize(directory_end_offset)
 	ico_data.fill(0)
 
@@ -168,14 +168,14 @@ func _build_ico_data(
 	#
 	# Reserved: 0
 	# Type: 1 = ICO
-	# Count: Anzahl eingebetteter Bilder
+	# Count: Number of embedded images
 	# ----------------------------------------------------------
 
 	_write_u16_le(ico_data, 0, 0)
 	_write_u16_le(ico_data, 2, ICON_TYPE)
 	_write_u16_le(ico_data, 4, image_count)
 
-	# Der erste PNG-Block beginnt direkt nach allen Directory Entries.
+	# The first PNG block begins immediately after all directory entries.
 	var image_data_offset: int = directory_end_offset
 
 	for index: int in range(image_count):
@@ -234,7 +234,7 @@ func _build_ico_data(
 
 		image_data_offset += png_data_size
 
-	# Alle PNG-Datenblöcke hinter den Header hängen.
+	# Append all PNG data blocks after the header.
 	for png_buffer: PackedByteArray in png_buffers:
 		ico_data.append_array(png_buffer)
 
@@ -246,7 +246,7 @@ func _build_ico_data(
 # --------------------------------------------------------------
 
 func _encode_icon_dimension(icon_size: int) -> int:
-	# ICO speichert 256 × 256 als Bytewert 0.
+	# ICO saves 256 × 256 as Bytevalue 0.
 	if icon_size == 256:
 		return 0
 

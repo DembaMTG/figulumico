@@ -5,16 +5,16 @@ class_name SettingsService
 # SettingsService
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Lädt lokale Anwendungseinstellungen aus user://settings.json
-# ✅ Speichert Einstellungen als JSON
-# ✅ Liefert bei fehlender oder fehlerhafter Datei sichere Defaults
-# ✅ Validiert gespeicherte Werte defensiv
+# Responsibility:
+# ✅ Loads local application settings from user://settings.json
+# ✅ Saves settings as JSON
+# ✅ Provides safe defaults if the file is missing or invalid
+# ✅ Validates stored values defensively
 #
-# ❌ Kennt keine UI-Nodes
-# ❌ Öffnet keine Dialoge
-# ❌ Führt keine Konvertierung aus
-# ❌ Kennt keine Queue
+# ❌ Has no knowledge of UI nodes
+# ❌ Does not open dialogs
+# ❌ Does not perform any conversions
+# ❌ Has no knowledge of the queue
 #
 # ==============================================================
 

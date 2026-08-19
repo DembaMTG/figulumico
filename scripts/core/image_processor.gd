@@ -5,17 +5,17 @@ class_name ImageProcessor
 # ImageProcessor
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Lädt Quellbilder zur Laufzeit
-# ✅ Wandelt Bilder in RGBA8 um
-# ✅ Erstellt quadratische Zielbilder
-# ✅ Unterstützt Contain, Center Crop und Stretch
-# ✅ Unterstützt Smooth und Pixel Perfect Scaling
+# Responsibility:
+# ✅ Loads source images at runtime
+# ✅ Converts images to RGBA8
+# ✅ Creates square target images
+# ✅ Supports Contain, Center Crop, and Stretch
+# ✅ Supports Smooth and Pixel Perfect scaling
 #
-# ❌ Kennt keine UI-Nodes
-# ❌ Öffnet keine FileDialogs
-# ❌ Schreibt keine ICO-Dateien
-# ❌ Verwaltet keine Queue
+# ❌ Has no knowledge of UI nodes
+# ❌ Does not open FileDialogs
+# ❌ Does not write ICO files
+# ❌ Does not manage a queue
 #
 # ==============================================================
 
@@ -38,7 +38,7 @@ func load_source_image(source_path: String) -> Image:
 	if image == null or image.is_empty():
 		return null
 
-	# Alle Bilder in ein einheitliches Arbeitsformat überführen.
+	# Convert all images to a uniform working format.
 	image.convert(Image.FORMAT_RGBA8)
 
 	return image
@@ -58,7 +58,7 @@ func prepare_icon(
 	if options == null:
 		return null
 
-	# Die Quellgrafik nie direkt verändern.
+	# Never modify the source graphic directly.
 	var working_image: Image = source_image.duplicate() as Image
 
 	if working_image == null or working_image.is_empty():
@@ -94,8 +94,8 @@ func prepare_icon(
 			)
 
 		_:
-			# Defensiver Fallback:
-			# Falls ein unbekannter Modus auftaucht, verwenden wir Contain.
+			# Defensive Fallback:
+			# If an unknown mode appears, use Contain.
 			return _prepare_contain(
 				working_image,
 				target_size,
@@ -181,7 +181,7 @@ func _prepare_contain(
 		interpolation
 	)
 
-	# Ziel-Canvas in voller Icon-Größe erzeugen.
+	# Generate the target canvas at full icon size.
 	var result_image: Image = Image.create_empty(
 		target_size,
 		target_size,
@@ -193,7 +193,7 @@ func _prepare_contain(
 		_get_background_color(options)
 	)
 
-	# Bild exakt mittig platzieren.
+	# Place the image exactly in the center.
 	var destination_x: int = int(
 		(target_size - resized_width) / 2
 	)
@@ -265,7 +265,7 @@ func _prepare_center_crop(
 		interpolation
 	)
 
-	# Mittigen quadratischen Ausschnitt bestimmen.
+	# Determine the centered square cutout.
 	var crop_x: int = int(
 		(resized_width - target_size) / 2
 	)
@@ -312,7 +312,7 @@ func _get_interpolation(
 	if scaling_mode == ConversionOptions.SCALING_PIXEL_PERFECT:
 		return Image.INTERPOLATE_NEAREST
 
-	# Lanczos liefert besonders beim Downscaling hochwertige Ergebnisse.
+	# Lanczos delivers high-quality results, particularly during downscaling.
 	return Image.INTERPOLATE_LANCZOS
 
 

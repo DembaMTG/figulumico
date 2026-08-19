@@ -5,15 +5,15 @@ class_name BatchResult
 # BatchResult
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Speichert das Ergebnis eines vollständigen Batch-Laufs
-# ✅ Enthält alle Einzel-ConversionResults
-# ✅ Zählt erfolgreiche, fehlerhafte und übersprungene Dateien
+# Responsibility:
+# ✅ Stores the result of a complete batch run
+# ✅ Contains all individual ConversionResults
+# ✅ Counts successful, failed, and skipped files
 #
-# ❌ Kennt keine UI-Nodes
-# ❌ Öffnet keine Dialoge
-# ❌ Führt keine Konvertierung aus
-# ❌ Ändert keine Queue-Einträge direkt
+# ❌ Has no knowledge of UI nodes
+# ❌ Does not open dialogs
+# ❌ Does not perform any conversions
+# ❌ Does not directly modify queue entries
 #
 # ==============================================================
 

@@ -5,16 +5,16 @@ class_name ConversionOptions
 # ConversionOptions
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Beschreibt einen einzelnen ICO-Konvertierungsauftrag
-# ✅ Speichert Quellbild, Zielpfad und Exportoptionen
-# ✅ Liefert einfache Validierungsfehler für den Auftrag
+# Responsibility:
+# ✅ Describes a single ICO conversion job
+# ✅ Stores the source image, target path, and export options
+# ✅ Provides simple validation errors for the job
 #
-# ❌ Kennt keine UI-Nodes
-# ❌ Öffnet keine FileDialogs
-# ❌ Lädt keine Bilder
-# ❌ Skaliert keine Bilder
-# ❌ Schreibt keine ICO-Dateien
+# ❌ Has no knowledge of UI nodes
+# ❌ Does not open FileDialogs
+# ❌ Does not load images
+# ❌ Does not scale images
+# ❌ Does not write ICO files
 #
 # ==============================================================
 

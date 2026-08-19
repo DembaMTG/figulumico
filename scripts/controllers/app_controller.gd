@@ -5,16 +5,16 @@ class_name AppController
 # AppController
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Verwaltet importierte Bilddateien als Daten
-# ✅ Validiert Basisinformationen für den Import
-# ✅ Verwaltet die aktuell ausgewählte Datei
-# ✅ Sendet strukturierte Resultate an die UI
+# Responsibility:
+# ✅ Manages imported image files as data
+# ✅ Validates basic information for import
+# ✅ Manages the currently selected file
+# ✅ Sends structured results to the UI
 #
-# ❌ Kennt keine Buttons, Labels oder TextureRects
-# ❌ Öffnet keine FileDialogs
-# ❌ Erzeugt noch keine ICO-Dateien
-# ❌ Baut keine Queue-UI
+# ❌ Has no knowledge of buttons, labels, or TextureRects
+# ❌ Does not open FileDialogs
+# ❌ Does not create ICO files yet
+# ❌ Does not build a queue UI
 #
 # ==============================================================
 
@@ -33,9 +33,7 @@ signal batch_progress(
 	result: ConversionResult
 )
 
-signal batch_completed(
-	batch_result: BatchResult
-)
+signal batch_completed(batch_result: BatchResult)
 
 const SUPPORTED_EXTENSIONS: Array[String] = [
 	"png",
@@ -61,7 +59,7 @@ func import_files(paths: PackedStringArray) -> void:
 		if clean_path.is_empty():
 			continue
 
-		# Ein gedroppter Ordner wird als Batch-Import behandelt.
+		# A dropped folder is treated as a batch import.
 		if DirAccess.dir_exists_absolute(clean_path):
 			_import_folder_contents(clean_path)
 		else:
@@ -202,11 +200,11 @@ func convert_selected(
 		conversion_completed.emit(result)
 		return
 
-	# Der Controller setzt den tatsächlichen Quellpfad.
+	# The controller sets the actual source path.
 	options.source_path = source_path
 
-	# Für den ersten UI-Workflow verwenden wir automatisch
-	# einen Unterordner namens "converted" neben dem Quellbild.
+	# For the initial UI workflow, a subfolder named "converted"
+	# next to the source image is used automatically.
 	if options.output_directory.strip_edges().is_empty():
 		var source_directory: String = source_path.get_base_dir()
 
@@ -214,8 +212,8 @@ func convert_selected(
 			"converted"
 		)
 
-	# Falls kein Name gesetzt wurde, leiten wir ihn aus dem
-	# Quellbildnamen ab.
+	# If no name has been set, it is derived from the
+	# source image name.
 	if options.output_filename.strip_edges().is_empty():
 		var source_filename: String = source_path.get_file()
 
@@ -289,8 +287,8 @@ func convert_all(
 
 		queue_changed.emit(queue_files.duplicate(true))
 
-		# UI darf den neuen Queue-Status anzeigen,
-		# bevor die eigentliche Konvertierung startet.
+		# The UI is allowed to display the new queue status
+		# before the actual conversion starts.
 		await get_tree().process_frame
 
 		var file_options: ConversionOptions = (
@@ -321,7 +319,7 @@ func convert_all(
 			conversion_result
 		)
 
-		# Zwischen zwei Dateien wieder einen Frame freigeben.
+		# Release a frame again between two files.
 		await get_tree().process_frame
 
 	batch_in_progress = false
@@ -342,14 +340,14 @@ func _create_batch_options_for_file(
 
 	file_options.source_path = source_path
 
-	# Wenn später in den Settings ein globaler Ausgabeordner
-	# gesetzt wurde, wird dieser für alle Batch-Dateien genutzt.
+	# If a global output folder is set later in the settings,
+	# it will be used for all batch files.
 	file_options.output_directory = (
 		base_options.output_directory
 	)
 
-	# Ohne eigene Settings wird ein "converted"-Ordner
-	# direkt neben jeder Quelldatei verwendet.
+	# Without custom settings, a "converted" folder
+	# is used directly next to each source file.
 	if file_options.output_directory.strip_edges().is_empty():
 		var source_directory: String = source_path.get_base_dir()
 
@@ -357,22 +355,22 @@ func _create_batch_options_for_file(
 			"converted"
 		)
 
-	# Batch-Dateien erhalten immer ihren eigenen Namen,
-	# abgeleitet vom jeweiligen Quellbild.
+	# Batch files always get their own name,
+	# derived from the respective source image.
 	var source_filename: String = source_path.get_file()
 
 	file_options.output_filename = (
 		source_filename.get_basename() + ".ico"
 	)
 
-	# Standardgrößen des neuen Options-Objekts entfernen.
+	# Remove standard sizes of the new option object.
 	file_options.icon_sizes.clear()
 
-	# Gewählte Größen sauber kopieren.
+	# Cleanly copy selected sizes.
 	for icon_size: int in base_options.icon_sizes:
 		file_options.icon_sizes.append(icon_size)
-
-	# Globale Exportoptionen kopieren.
+	
+	# Copy global export options.
 	file_options.fit_mode = base_options.fit_mode
 	file_options.scaling_mode = base_options.scaling_mode
 	file_options.background_mode = base_options.background_mode

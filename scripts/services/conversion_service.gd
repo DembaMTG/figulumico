@@ -5,18 +5,18 @@ class_name ConversionService
 # ConversionService
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Orchestriert eine vollständige Einzelkonvertierung
-# ✅ Validiert ConversionOptions
-# ✅ Erzeugt Zielordner bei Bedarf
-# ✅ Behandelt Dateinamenskollisionen
-# ✅ Ruft ImageProcessor und IcoEncoder auf
-# ✅ Liefert immer ein ConversionResult zurück
+# Responsibility:
+# ✅ Orchestrates a complete single conversion
+# ✅ Validates ConversionOptions
+# ✅ Creates target directories when needed
+# ✅ Handles file name collisions
+# ✅ Calls ImageProcessor and IcoEncoder
+# ✅ Always returns a ConversionResult
 #
-# ❌ Kennt keine UI-Nodes
-# ❌ Öffnet keine FileDialogs
-# ❌ Verwaltet keine Queue
-# ❌ Aktualisiert keine Labels oder ProgressBars
+# ❌ Has no knowledge of UI nodes
+# ❌ Does not open FileDialogs
+# ❌ Does not manage a queue
+# ❌ Does not update labels or ProgressBars
 #
 # ==============================================================
 

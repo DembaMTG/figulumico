@@ -5,17 +5,17 @@ class_name IconifyMainPanel
 # IconifyMainPanel
 # ==============================================================
 #
-# Verantwortung:
-# ✅ Verwaltet sichtbare UI-Interaktionen
-# ✅ Öffnet den Bild-Dateidialog
-# ✅ Reagiert auf Controller-Signale
-# ✅ Baut die einfache Queue-Darstellung
-# ✅ Aktualisiert die Bildvorschau
+# Responsibility:
+# ✅ Manages visible UI interactions
+# ✅ Opens the image file dialog
+# ✅ Responds to controller signals
+# ✅ Builds the simple queue view
+# ✅ Updates the image preview
 #
-# ❌ Verwaltet keine ICO-Binärdaten
-# ❌ Speichert keine Settings
-# ❌ Enthält keine Batch-Konvertierung
-# ❌ Entscheidet nicht über Konvertierungslogik
+# ❌ Does not manage ICO binary data
+# ❌ Does not save settings
+# ❌ Does not contain batch conversion logic
+# ❌ Does not make decisions about conversion logic
 #
 # ==============================================================
 
@@ -501,8 +501,8 @@ func _on_selection_changed(file_data: Dictionary) -> void:
 func _on_import_warning(message: String) -> void:
 	push_warning(message)
 
-	# Für den ersten UI-Test zeigen wir Warnings unter der Preview.
-	# Später übernimmt dies unsere finale StatusBar.
+	# Warnings below the preview for the first UI test.
+	# The status bar will handle this later.
 	image_meta_label.text = "⚠ " + message
 
 
@@ -518,28 +518,28 @@ func _on_import_error(message: String) -> void:
 # ==============================================================
 
 func _rebuild_queue(files: Array[Dictionary]) -> void:
-	# Alte Queue-Cards entfernen.
+	# Remove old Queue-Cards
 	for child in file_queue_list.get_children():
 		child.queue_free()
 
 	queue_items_by_id.clear()
 
-	# Für jede importierte Datei eine neue Queue-Card erzeugen.
+	# Create a new queue card for each imported file.
 	for file_data in files:
 		var queue_item := FILE_QUEUE_ITEM_SCENE.instantiate() as FileQueueItem
 
-		# Erst in den Scene Tree einfügen.
-		# Danach sind die @onready-Nodes innerhalb der Component verfügbar.
+		# First, add to the scene tree.
+		# After that, the @onready nodes are available within the component.
 		file_queue_list.add_child(queue_item)
-
-		# Dateidaten an die Card übergeben.
+		
+		# Transfer file data to the card.
 		queue_item.setup(file_data)
 
-		# Signale der Queue-Card mit MainPanel verbinden.
+		# Connect Queue-Card signals to MainPanel..
 		queue_item.item_selected.connect(_on_queue_item_selected)
 		queue_item.remove_requested.connect(_on_queue_item_remove_requested)
 
-		# Referenz für spätere Auswahl-Hervorhebung speichern.
+		# Save reference for later selection highlighting.
 		var file_id := str(file_data["id"])
 		queue_items_by_id[file_id] = queue_item
 
@@ -682,9 +682,9 @@ func _is_waiting_for_output_directory() -> bool:
 func _create_base_conversion_options(selected_sizes: Array[int]) -> ConversionOptions:
 	var options: ConversionOptions = ConversionOptions.new()
 
-	# ConversionOptions enthält Default-Größen.
-	# Für eine UI-gesteuerte Konvertierung dürfen ausschließlich
-	# die aktuell ausgewählten Größen übernommen werden.
+	# ConversionOptions contains default sizes.
+	# For a UI-driven conversion, only the currently
+	# selected sizes may be used.
 	options.icon_sizes.clear()
 
 	for icon_size: int in selected_sizes:
@@ -904,7 +904,7 @@ func _get_selected_background_mode() -> String:
 func _get_selected_background_color() -> Color:
 	var selected_color: Color = background_color_picker.color
 
-	# Solid Color bedeutet für Iconify Wizard deckende Auffüllfarbe.
+	# For Iconify Wizard, "Solid Color" means an opaque fill color.
 	selected_color.a = 1.0
 
 	return selected_color
@@ -961,7 +961,7 @@ func _on_output_directory_selected(
 		return
 
 	# Ask-for-output-flow:
-	# Der gewählte Ordner gilt nur für den aktuell angeforderten Export.
+	# The selected folder applies only to the currently requested export.
 	if _is_waiting_for_output_directory():
 		var selected_sizes: Array[int] = (
 			pending_conversion_sizes.duplicate()
@@ -969,8 +969,8 @@ func _on_output_directory_selected(
 
 		var conversion_kind: int = pending_conversion_kind
 
-		# Letzten verwendeten Ordner merken, aber den sichtbaren
-		# Standard-Ausgabeordner nicht verändern.
+		# Remember the last folder used, but do not change the visible
+		# default output folder.
 		last_output_directory = clean_directory_path
 
 		_clear_pending_output_directory_request()
@@ -991,8 +991,9 @@ func _on_output_directory_selected(
 
 		return
 
-	# Normale manuelle Auswahl über "Choose Folder":
-	# Der Ordner wird als aktiver UI-Ausgabeordner übernommen.
+
+	# Standard manual selection via "Choose Folder":
+	# The folder is adopted as the active UI output folder.
 	custom_output_directory = clean_directory_path
 	last_output_directory = clean_directory_path
 
@@ -1416,8 +1417,8 @@ func _update_convert_button_state() -> void:
 		_is_waiting_for_output_directory()
 	)
 
-	# Einzelkonvertierung:
-	# Nur aktiv, wenn eine Datei ausgewählt ist.
+	# Single conversion:
+	# Active only when a file is selected.
 	convert_button.disabled = not (
 		has_selected_file
 		and has_selected_sizes
@@ -1428,7 +1429,7 @@ func _update_convert_button_state() -> void:
 	convert_button.text = "Convert Selected File"
 
 	# Batch:
-	# Erst sinnvoll ab zwei Dateien.
+	# Only makes sense with two or more files.
 	batch_convert_button.disabled = not (
 		queue_count >= 2
 		and has_selected_sizes
@@ -1613,13 +1614,13 @@ func _unhandled_key_input(
 	if key_event.keycode != KEY_ESCAPE:
 		return
 
-	# Während einer Batch-Konvertierung darf die Anwendung
-	# nicht versehentlich geschlossen werden.
+
+	# The application must not be accidentally closed
+	# during a batch conversion.
 	if app_controller.is_batch_running():
 		return
 
-	# Offene Dialoge sollen zuerst über ESC geschlossen
-	# oder abgebrochen werden.
+	# Open dialogs should first be closed or cancelled via ESC.
 	if image_file_dialog.visible:
 		return
 
