@@ -7,6 +7,12 @@ It is designed for indie game developers, pixel artists, UI/UX designers, modder
 Images are processed entirely on your device. No cloud uploads. No telemetry. No user accounts.  
 ---
 
+## Screenshots
+
+### Main Window
+
+![Iconify Wizard main window](docs/screenshots/screenshot_iw.png)
+
 ## Features
 
 * PNG, JPG, JPEG, and BMP import  
