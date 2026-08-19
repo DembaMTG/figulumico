@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://bc4kixo6r52j0"]
-
-[ext_resource type="Script" uid="uid://mq6o3fv06fen" path="res://tests/scripts/ico_encoder_test.gd" id="1_xc34i"]
-
-[node name="IcoEncoderTest" type="Node" unique_id=1384825191]
-script = ExtResource("1_xc34i")

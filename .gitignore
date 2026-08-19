@@ -1,11 +1,19 @@
-# .gitignore — Godot 4 (PSD/PSB werden NICHT hochgeladen)
+# ==============================================================
+# Iconify Wizard — Godot 4
+# ==============================================================
 
-# OS
+# --------------------------------------------------------------
+# Operating system files
+# --------------------------------------------------------------
+
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# Editor/IDE
+# --------------------------------------------------------------
+# Editor and IDE files
+# --------------------------------------------------------------
+
 .vscode/
 .idea/
 .vs/
@@ -13,50 +21,75 @@ desktop.ini
 *.suo
 *.user
 
-# Temp/Backups/Logs
+# --------------------------------------------------------------
+# Temporary files, backups and logs
+# --------------------------------------------------------------
+
 *.tmp
 *.temp
 *.bak
 *.orig
 *.log
 
-# Python (falls Skripte)
+# --------------------------------------------------------------
+# Python cache files
+# --------------------------------------------------------------
+
 __pycache__/
 *.pyc
 
-# Godot 4 — Caches/Editor-State (nicht versionieren)
+# --------------------------------------------------------------
+# Godot caches and editor state
+# --------------------------------------------------------------
+
 .godot/
 .import/
 
-# Builds/Exports
+# --------------------------------------------------------------
+# Local builds and exports
+# --------------------------------------------------------------
 
 exports/
 build/
 bin/
 dist/
 release/
+
+*.exe
+*.pck
+*.zip
+
+# --------------------------------------------------------------
+# Generated test outputs
+# --------------------------------------------------------------
+
+tests/output/*
+!tests/output/.gitkeep
+
+# --------------------------------------------------------------
+# Local-only project folders
+# --------------------------------------------------------------
+
 PSD/
 Shell/
 Autosave/
 allePhasen/
 
+# --------------------------------------------------------------
+# Optional Godot C# folders
+# --------------------------------------------------------------
 
-# Optional: Godot C# (falls genutzt)
 .mono/
 **/obj/
 **/bin/
 .nuget/
 packages/
 
-*.psd *.PSD *.psb *.PSB
+# --------------------------------------------------------------
+# Source design files
+# --------------------------------------------------------------
 
-# Iconify Wizard — generated test output
-tests/output/*
-!tests/output/.gitkeep
-
-# Local release archives
-*.zip
-
-# Local Windows export artifacts outside export folders
-*.exe
-*.pck
+*.psd
+*.PSD
+*.psb
+*.PSB
