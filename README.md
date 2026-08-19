@@ -54,6 +54,30 @@ No Python installation, Godot editor installation, or external image library is 
 
 ---
 
+## System Requirements
+
+### Minimum Requirements
+
+| Component | Requirement |
+|---|---|
+| Operating System | Windows 10 64-bit |
+| Processor | x86_64 CPU with SSE4.2 support |
+| Memory | 2 GB RAM |
+| Graphics | Direct3D 12 compatible GPU, Feature Level 12_0 |
+| Storage | 250 MB available disk space |
+| Architecture | Windows x64 |
+
+### Recommended Requirements
+
+| Component | Requirement |
+|---|---|
+| Operating System | Windows 10 or Windows 11 64-bit |
+| Processor | Modern x86_64 CPU |
+| Memory | 4 GB RAM |
+| Graphics | Direct3D 12 compatible integrated or dedicated GPU |
+| Storage | 250 MB available disk space |
+| Architecture | Windows x64 |
+
 ## Quick Start
 
 * Add images using Add Files, Add Folder, or drag files or folders into the application.  
