@@ -204,7 +204,7 @@ If the settings file is missing or invalid, Iconify Wizard starts safely with de
 
 ## Keyboard Shortcuts
 
-| Shortcut | Action |
+| Shortcut | Action  |
 | ----- | ----- |
 | `Esc` | Closes an active dialog or exits the application when no batch conversion is running. |
 | `Alt + F4` | Closes the application through the standard Windows shortcut. |
