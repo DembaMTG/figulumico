@@ -12,6 +12,7 @@ Images are processed entirely on your device. No cloud uploads. No telemetry. No
 ### Main Window
 
 ![Figulumico main window](docs/screenshots/figulumico-main.png)
+![Figulumico batchconvert](docs/screenshots/figulumico-batchconvert.png)
 
 ## Features
 
