@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dl2a5s1iiv8f8"
-path="res://.godot/imported/screenshot_iw.png-034f42e4d0869549751df338f19cfedc.ctex"
+uid="uid://8eiyaa6quy30"
+path="res://.godot/imported/figulumico-main.png-d97fe4baf4070382dd22f845031d5c2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/screenshots/screenshot_iw.png"
-dest_files=["res://.godot/imported/screenshot_iw.png-034f42e4d0869549751df338f19cfedc.ctex"]
+source_file="res://docs/screenshots/figulumico-main.png"
+dest_files=["res://.godot/imported/figulumico-main.png-d97fe4baf4070382dd22f845031d5c2a.ctex"]
 
 [params]
 

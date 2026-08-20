@@ -145,7 +145,7 @@ func get_detailed_summary() -> String:
 func get_error_report() -> String:
 	var lines: Array[String] = []
 
-	lines.append("Iconify Wizard — Batch Report")
+	lines.append("Figulumico — Batch Report")
 	lines.append("")
 	lines.append(get_summary())
 	lines.append("")

@@ -904,7 +904,7 @@ func _get_selected_background_mode() -> String:
 func _get_selected_background_color() -> Color:
 	var selected_color: Color = background_color_picker.color
 
-	# For Iconify Wizard, "Solid Color" means an opaque fill color.
+	# For Figulumico, "Solid Color" means an opaque fill color.
 	selected_color.a = 1.0
 
 	return selected_color

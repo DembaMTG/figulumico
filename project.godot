@@ -10,13 +10,13 @@ config_version=5
 
 [application]
 
-config/name="Iconify Wizard"
+config/name="Figulumico - Image to ICO Converter"
 config/description="A local PNG, JPG and BMP to ICO converter."
 config/version="1.0.0"
 run/main_scene="uid://qpqwpp52mmpo"
 config/use_custom_user_dir=true
 config/features=PackedStringArray("4.6", "Mobile")
-config/icon="uid://dr0nht6vfs1ti"
+config/icon="uid://chdi6jyrd6lpi"
 
 [display]
 

@@ -1,6 +1,6 @@
-# Iconify Wizard
+# Figulumico — Image to ICO Converter
 
-Iconify Wizard is a local Windows desktop application for converting PNG, JPG/JPEG, and BMP images into professional multi-size `.ico` files.
+Figulumico is a local Windows desktop application for converting PNG, JPG/JPEG, and BMP images into professional multi-size `.ico` files.
 
 It is designed for indie game developers, pixel artists, UI/UX designers, modders, and anyone who needs clean Windows icon files without relying on online converters or complex image-editing software.
 
@@ -11,7 +11,7 @@ Images are processed entirely on your device. No cloud uploads. No telemetry. No
 
 ### Main Window
 
-![Iconify Wizard main window](docs/screenshots/screenshot_iw.png)
+![Figulumico main window](docs/screenshots/figulumico-main.png)
 
 ## Features
 
@@ -32,8 +32,9 @@ Images are processed entirely on your device. No cloud uploads. No telemetry. No
 * Batch progress display and result summary  
 * Copyable batch error reports  
 * About dialog and contextual tooltips  
-* Local Windows desktop workflow  
-  ---
+* Local Windows desktop workflow
+
+---
 
 ## Supported Icon Sizes
 
@@ -51,47 +52,35 @@ Images are processed entirely on your device. No cloud uploads. No telemetry. No
 
 ## Download and Installation
 
-* Download the latest Windows release ZIP.  
-* Extract the ZIP file to a folder of your choice.  
-* Start the application:  
-  IconifyWizard.exe
+1. Download the latest Windows release ZIP.
+2. Extract the ZIP file to a folder of your choice.
+3. Start `Figulumico.exe`.
 
-No Python installation, Godot editor installation, or external image library is required.
+No Python installation, Godot editor installation, or external image-processing library is required.
 
 ---
 
 ## System Requirements
 
-### Minimum Requirements
-
 | Component | Requirement |
 |---|---|
-| Operating System | Windows 10 64-bit |
-| Processor | x86_64 CPU with SSE4.2 support |
-| Memory | 2 GB RAM |
+| Operating System | Windows 10 or Windows 11, 64-bit |
+| Processor | x86_64 CPU |
+| Memory | 2 GB RAM minimum |
 | Graphics | Direct3D 12 compatible GPU, Feature Level 12_0 |
-| Storage | 250 MB available disk space |
-| Architecture | Windows x64 |
-
-### Recommended Requirements
-
-| Component | Requirement |
-|---|---|
-| Operating System | Windows 10 or Windows 11 64-bit |
-| Processor | Modern x86_64 CPU |
-| Memory | 4 GB RAM |
-| Graphics | Direct3D 12 compatible integrated or dedicated GPU |
-| Storage | 250 MB available disk space |
+| Storage | Approximately 250 MB of available disk space |
 | Architecture | Windows x64 |
 
 ## Quick Start
 
-* Add images using Add Files, Add Folder, or drag files or folders into the application.  
-* Select one or more target icon sizes.  
-* Adjust export options if needed.  
-* Click Convert Selected File to convert the active queue item.  
-  Or click Batch Convert All (N) to convert every file currently in the queue.  
-* Find the generated ICO file in the selected output folder.
+1. Add images using **Add Files**, **Add Folder**, or drag files or folders into the application.
+2. Select one or more target icon sizes.
+3. Adjust export options if needed.
+4. Select a queue item and click **Convert Selected File** to convert one image.
+
+   Or click **Batch Convert All (N)** to convert every file currently in the queue.
+
+5. Find the generated ICO files in the selected output folder.
 
 By default, ICO files are written to:
 
@@ -111,7 +100,7 @@ Example:
 | PNG | Yes | Supported and preserved |
 | JPG | Yes | No source alpha channel |
 | JPEG | Yes | No source alpha channel |
-| BMP | Yes | Supported as source input |
+| BMP | Yes | Transparency support depends on the source file |
 
 ---
 
@@ -159,7 +148,7 @@ Background mode is relevant primarily when using Contain. Center Crop and Stretc
 
 ### Source Default
 
-By default, Iconify Wizard creates a `converted` folder next to each source image.
+By default, Figulumico creates a `converted` folder next to each source image.
 
 Example:
 
@@ -173,7 +162,7 @@ Choose a custom output folder to export one or more ICO files into the same loca
 
 ### Ask Before Converting
 
-When enabled in Settings, Iconify Wizard asks for an output folder before every single-file or batch conversion.
+When enabled in Settings, Figulumico asks for an output folder before every single-file or batch conversion.
 
 The folder selected in this dialog is used only for that conversion and does not overwrite the saved default output folder.
 
@@ -197,7 +186,7 @@ Auto Number is the default and recommended option.
 
 Batch conversion processes every file currently in the queue.
 
-During a batch run, Iconify Wizard provides:
+During a batch run, Figulumico provides:
 
 * Per-file queue status updates  
 * Batch progress display  
@@ -212,9 +201,13 @@ A failed source image does not stop the remaining batch files from being process
 
 ## Settings
 
-Iconify Wizard stores settings locally in:
+Figulumico stores settings locally in:
 
-`user://AppData/Roaming/IconifyWizard/settings.json`
+`user://settings.json`
+
+On Windows, the default location is usually:
+
+`%APPDATA%\Godot\app_userdata\Figulumico\settings.json`
 
 Saved settings include:
 
@@ -228,7 +221,7 @@ Saved settings include:
 * Background mode and color  
 * Collision strategy
 
-If the settings file is missing or invalid, Iconify Wizard starts safely with default settings.
+If the settings file is missing or invalid, Figulumico starts safely with default settings.
 
 ---
 
@@ -243,13 +236,11 @@ If the settings file is missing or invalid, Iconify Wizard starts safely with de
 
 ## Privacy
 
-Iconify Wizard processes images locally.
+Figulumico processes images locally.
 
-* No cloud processing  
-* No image uploads  
-* No user accounts  
-* No telemetry  
-* No remote conversion service  
+* No cloud processing
+* No image uploads
+* No telemetry
   ---
 
 ## Limitations
@@ -282,10 +273,15 @@ Version `v1.0.0` does not include:
 
 ## Credits
 
-Iconify Wizard is created and maintained by Sven Knaak.
+Figulumico is created and maintained by Sven Knaak.
+
+Built with Godot Engine 4.6.
+
+Third-party license information is available in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ---
 
 ## License
 
-Iconify Wizard is released under the [MIT License](LICENSE.md).
+Figulumico is released under the [MIT License](LICENSE.md).

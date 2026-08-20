@@ -173,7 +173,7 @@ content_margin_left = 3.0
 content_margin_right = 3.0
 bg_color = Color(0, 0, 0, 1)
 
-[node name="IconifyWizard" type="Control" unique_id=1010076493]
+[node name="Figulumico" type="Control" unique_id=1010076493]
 custom_minimum_size = Vector2(960, 540)
 layout_mode = 3
 anchors_preset = 15
@@ -259,7 +259,7 @@ custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-tooltip_text = "About Iconify Wizard"
+tooltip_text = "About Figulumico"
 texture_normal = ExtResource("6_f5uug")
 texture_pressed = ExtResource("7_6dvy1")
 texture_hover = ExtResource("8_ubwk3")
@@ -969,7 +969,7 @@ use_native_dialog = true
 [node name="SettingsDialog" type="ConfirmationDialog" parent="." unique_id=1975309041]
 unique_name_in_owner = true
 oversampling_override = 1.0
-title = "Iconify Wizard Settings"
+title = "Figulumico — Image to ICO Converter"
 position = Vector2i(464, 228)
 size = Vector2i(800, 536)
 ok_button_text = "Save Settings"
@@ -1158,7 +1158,7 @@ use_native_dialog = true
 [node name="AboutDialog" type="AcceptDialog" parent="." unique_id=468215828]
 unique_name_in_owner = true
 oversampling_override = 1.0
-title = "About Iconify Wizard"
+title = "About Figulumico — Image to ICO Converter"
 position = Vector2i(649, 315)
 size = Vector2i(430, 342)
 ok_button_text = "Close"
@@ -1180,7 +1180,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(520, 460)
 layout_mode = 2
 bbcode_enabled = true
-text = "[b]Iconify Wizard v1.0.0[/b]
+text = "[b]Figulumico v1.0.0[/b]
 
 Created by Sven Knaak
 

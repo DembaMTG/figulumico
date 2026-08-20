@@ -1,16 +1,16 @@
 # Changelog
 
-All notable changes to Iconify Wizard are documented in this file.
+All notable changes to Figulumico are documented in this file.
 
 The project follows Semantic Versioning.
 
 ---
 
-## [1.0.0] - 2026-08-18
+## [1.0.0] - 2026-08-20
 
 ### Added
 
-- Initial public release of Iconify Wizard.
+- Initial public release of Figulumico — Image to ICO Converter.
 - Local PNG, JPG, JPEG, and BMP image import.
 - Multiple-file import through the native file dialog.
 - Drag and drop support for files and folders.
@@ -47,7 +47,7 @@ The project follows Semantic Versioning.
   - Auto Number
   - Overwrite
   - Skip
-- Persistent local settings stored in `user:`.
+- Persistent local settings stored in `user://settings.json`.
 - Settings dialog with Save and Cancel workflow.
 - Batch progress display.
 - Batch result dialog with success, warning, skipped, and failed result counts.
@@ -75,11 +75,11 @@ The project follows Semantic Versioning.
 ### Privacy
 
 - All image processing runs locally on the user's device.
-- No cloud upload, telemetry, user account, or external image-processing dependency is required.
+- No cloud upload, telemetry, user account, or remote image-processing service is required.
 
 ### Known Limitations
 
-- Windows desktop is the primary supported platform.
+- v1.0.0 is released for Windows x64 only.
 - Folder import does not scan subfolders.
 - SVG import is not included.
 - WebP import is not included.
